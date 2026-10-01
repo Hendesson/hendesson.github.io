@@ -15,7 +15,7 @@ tempo: "10 min"
 ```r
 install.packages("remotes")
 remotes::install_github("rfsaldanha/microdatasus")   # usado para os microdados do SUS
-remotes::install_github("SEU_USUARIO/localdatasus")
+remotes::install_github("Hendesson/localdatasus")
 
 # Para os mapas (opcional):
 install.packages(c("sf", "ggplot2", "leaflet"))

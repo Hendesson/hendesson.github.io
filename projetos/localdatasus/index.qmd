@@ -29,7 +29,7 @@ mapa_bairro(obitos_bairro("São Paulo", 2023))          # mapa pronto
 ## Links
 
 - [Tutoriais passo a passo](../../tutoriais.qmd)
-- Código-fonte: `https://github.com/SEU_USUARIO/localdatasus` <!-- TROQUE -->
+- Código-fonte: `https://github.com/Hendesson/localdatasus` <!-- TROQUE -->
 
 ## O que dá para fazer
 

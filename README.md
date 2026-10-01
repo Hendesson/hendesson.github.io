@@ -18,7 +18,7 @@ Site feito com [Quarto](https://quarto.org) e publicado no GitHub Pages: projeto
 
 ## O que trocar antes de publicar
 
-Procure por `SEU_USUARIO`, `SEU_EMAIL` e `TROQUE` nos arquivos:
+Procure por `Hendesson`, `SEU_EMAIL` e `TROQUE` nos arquivos:
 
 - `_quarto.yml`: `site-url` e links do GitHub;
 - `index.qmd`: apresentação e links (GitHub, ORCID, Lattes, Scholar, e-mail);
@@ -27,19 +27,19 @@ Procure por `SEU_USUARIO`, `SEU_EMAIL` e `TROQUE` nos arquivos:
 
 ## Publicar (uma vez)
 
-1. No GitHub, crie um repositório chamado **`SEU_USUARIO.github.io`** (público, vazio).
+1. No GitHub, crie um repositório chamado **`hendesson.github.io`** (público, vazio).
 2. No terminal:
    ```bash
    cd ~/site_pessoal
    git init -b main
    git add .
    git commit -m "Primeira versão do site"
-   git remote add origin https://github.com/SEU_USUARIO/SEU_USUARIO.github.io.git
+   git remote add origin https://github.com/Hendesson/hendesson.github.io.git
    git push -u origin main
    ```
 3. Espere a ação "Publicar site" terminar (aba *Actions* do repositório, ~2 min).
 4. Em *Settings → Pages*, escolha **Branch: `gh-pages`** e salve.
-5. O site estará em `https://SEU_USUARIO.github.io`.
+5. O site estará em `https://hendesson.github.io`.
 
 Depois disso, todo `git push` atualiza o site sozinho.
 

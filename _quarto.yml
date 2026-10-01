@@ -3,8 +3,8 @@ project:
   output-dir: _site
 
 website:
-  # TROQUE: o endereço final do site (https://SEU_USUARIO.github.io)
-  site-url: https://SEU_USUARIO.github.io
+  # TROQUE: o endereço final do site (https://hendesson.github.io)
+  site-url: https://hendesson.github.io
   title: "Hendesson"
   description: "Saúde pública, dados e geografia: projetos, códigos e tutoriais."
   favicon: imagens/localdatasus-logo.png
@@ -28,7 +28,7 @@ website:
     right:
       # TROQUE: seu usuário do GitHub
       - icon: github
-        href: https://github.com/SEU_USUARIO
+        href: https://github.com/Hendesson
         aria-label: GitHub
   sidebar:
     - id: tutoriais-localdatasus
@@ -48,7 +48,7 @@ website:
     left: "© 2026 Hendesson · Feito com [Quarto](https://quarto.org)"
     right:
       - icon: github
-        href: https://github.com/SEU_USUARIO
+        href: https://github.com/Hendesson
 
 format:
   html:

@@ -10,7 +10,7 @@ about:
     # TROQUE os endereços abaixo pelos seus (apague os que não usar)
     - icon: github
       text: GitHub
-      href: https://github.com/SEU_USUARIO
+      href: https://github.com/Hendesson
     - icon: person-badge
       text: ORCID
       href: https://orcid.org/0000-0000-0000-0000

@@ -16,10 +16,10 @@ toc: false
 
 Dados de saúde do SUS **por bairro**: óbitos, nascimentos, agravos e internações, com população, taxas, coordenadas e mapas prontos.
 
-[Projeto](projetos/localdatasus/index.qmd){.btn .btn-primary .btn-sm} [Tutoriais](tutoriais.qmd){.btn .btn-outline-primary .btn-sm} [GitHub](https://github.com/SEU_USUARIO/localdatasus){.btn .btn-outline-primary .btn-sm}
+[Projeto](projetos/localdatasus/index.qmd){.btn .btn-primary .btn-sm} [Tutoriais](tutoriais.qmd){.btn .btn-outline-primary .btn-sm} [GitHub](https://github.com/Hendesson/localdatasus){.btn .btn-outline-primary .btn-sm}
 
 ```r
-remotes::install_github("SEU_USUARIO/localdatasus")
+remotes::install_github("Hendesson/localdatasus")
 ```
 :::
 
