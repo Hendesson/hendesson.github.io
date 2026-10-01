@@ -1,0 +1,40 @@
+---
+title: "Currículo"
+---
+
+<!-- TROQUE os itens abaixo pelos seus. Para oferecer o PDF, coloque o
+     arquivo em documentos/cv.pdf e mantenha o link abaixo. -->
+
+[Baixar o currículo em PDF](documentos/cv.pdf){.btn .btn-outline-primary} &nbsp; [Currículo Lattes](http://lattes.cnpq.br/0000000000000000){.btn .btn-outline-primary}
+
+## Formação
+
+**Curso / Grau** — Instituição, ano
+: Breve descrição (área, orientador, título do trabalho).
+
+**Curso / Grau** — Instituição, ano
+: Breve descrição.
+
+## Experiência
+
+**Cargo** — Instituição, ano–ano
+: O que você fez, em uma ou duas linhas.
+
+## Projetos
+
+- **localdatasus** (2026): pacote R para dados de saúde do SUS por bairro. [Ver projeto](projetos/localdatasus/index.qmd).
+- **Saúde por bairro no Rio de Janeiro** (2026): mortalidade e internações por doenças circulatórias e respiratórias. [Ver projeto](projetos/saude-bairros-rj/index.qmd).
+- **Curso de SQL e PostGIS para dados de saúde** (2026). [Ver projeto](projetos/curso-postgis/index.qmd).
+
+## Publicações e apresentações
+
+- Autor(es). Título. *Revista*, ano. [link]()
+
+## Habilidades
+
+| Área | Ferramentas |
+|---|---|
+| Análise de dados | R (data.table, tidyverse), SQL |
+| Geoprocessamento | PostgreSQL/PostGIS, QGIS, sf |
+| Dados de saúde | SIM, SINASC, SIH, SIA, SINAN, CNES, TabNet |
+| Desenvolvimento | pacotes R, testes (testthat), Git, Quarto |

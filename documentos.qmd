@@ -1,0 +1,12 @@
+---
+title: "Documentos"
+toc: false
+---
+
+<!-- Coloque os arquivos (PDF, slides...) na pasta documentos/ e liste aqui. -->
+
+| Documento | Tipo |
+|---|---|
+| [Currículo (PDF)](documentos/cv.pdf) | currículo |
+| [Notas técnicas: como o localdatasus liga CEP e bairro](tutoriais/localdatasus/05-como-funciona.qmd) | documentação |
+| [Códigos de erro do localdatasus](tutoriais/localdatasus/06-erros-e-ajuda.qmd) | documentação |

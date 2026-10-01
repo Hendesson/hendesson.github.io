@@ -1,0 +1,23 @@
+---
+title: "Saúde por bairro no Rio de Janeiro"
+description: "Mortalidade e internações por doenças circulatórias e respiratórias nos bairros do estado do RJ."
+date: 2026-09-20
+image: ../../imagens/mapa-sexo-rio.png
+categories: [análise, SIM, SIH, Rio de Janeiro]
+---
+
+<!-- TROQUE/COMPLETE com os objetivos e resultados do seu projeto -->
+
+Análise dos óbitos (SIM) e internações (SIH) por **doenças do aparelho circulatório (CID I00–I99)** e **respiratório (J00–J99)** nos bairros do estado do Rio de Janeiro.
+
+## Dados
+
+- **Óbitos:** TabNet da Prefeitura do Rio (2006 em diante) e da SES-RJ (todos os municípios, bairro a partir de 2011).
+- **Internações:** AIHs do SIH, localizadas pelo CEP do paciente (57% receberam bairro em 2023).
+- **População e contornos:** Censo 2022 (IBGE).
+
+![Óbitos por doenças circulatórias por sexo, Rio de Janeiro, 2023.](../../imagens/mapa-sexo-rio.png)
+
+## Métodos
+
+Todos os dados foram obtidos e organizados com o pacote [localdatasus](../localdatasus/index.qmd) e analisados em PostgreSQL/PostGIS: taxas por bairro, autocorrelação espacial (I de Moran) e distância até o hospital mais próximo.

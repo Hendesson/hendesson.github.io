@@ -1,0 +1,40 @@
+---
+title: "Hendesson"
+toc: false
+image: imagens/perfil.svg
+about:
+  template: trestles
+  image-shape: round
+  image-width: 14em
+  links:
+    # TROQUE os endereços abaixo pelos seus (apague os que não usar)
+    - icon: github
+      text: GitHub
+      href: https://github.com/SEU_USUARIO
+    - icon: person-badge
+      text: ORCID
+      href: https://orcid.org/0000-0000-0000-0000
+    - icon: mortarboard
+      text: Lattes
+      href: http://lattes.cnpq.br/0000000000000000
+    - icon: google
+      text: Google Scholar
+      href: https://scholar.google.com/
+    - icon: envelope
+      text: E-mail
+      href: mailto:SEU_EMAIL
+---
+
+<!-- TROQUE este texto pela sua apresentação -->
+
+Trabalho com **dados de saúde pública, epidemiologia e geografia**: encontrar, organizar e analisar os dados do SUS na escala em que as pessoas vivem, o **bairro**.
+
+Sou autor do [localdatasus](projetos/localdatasus/index.qmd), um pacote R que baixa dados de saúde do SUS por bairro, com população, taxas e coordenadas. Ele junta microdados com CEP, arquivos das secretarias e os TabNets regionais.
+
+Neste site estão meus [projetos](projetos.qmd), [códigos](codigo.qmd), [tutoriais](tutoriais.qmd) detalhados e o meu [currículo](cv.qmd).
+
+### Interesses
+
+- Epidemiologia espacial e análise de dados por bairro
+- Sistemas de informação em saúde (SIM, SINASC, SIH, SINAN)
+- R, SQL, PostgreSQL/PostGIS e QGIS

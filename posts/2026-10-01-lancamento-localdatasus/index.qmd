@@ -1,0 +1,28 @@
+---
+title: "localdatasus: dados do SUS por bairro"
+description: "Por que fiz um pacote para descer os dados de saúde do município ao bairro, e o que ele faz."
+date: 2026-10-01
+image: ../../imagens/localdatasus-logo.png
+categories: [R, localdatasus, lançamento]
+---
+
+Os dados do SUS costumam chegar por **município**. Mas uma cidade como o Rio de Janeiro tem mais de 160 bairros, com realidades muito diferentes. Uma taxa média para a cidade inteira esconde essas diferenças.
+
+Os microdados públicos do SIM (óbitos) e do SINASC (nascimentos) não trazem o endereço. Ainda assim, algumas secretarias publicam esses dados por bairro nos seus TabNets. E bases como o SIH (internações) trazem o **CEP** do paciente.
+
+O **localdatasus** junta essas fontes e entrega uma tabela simples, com bairro, contagem, população, taxa e coordenadas:
+
+```r
+library(localdatasus)
+x <- obitos_bairro("Rio de Janeiro", 2023, cid = "I")
+mapa_bairro(x)
+```
+
+![](../../imagens/mapa-circulatorio-rio.png)
+
+## Para começar
+
+- [Primeiros passos](../../tutoriais/localdatasus/01-primeiros-passos.qmd)
+- [Todos os tutoriais](../../tutoriais.qmd)
+
+O pacote tem homenagem no logo: o mapa da cólera de **John Snow** (Londres, 1854), o marco zero da epidemiologia espacial.

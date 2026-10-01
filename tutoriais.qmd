@@ -1,0 +1,20 @@
+---
+title: "Tutoriais"
+listing:
+  contents: tutoriais/localdatasus
+  type: table
+  sort: "ordem asc"
+  fields: [ordem, title, description, tempo]
+  field-display-names:
+    ordem: "#"
+    title: "Tutorial"
+    description: "O que você vai aprender"
+    tempo: "Leitura"
+  sort-ui: false
+  filter-ui: false
+toc: false
+---
+
+Tutoriais detalhados, do zero, para usar o **localdatasus**: baixar dados de saúde por bairro, fazer mapas e entender de onde vêm os números.
+
+Não é preciso saber programar muito: cada passo tem o código pronto para copiar.

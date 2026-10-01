@@ -1,0 +1,43 @@
+---
+title: "6. Erros e ajuda"
+description: "O que significa cada código de erro (LDS-01 a LDS-23) e como resolver."
+ordem: 6
+tempo: "5 min"
+---
+
+Todo erro ou aviso do localdatasus vem com um **código**:
+
+```r
+obitos_bairro("Bom Jardim", 2023)
+#> Erro: [LDS-03] Há mais de um município chamado "Bom Jardim" (MA, PE, RJ).
+#>   Diga a UF, por exemplo: uf = "MA".
+#>   Para entender e resolver: ajuda("LDS-03")
+```
+
+Use `ajuda()` com o código para ver a explicação e a solução, direto no R:
+
+```r
+ajuda("LDS-03")
+#> LDS-03 — Município com nome repetido
+#>
+#>   O que aconteceu:
+#>     Existe mais de um município com esse nome no Brasil (ex.: Bom Jardim,
+#>     em MA, PE e RJ).
+#>
+#>   Como resolver:
+#>     Diga também a UF: obitos_bairro("Bom Jardim", 2023, uf = "RJ").
+
+ajuda()        # lista todos os códigos
+```
+
+::: {.callout-tip}
+## Quer ver cada etapa?
+O pacote trabalha em silêncio e mostra só um resumo no fim. Para acompanhar cada consulta e cada download, use:
+`options(localdatasus.detalhes = TRUE)`
+:::
+
+## Todos os códigos
+
+Use <kbd>Ctrl</kbd> + <kbd>F</kbd> com o código (ex.: `LDS-13`) para achar o seu.
+
+{{< include _tabela_erros.md >}}

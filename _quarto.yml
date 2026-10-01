@@ -1,0 +1,68 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  # TROQUE: o endereço final do site (https://SEU_USUARIO.github.io)
+  site-url: https://SEU_USUARIO.github.io
+  title: "Hendesson"
+  description: "Saúde pública, dados e geografia: projetos, códigos e tutoriais."
+  favicon: imagens/localdatasus-logo.png
+  search: true
+  page-navigation: true
+  back-to-top-navigation: true
+  navbar:
+    left:
+      - href: cv.qmd
+        text: CV
+      - href: projetos.qmd
+        text: Projetos
+      - href: codigo.qmd
+        text: Pacotes & Código
+      - href: tutoriais.qmd
+        text: Tutoriais
+      - href: documentos.qmd
+        text: Documentos
+      - href: blog.qmd
+        text: Blog
+    right:
+      # TROQUE: seu usuário do GitHub
+      - icon: github
+        href: https://github.com/SEU_USUARIO
+        aria-label: GitHub
+  sidebar:
+    - id: tutoriais-localdatasus
+      title: "Tutoriais do localdatasus"
+      style: docked
+      contents:
+        - tutoriais.qmd
+        - section: "localdatasus"
+          contents:
+            - tutoriais/localdatasus/01-primeiros-passos.qmd
+            - tutoriais/localdatasus/02-obitos-nascimentos-agravos.qmd
+            - tutoriais/localdatasus/03-mapas.qmd
+            - tutoriais/localdatasus/04-internacoes-e-cep.qmd
+            - tutoriais/localdatasus/05-como-funciona.qmd
+            - tutoriais/localdatasus/06-erros-e-ajuda.qmd
+  page-footer:
+    left: "© 2026 Hendesson · Feito com [Quarto](https://quarto.org)"
+    right:
+      - icon: github
+        href: https://github.com/SEU_USUARIO
+
+format:
+  html:
+    theme:
+      light: [cosmo, styles.scss]
+    toc: true
+    toc-title: "Nesta página"
+    code-copy: true
+    code-overflow: wrap
+    lang: pt-BR
+    smooth-scroll: true
+    link-external-newwindow: true
+
+# O site não executa código: os tutoriais mostram o código e imagens já prontas.
+# (Assim o GitHub consegue montar o site sem baixar dados.)
+execute:
+  eval: false

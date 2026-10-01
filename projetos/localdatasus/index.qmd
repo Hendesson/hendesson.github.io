@@ -1,0 +1,44 @@
+---
+title: "localdatasus"
+description: "Pacote R para baixar dados de saúde do SUS por bairro, com população, taxas e coordenadas."
+date: 2026-10-01
+image: ../../imagens/localdatasus-logo.png
+categories: [R, pacote, SUS, bairro, epidemiologia espacial]
+---
+
+![](../../imagens/localdatasus-logo.png){width=160 fig-align="right"}
+
+O [microdatasus](https://github.com/rfsaldanha/microdatasus) traz os dados do SUS por **município**. O **localdatasus** desce ao **bairro**. Ele junta três fontes de dados:
+
+- **microdados com CEP do paciente:** internações (SIH) e APACs de quimioterapia, radioterapia, diálise e outras;
+- **arquivos das secretarias estaduais:** por exemplo, os nascidos vivos do RJ, com CEP e bairro da mãe;
+- **TabNets das prefeituras e dos estados** que tabulam por bairro: Rio de Janeiro, São Paulo e Santa Catarina.
+
+Cada bairro é ligado ao **bairro oficial do IBGE**, com população do Censo 2022, taxa por 10 mil habitantes e coordenadas.
+
+```r
+library(localdatasus)
+
+obitos_bairro("Rio de Janeiro", 2023, cid = "I")       # óbitos por doenças circulatórias
+agravos_bairro("dengue", "Joinville", 2024)            # casos de dengue
+mapa_bairro(obitos_bairro("São Paulo", 2023))          # mapa pronto
+```
+
+![Óbitos por doenças circulatórias por 10 mil habitantes, Rio de Janeiro, 2023.](../../imagens/mapa-circulatorio-rio.png)
+
+## Links
+
+- [Tutoriais passo a passo](../../tutoriais.qmd)
+- Código-fonte: `https://github.com/SEU_USUARIO/localdatasus` <!-- TROQUE -->
+
+## O que dá para fazer
+
+| Função | O que faz |
+|---|---|
+| `onde_tem_bairro()` | lista os dados que existem, onde e para quais anos |
+| `obitos_bairro()` | óbitos por bairro, causa (CID) e ano |
+| `nascimentos_bairro()` | nascidos vivos por bairro |
+| `agravos_bairro()` | dengue, tuberculose, sífilis, violência... |
+| `internacoes_bairro()` | internações do SUS, pelo CEP do paciente |
+| `mapa_bairro()`, `mapa_interativo()` | mapas estáticos e interativos |
+| `ajuda()` | explica cada código de erro |

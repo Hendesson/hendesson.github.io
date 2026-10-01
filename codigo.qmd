@@ -1,0 +1,36 @@
+---
+title: "Pacotes & Código"
+toc: false
+---
+
+## Pacotes R
+
+:::: {.grid}
+
+::: {.g-col-12 .g-col-md-3}
+![](imagens/localdatasus-logo.png){width=140}
+:::
+
+::: {.g-col-12 .g-col-md-9}
+### localdatasus
+
+Dados de saúde do SUS **por bairro**: óbitos, nascimentos, agravos e internações, com população, taxas, coordenadas e mapas prontos.
+
+[Projeto](projetos/localdatasus/index.qmd){.btn .btn-primary .btn-sm} [Tutoriais](tutoriais.qmd){.btn .btn-outline-primary .btn-sm} [GitHub](https://github.com/SEU_USUARIO/localdatasus){.btn .btn-outline-primary .btn-sm}
+
+```r
+remotes::install_github("SEU_USUARIO/localdatasus")
+```
+:::
+
+::::
+
+## Scripts e materiais
+
+<!-- TROQUE/COMPLETE com os links dos seus repositórios -->
+
+| Repositório | Descrição |
+|---|---|
+| `tabnet-scraper` | Raspagem dos TabNets da SMS-Rio e da SES-RJ (2006–2026) |
+| `curso-postgis` | Curso de SQL e PostGIS com dados de saúde |
+| `sim-sih-rj` | Scripts comentados para baixar SIM e SIH com o microdatasus |
