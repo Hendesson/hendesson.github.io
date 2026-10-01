@@ -46,6 +46,32 @@ Depois disso, todo `git push` atualiza o site sozinho.
 
 Instale o [Quarto](https://quarto.org/docs/get-started/) e rode `quarto preview` nesta pasta.
 
+## Atualização automática dos projetos
+
+Antes de montar o site, `scripts/atualizar_dados.py` busca no GitHub:
+
+- **todos os repositórios públicos** (descrição, linguagem, última atualização), para a página *Pacotes & Código*;
+- do **localdatasus**: versão (do `DESCRIPTION`), novidades (do `NEWS.md`) e citação.
+
+Os resultados vão para `_dados/` e entram nas páginas com `{{< include >}}`.
+
+O site é montado de novo:
+1. a cada `git push` neste repositório;
+2. **todo dia às 6h** (horário de Brasília);
+3. **na hora**, quando o localdatasus recebe um push. Isso precisa do segredo `SITE_TOKEN` no repositório do localdatasus (veja abaixo).
+
+Para ver as mudanças antes no seu computador: `python3 scripts/atualizar_dados.py && quarto preview`.
+
+Para esconder um repositório da lista, acrescente o nome em `OCULTAR`, no topo do script.
+
+### Aviso imediato (opcional)
+
+1. Crie um token em <https://github.com/settings/personal-access-tokens/new> (*fine-grained*):
+   - **Repository access:** *Only select repositories* → `hendesson.github.io`;
+   - **Permissions → Repository permissions → Contents:** *Read and write*.
+2. No repositório **localdatasus**: *Settings → Secrets and variables → Actions → New repository secret*. Use o nome `SITE_TOKEN` e cole o token.
+3. Para fazer o mesmo em outro projeto, copie o arquivo `.github/workflows/avisar-site.yml` do localdatasus para ele e crie o mesmo segredo.
+
 ## Caixa de perguntas (giscus), uma vez
 
 A página **Perguntas** usa o [giscus](https://giscus.app): as perguntas ficam nas *Discussions* deste repositório. Para ligar:

@@ -28,7 +28,7 @@ mapa_bairro(obitos_bairro("São Paulo", 2023))          # mapa pronto
 
 ## Instalar
 
-Versão atual: **0.1.0** (primeira versão pública).
+{{< include ../../_dados/localdatasus_versao.md >}}
 
 ```r
 install.packages("remotes")
@@ -40,7 +40,13 @@ remotes::install_github("Hendesson/localdatasus")
 
 ## Como citar
 
-> Alves H (2026). *localdatasus: Dados de Saúde do SUS por Bairro (Escala Local)*. Pacote R, versão 0.1.0. <https://github.com/Hendesson/localdatasus>
+{{< include ../../_dados/localdatasus_citacao.md >}}
+
+No R: `citation("localdatasus")`.
+
+## Novidades
+
+{{< include ../../_dados/localdatasus_novidades.md >}}
 
 ## O que dá para fazer
 
