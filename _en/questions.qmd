@@ -1,0 +1,71 @@
+---
+title: "Questions"
+description: "Ask about localdatasus, the projects or the tutorials."
+toc: true
+comments:
+  giscus:
+    repo: Hendesson/hendesson.github.io
+    category: "General"
+    mapping: pathname
+    reactions-enabled: true
+    input-position: top
+    theme: light
+    language: en
+---
+
+Do you have a question about **localdatasus**, the **tutorials** or the **projects**? Write it at the bottom of this page. Questions and answers are public, so they help other people with the same doubt. Questions in English are welcome.
+
+::: {.callout-note}
+## How to ask
+- **In the box at the bottom of the page:** you need to sign in with a GitHub account, which is free.
+- **Found a bug in the package?** Open an issue at [github.com/Hendesson/localdatasus/issues](https://github.com/Hendesson/localdatasus/issues). Include the code you ran and the error message, with its `LDS-xx` code.
+- **Prefer not to use GitHub?** Send an email to [hendesson124@gmail.com](mailto:hendesson124@gmail.com).
+:::
+
+## Frequently asked questions
+
+### How do I install localdatasus?
+
+```r
+install.packages("remotes")
+remotes::install_github("rfsaldanha/microdatasus")
+remotes::install_github("Hendesson/localdatasus")
+```
+
+Then restart R. The full walkthrough is in [Getting started](tutorials/localdatasus/01-getting-started.qmd).
+
+### The messages are in Portuguese. Is there an English version?
+
+The package follows its Brazilian data sources and speaks Portuguese. Every function and argument is explained in English in the [tutorials](tutorials.qmd). Every error has a code, such as `LDS-03`, and its English explanation is in [Errors and help](tutorials/localdatasus/06-errors-and-help.qmd).
+
+### I got "could not find function". What now?
+
+Your R session still has the old version loaded. Restart R (in RStudio: *Session → Restart R*) and run `library(localdatasus)` again.
+
+### Is there neighborhood data for my city?
+
+Run `onde_tem_bairro()` ("where is there neighborhood data"). Today there are deaths, births and notifiable diseases by neighborhood for:
+- **Rio de Janeiro** (city and state);
+- **São Paulo** (city, by district);
+- **Santa Catarina** (notifiable diseases).
+
+**Hospitalizations** work in **every state**, through the patient's postal code. If your city's health department publishes data by neighborhood, tell us below: it can be added to the package.
+
+### Why do some records have no neighborhood?
+
+Usually because of:
+- a generic postal code (one code for the whole city);
+- the hospital's postal code recorded instead of the home address;
+- a postal code that covers several neighborhoods.
+
+See [How it works](tutorials/localdatasus/05-how-it-works.qmd) and `attr(table, "cobertura")`.
+
+### The first query took a long time. Is that normal?
+
+Yes. The first time, the package downloads IBGE tables (about 340 MB for Rio de Janeiro state). After that everything is cached, and queries take seconds.
+
+### Can I use the data in a paper?
+
+Yes. Cite the original sources (Rio de Janeiro and São Paulo city health departments, Rio de Janeiro State Health Department, DIVE-SC, DATASUS, IBGE) and the package. Run `citation("localdatasus")` to get the citation.
+
+## Ask your question

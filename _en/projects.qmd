@@ -1,0 +1,14 @@
+---
+title: "Projects"
+listing:
+  contents: projects/*/index.qmd
+  type: grid
+  sort: "date desc"
+  categories: true
+  fields: [image, title, description, categories]
+  grid-columns: 3
+  image-height: 180px
+toc: false
+---
+
+Research, analyses and teaching materials. Click on a project to see the details.

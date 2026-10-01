@@ -1,0 +1,24 @@
+---
+title: "Course: SQL and PostGIS for health data"
+description: "From CSV to map: data preparation, SQL, PostGIS, spatial analysis and QGIS, with real Brazilian health data."
+date: 2026-09-25
+image: ../../imagens/mapa-distritos-sp.png
+categories: [teaching, SQL, PostGIS, QGIS]
+---
+
+A step-by-step course in eight modules, from raw public health data to maps in QGIS:
+
+1. Preparing the data in R
+2. Loading it into PostgreSQL (census-tract population, hospitals from the CNES registry)
+3. Basic SQL
+4. Joins, rates and window functions
+5. Views and materialized views
+6. PostGIS fundamentals (SRID, geometry and geography)
+7. Spatial analysis: nearest neighbor, hexagonal grids, clustering (DBSCAN), Moran's I
+8. Layers ready for QGIS
+
+Example results:
+- 82% of Rio de Janeiro state's population lives within 5 km of a hospital;
+- Moran's I for circulatory mortality by neighborhood is 0.54, and 0.27 for respiratory mortality.
+
+*The course materials are in Portuguese.*

@@ -1,0 +1,66 @@
+---
+title: "5. How it works"
+description: "Where the data come from, how names become IBGE neighborhoods, and the limitations."
+ordem: 5
+tempo: "15 min"
+---
+
+## Three paths to the neighborhood
+
+```{mermaid}
+%%| eval: true
+flowchart LR
+  A[Microdata with postal code<br>SIH, APACs, SINASC-RJ] -->|postal code → CNEFE 2022| D[IBGE neighborhood]
+  B[Regional TabNets<br>Rio, RJ state, São Paulo, SC] -->|neighborhood name| C[Name matching]
+  C --> D
+  D --> E[2022 Census population<br>rate per 10,000<br>coordinates and boundaries]
+```
+
+### 1. By postal code
+
+**CNEFE 2022** is the IBGE register of every Census address, with postal code, coordinates and census tract. The package:
+
+1. gives each address its **official neighborhood** (through the census tract). In municipalities without official neighborhoods, it uses the **locality** written in the address;
+2. gives each **postal code** the neighborhood where most of its addresses are;
+3. discards postal codes that do not point to a place: generic, special, or covering several neighborhoods (see [tutorial 4](04-hospitalizations-and-zip-codes.qmd)).
+
+The coordinates of a postal code or neighborhood are the **median** of its addresses' coordinates.
+
+### 2. Through TabNets
+
+TabNet is the web tabulation tool used by Brazilian health departments. Some departments publish tables by neighborhood in their TabNet. The package fills in the website form as a person would, and reads the resulting table.
+
+| Source | Coverage | Unit |
+|---|---|---|
+| Rio de Janeiro City Health Department (SMS-Rio) | Rio de Janeiro, since 2006 | neighborhood |
+| Rio de Janeiro State Health Department (SES-RJ) | all municipalities of RJ state, neighborhoods since 2011 | neighborhood |
+| São Paulo City Health Department | São Paulo | district (96) |
+| Santa Catarina Epidemiological Surveillance (DIVE-SC) | all municipalities of SC state | neighborhood |
+
+This list comes from a survey of the TabNets of all 27 states and their capitals (October 2026). Most of them stop at the municipality level.
+
+### 3. Name matching
+
+A TabNet only gives the neighborhood **name**, written its own way ("FREGUESIA-ILHA", "Jd. América"). The package compares it with IBGE neighborhoods **within the same municipality**, in this order:
+
+| Step (`ligacao`) | Example |
+|---|---|
+| `exata`: identical name, ignoring accents, abbreviations and prepositions | "Jd. América" → Jardim América |
+| `sem numeração`: without the trailing number | "Santa Rosa II" → Santa Rosa |
+| `parcial`: one name contains the other | "COMPLEXO DA MARE" → Maré |
+| `aproximada`: the closest name (up to 15% different) | "Cavalcante" → Cavalcanti |
+
+The `ligacao` column records which step was used. Names that don't match are marked `não encontrado` (not found), and "Ignorado"/"Em branco" (unknown/blank) are marked `ignorado`. Nothing is dropped silently. In 2023, **99.8%** of Rio de Janeiro's deaths were linked.
+
+You can use the same matching with any list of names:
+
+```r
+ligar_bairros(c("Jd. América", "COMPLEXO DA MARE"), "330455", "RJ")
+```
+
+## Limitations
+
+- **Only what is public:** most places do not publish data by neighborhood.
+- **TabNets change:** websites go offline or change their forms. The package retries 3 times and caches what already worked.
+- **2022 population:** rates use the 2022 Census population and are crude (not age-standardized).
+- **Records without neighborhood:** records without a usable postal code are left out of the numerator, so the true rate may be higher.

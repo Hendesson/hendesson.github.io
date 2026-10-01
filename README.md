@@ -16,6 +16,21 @@ Site feito com [Quarto](https://quarto.org) e publicado no GitHub Pages: projeto
 | `_quarto.yml` | menu, rodapé e tema |
 | `styles.scss` | cores e fontes |
 
+## Duas línguas
+
+O site tem duas versões:
+
+| Versão | Pasta | Endereço |
+|---|---|---|
+| Português | raiz (`index.qmd`, `cv.qmd`...) | https://hendesson.github.io |
+| Inglês | `_en/` (`index.qmd`, `cv.qmd`, `projects/`, `tutorials/`...) | https://hendesson.github.io/en/ |
+
+O botão **English / Português** no menu leva de uma para a outra.
+
+**Ao editar um texto, edite as duas versões.** Os dados automáticos (repositórios, versão, novidades e citação) saem nas duas línguas sozinhos.
+
+Para montar as duas no seu computador: `bash scripts/montar_site.sh` e depois abra `_site/index.html`. Isso precisa do Quarto instalado. As imagens ficam só em `imagens/`; o script as copia para `_en/` na hora de montar.
+
 ## Atualizar o site
 
 Edite os arquivos `.qmd` e rode `git add . && git commit -m "..." && git push`. O GitHub monta e publica o site sozinho em cerca de 2 minutos.

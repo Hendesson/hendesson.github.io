@@ -1,0 +1,92 @@
+---
+title: "1. Getting started"
+description: "Install the package, see which data exist and download your first table of deaths by neighborhood."
+ordem: 1
+tempo: "10 min"
+---
+
+## What you need
+
+- **R** (4.1 or newer) and, preferably, **RStudio**.
+- An internet connection. The first time, the package downloads IBGE tables (about 340 MB for Rio de Janeiro state). After that they stay on your computer.
+
+## 1. Install
+
+```r
+install.packages("remotes")
+remotes::install_github("rfsaldanha/microdatasus")   # used for SUS microdata
+remotes::install_github("Hendesson/localdatasus")
+
+# For maps (optional):
+install.packages(c("sf", "ggplot2", "leaflet"))
+```
+
+After installing, **restart R** (in RStudio: *Session → Restart R*).
+
+## 2. See what exists
+
+Not every place has neighborhood data: only some health departments publish it. Start by asking the package:
+
+```r
+library(localdatasus)
+onde_tem_bairro()        # "where is there neighborhood data?"
+```
+
+The table lists each **dado** (data: deaths, births, dengue, tuberculosis...), the **local** (place), the **unidade** (unit: neighborhood or district) and the **funcao** (the function that fetches it). In short:
+
+| Where | Deaths | Births | Notifiable diseases (SINAN) | Hospitalizations |
+|---|---|---|---|---|
+| Rio de Janeiro (city) | ✔ since 2006 | ✔ | ✔ 15 diseases | ✔ |
+| Other municipalities of Rio de Janeiro state | ✔ neighborhoods since 2011 | ✔ (with postal code) | — | ✔ |
+| São Paulo (city) | ✔ by district | ✔ | ✔ 5 diseases | ✔ |
+| Santa Catarina state | — | — | ✔ 6 diseases | ✔ |
+| Other states | — | — | — | ✔ (by postal code) |
+
+## 3. Your first table
+
+Deaths from **diseases of the circulatory system** (ICD-10 chapter IX, codes starting with **I**) in Rio de Janeiro's neighborhoods, 2023:
+
+```r
+circ <- obitos_bairro("Rio de Janeiro", 2023, cid = "I")
+#> Pronto: 15.502 obitos em 160 bairros; 99,8% ligados a um bairro do IBGE.
+#> (Done: 15,502 deaths in 160 neighborhoods; 99.8% linked to an IBGE neighborhood.)
+
+head(circ)
+```
+
+Each row is a neighborhood:
+
+| column | meaning |
+|---|---|
+| `ano`, `municipio` | year and municipality |
+| `bairro` | official IBGE neighborhood name |
+| `bairro_no_site` | the name as written in the original source |
+| `obitos` | number of deaths |
+| `populacao` | neighborhood population (2022 Census) |
+| `taxa_por_10mil` | deaths per 10,000 inhabitants |
+| `lat`, `lon` | neighborhood coordinates (for maps) |
+| `codigo_ibge` | official neighborhood code |
+| `ligacao` | how the name was linked to IBGE (`exata` = exact, `parcial` = partial...) |
+| `fonte` | where the data came from |
+
+## 4. Sort and save
+
+```r
+# Neighborhoods with the highest rate
+circ[order(-circ$taxa_por_10mil), c("bairro", "obitos", "taxa_por_10mil")][1:10, ]
+
+# Save as CSV (opens in Excel, QGIS...)
+write.csv(circ, "deaths_circulatory_rio_2023.csv", row.names = FALSE)
+```
+
+::: {.callout-tip}
+## Write it your way
+The municipality name ignores upper/lower case and accents: `"rio de janeiro"`, `"Niteroi"`. You can also use the IBGE code: `"330455"`.
+:::
+
+::: {.callout-note}
+## Data are cached
+The second time, the same query takes seconds: the package keeps everything in a cache. To clear it, use `limpar_cache()` ("clear cache").
+:::
+
+**Next:** [2. Deaths, births and notifiable diseases](02-deaths-births-diseases.qmd)

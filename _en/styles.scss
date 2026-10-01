@@ -1,0 +1,29 @@
+/*-- scss:defaults --*/
+// Cores do site: o azul e o vermelho do logo do localdatasus.
+$primary:   #1d3557;
+$secondary: #d00000;
+$link-color: #1d3557;
+$navbar-bg: #ffffff;
+$navbar-fg: #1d3557;
+$navbar-hl: #d00000;
+$font-family-sans-serif: "Lato", "Helvetica Neue", Arial, sans-serif;
+$headings-font-weight: 700;
+
+/*-- scss:rules --*/
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+.navbar { border-bottom: 1px solid #e9ecef; }
+.navbar-brand { font-weight: 700; }
+
+// Página inicial (modelo "trestles"): foto redonda
+.about-entity .about-image { border-radius: 50%; }
+.about-link { border-color: #1d3557 !important; color: #1d3557 !important; }
+.about-link:hover { background: #1d3557 !important; color: #fff !important; }
+
+// Cartões das listagens (projetos, pacotes)
+.quarto-grid-item { border-radius: 10px; transition: box-shadow .2s; }
+.quarto-grid-item:hover { box-shadow: 0 4px 18px rgba(29, 53, 87, .18); }
+
+// Destaque vermelho discreto
+h2 { border-bottom: 2px solid #f1d4d4; padding-bottom: .2rem; }
+.destaque { color: #d00000; font-weight: 700; }

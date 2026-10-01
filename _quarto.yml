@@ -25,6 +25,9 @@ website:
       - href: perguntas.qmd
         text: Perguntas
     right:
+      - text: "English"
+        href: https://hendesson.github.io/en/
+        aria-label: "English version"
       - icon: github
         href: https://github.com/Hendesson
         aria-label: GitHub

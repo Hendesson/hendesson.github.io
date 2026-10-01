@@ -1,0 +1,95 @@
+---
+title: "2. Deaths, births and notifiable diseases"
+description: "Filter by cause (ICD-10), break down by sex or age, combine years and change places."
+ordem: 2
+tempo: "15 min"
+---
+
+All functions follow the same idea: **what**, **where** and **when**.
+
+```r
+obitos_bairro(     municipio, anos, cid = , por = )   # deaths
+nascimentos_bairro(municipio, anos,         por = )   # births
+agravos_bairro(agravo, municipio, anos,     por = )   # notifiable diseases
+```
+
+`municipio` = municipality, `anos` = years, `cid` = ICD-10 code, `por` = breakdown variable, `agravo` = disease.
+
+## Cause of death: the `cid` argument
+
+| You write | Meaning |
+|---|---|
+| `cid = "I"` | whole chapter: diseases of the circulatory system (I00–I99) |
+| `cid = c("I", "J")` | circulatory **and** respiratory |
+| `cid = "I21"` | acute myocardial infarction only |
+| `cid = "I20-I25"` | ischaemic heart diseases (I20 to I25) |
+| no `cid` | all causes |
+
+```r
+obitos_bairro("Rio de Janeiro", 2023, cid = "J")          # respiratory
+obitos_bairro("Niterói", 2022, cid = "I20-I25")          # ischaemic, in Niterói
+```
+
+## Breaking down: the `por` argument
+
+Write the variable in plain words, in Portuguese. The package finds the right option on the source website:
+
+| `por =` | meaning |
+|---|---|
+| `"sexo"` | sex |
+| `"faixa etaria"` | age group |
+| `"raca"` | race/color |
+| `"escolaridade"` | education |
+| `"tipo de parto"` | type of delivery (births) |
+
+```r
+obitos_bairro("Rio de Janeiro", 2023, cid = "I", por = "sexo")
+obitos_bairro("Rio de Janeiro", 2023, cid = "I", por = "faixa etaria")
+```
+
+The table gets a column named after the variable (`sexo`, `faixa_etaria`...). Each neighborhood then has one row per category.
+
+## Several years
+
+```r
+resp <- obitos_bairro("Rio de Janeiro", 2019:2023, cid = "J")
+aggregate(obitos ~ ano, data = resp, FUN = sum)       # total per year
+```
+
+## Other places
+
+```r
+obitos_bairro(uf = "RJ", anos = 2023)                 # all municipalities of RJ state
+obitos_bairro("São Paulo", 2023)                      # São Paulo's 96 districts
+```
+
+If the municipality name exists in more than one state, add the state (`uf`): `obitos_bairro("Bom Jardim", 2023, uf = "RJ")`.
+
+## Births
+
+```r
+nasc <- nascimentos_bairro("Rio de Janeiro", 2023, por = "tipo de parto")
+
+# Share of cesarean deliveries ("Cesário") by neighborhood
+tab <- xtabs(nascimentos ~ bairro + tipo_de_parto, data = nasc)
+round(100 * tab[, "Cesário"] / rowSums(tab), 1)
+```
+
+In the other municipalities of Rio de Janeiro state, births come from the **Rio de Janeiro State Health Department microdata**, record by record. The neighborhood is found through the mother's postal code. When the postal code is not enough, the neighborhood name written on the birth certificate fills the gap. In 2023, 86% of births got a neighborhood.
+
+## Notifiable diseases (SINAN)
+
+```r
+agravos_bairro("dengue", "Rio de Janeiro", 2024)
+agravos_bairro("tuberculose", "São Paulo", 2022:2024)            # tuberculosis
+agravos_bairro("dengue", "Joinville", 2024, por = "sexo")
+agravos_bairro("sifilis congenita", "Rio de Janeiro", 2023)      # congenital syphilis
+```
+
+To see the diseases available in each place:
+
+```r
+subset(onde_tem_bairro(), funcao == "agravos_bairro()")[, c("dado", "local")]
+```
+
+**Next:** [3. Maps](03-maps.qmd)

@@ -1,0 +1,34 @@
+---
+title: "Packages & Code"
+toc: false
+---
+
+## R packages
+
+:::: {.grid}
+
+::: {.g-col-12 .g-col-md-3}
+![](imagens/localdatasus-logo.png){width=140}
+:::
+
+::: {.g-col-12 .g-col-md-9}
+### localdatasus
+
+Brazilian public health data (SUS) **by neighborhood**: deaths, births, notifiable diseases and hospitalizations, with population, rates, coordinates and ready-made maps.
+
+{{< include _dados/localdatasus_versao.md >}}
+
+[Project](projects/localdatasus/index.qmd){.btn .btn-primary .btn-sm} [Tutorials](tutorials.qmd){.btn .btn-outline-primary .btn-sm} [GitHub](https://github.com/Hendesson/localdatasus){.btn .btn-outline-primary .btn-sm}
+
+```r
+remotes::install_github("Hendesson/localdatasus")
+```
+:::
+
+::::
+
+## All repositories
+
+This list is updated automatically from GitHub: new projects, descriptions and dates show up here on their own. Most descriptions are in Portuguese.
+
+{{< include _dados/repositorios.md >}}

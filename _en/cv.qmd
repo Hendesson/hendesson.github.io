@@ -1,0 +1,57 @@
+---
+title: "Curriculum Vitae"
+---
+
+[Lattes CV (Portuguese)](http://lattes.cnpq.br/7900166623696256){.btn .btn-outline-primary} [LinkedIn](https://www.linkedin.com/in/hendesson-alves){.btn .btn-outline-primary} [ResearchGate](https://www.researchgate.net/profile/Hendesson-Pereira){.btn .btn-outline-primary}
+
+## Education
+
+**M.Sc. in Geography** (in progress) · University of Brasília (UnB) · 2025 – present
+
+**B.Sc. and Teaching Degree in Geography** · University of Brasília (UnB) · 2021 – 2025
+
+## Professional and academic experience
+
+### Laboratory of Geography, Environment and Health (LAGAS/UnB)
+**Researcher / Technical collaborator** · 2022 – present
+
+- Spatial analyses applied to public health and climate
+- Development and maintenance of interactive dashboards for science communication (e.g., [GeoCalor](projects/geocalor/index.qmd))
+- Technical support for projects on spatial indicators and heat-wave early warning systems
+- Processing, organization and analysis of geographic and climate datasets
+
+### Chico Mendes Institute for Biodiversity Conservation (ICMBio)
+**Intern** · 2024 – 2025
+
+- Organization of geographic data in a spatial database
+- Polygon digitizing and thematic mapping
+- Burned-area mapping with remote sensing
+- Updating environmental data dashboards
+- Technical support for environmental projects
+- Python (ArcPy) and ModelBuilder scripts ([Arcpy_Fogo](https://github.com/Hendesson/Arcpy_Fogo))
+
+### University of Brasília (UnB)
+**Teaching assistant in Cartography and Photo-interpretation** · 2022 – 2025
+
+- Teaching and technical support in Cartography and Photo-interpretation courses
+- Help with GIS software (QGIS and ArcGIS Pro)
+- Grading, student support and preparation of course materials
+
+## Technical skills
+
+| Area | |
+|---|---|
+| GIS | QGIS, ArcGIS Pro, ArcGIS Online (Field Maps, Dashboards), ModelBuilder |
+| Remote sensing | photo-interpretation, burned-area mapping |
+| Spatial analysis | thematic cartography, spatial statistics, geostatistics |
+| Climate | climatology, extreme events and heat-wave analysis |
+| Data | spatial databases (PostgreSQL/PostGIS), dashboards and visualization |
+| Programming | Python (ArcPy, GeoPandas) and R for spatial data |
+
+## Courses and training
+
+- Data Analysis in R · ENAP (Brazilian National School of Public Administration)
+- ArcGIS Dashboards · Esri
+- ArcGIS Pro Basics · Esri
+- ArcGIS API for Python · Esri
+- Geostatistical Methods with GeoDa · UnB

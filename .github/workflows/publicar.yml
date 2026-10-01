@@ -37,16 +37,13 @@ jobs:
       - name: Baixar o repositório
         uses: actions/checkout@v4
 
-      - name: Buscar os dados dos projetos no GitHub
-        run: python3 scripts/atualizar_dados.py
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Instalar o Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Montar o site
-        run: quarto render
+      - name: Buscar os dados dos projetos e montar o site (português e inglês)
+        run: bash scripts/montar_site.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Preparar os arquivos para o Pages
         uses: actions/upload-pages-artifact@v3

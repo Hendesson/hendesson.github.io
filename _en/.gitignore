@@ -1,0 +1,5 @@
+/imagens/
+/_dados/
+/.quarto/
+
+**/*.quarto_ipynb
