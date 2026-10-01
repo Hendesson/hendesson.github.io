@@ -1,5 +1,8 @@
 # Monta o site com o Quarto e publica no GitHub Pages a cada "git push".
 # Você não precisa instalar o Quarto no seu computador.
+#
+# Configuração (uma vez): Settings > Pages > Build and deployment >
+# Source: "GitHub Actions".
 name: Publicar site
 
 on:
@@ -8,11 +11,17 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
+  id-token: write
+
+# Só uma publicação por vez.
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  publicar:
+  montar:
     runs-on: ubuntu-latest
     steps:
       - name: Baixar o repositório
@@ -21,9 +30,21 @@ jobs:
       - name: Instalar o Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
-      - name: Montar e publicar na branch gh-pages
-        uses: quarto-dev/quarto-actions/publish@v2
+      - name: Montar o site
+        run: quarto render
+
+      - name: Preparar os arquivos para o Pages
+        uses: actions/upload-pages-artifact@v3
         with:
-          target: gh-pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          path: _site
+
+  publicar:
+    needs: montar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4

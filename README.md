@@ -37,8 +37,8 @@ Procure por `Hendesson`, `SEU_EMAIL` e `TROQUE` nos arquivos:
    git remote add origin https://github.com/Hendesson/hendesson.github.io.git
    git push -u origin main
    ```
-3. Espere a ação "Publicar site" terminar (aba *Actions* do repositório, ~2 min).
-4. Em *Settings → Pages*, escolha **Branch: `gh-pages`** e salve.
+3. Em *Settings → Pages → Build and deployment*, escolha **Source: GitHub Actions**.
+4. Na aba *Actions*, rode de novo o "Publicar site", se ele tiver falhado antes. Leva uns 2 minutos.
 5. O site estará em `https://hendesson.github.io`.
 
 Depois disso, todo `git push` atualiza o site sozinho.
