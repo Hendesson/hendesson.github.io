@@ -16,14 +16,13 @@ Site feito com [Quarto](https://quarto.org) e publicado no GitHub Pages: projeto
 | `_quarto.yml` | menu, rodapé e tema |
 | `styles.scss` | cores e fontes |
 
-## O que trocar antes de publicar
+## Atualizar o site
 
-Procure por `Hendesson`, `SEU_EMAIL` e `TROQUE` nos arquivos:
+Edite os arquivos `.qmd` e rode `git add . && git commit -m "..." && git push`. O GitHub monta e publica o site sozinho em cerca de 2 minutos.
 
-- `_quarto.yml`: `site-url` e links do GitHub;
-- `index.qmd`: apresentação e links (GitHub, ORCID, Lattes, Scholar, e-mail);
-- `imagens/perfil.svg`: troque por uma foto sua (`imagens/perfil.jpg`) e ajuste `image:` em `index.qmd`;
-- `cv.qmd`: formação, experiência e publicações.
+- **Foto:** `imagens/perfil.jpg`.
+- **Novo projeto:** crie a pasta `projetos/nome/` com um `index.qmd` (veja `projetos/geocalor/index.qmd`).
+- **Mapa de visitantes:** o MapMyVisitors fica no fim de `index.qmd`.
 
 ## Publicar (uma vez)
 

@@ -2,39 +2,56 @@
 title: "Currículo"
 ---
 
-<!-- TROQUE os itens abaixo pelos seus. Para oferecer o PDF, coloque o
-     arquivo em documentos/cv.pdf e mantenha o link abaixo. -->
+[Currículo Lattes](http://lattes.cnpq.br/7900166623696256){.btn .btn-outline-primary} [LinkedIn](https://www.linkedin.com/in/hendesson-alves){.btn .btn-outline-primary} [ResearchGate](https://www.researchgate.net/profile/Hendesson-Pereira){.btn .btn-outline-primary}
 
-[Baixar o currículo em PDF](documentos/cv.pdf){.btn .btn-outline-primary} &nbsp; [Currículo Lattes](http://lattes.cnpq.br/0000000000000000){.btn .btn-outline-primary}
+## Formação acadêmica
 
-## Formação
+**Mestrado em Geografia** (em andamento) · Universidade de Brasília (UnB) · 2025 – atual
 
-**Curso / Grau** — Instituição, ano
-: Breve descrição (área, orientador, título do trabalho).
+**Graduação em Geografia** (Licenciatura e Bacharelado) · Universidade de Brasília (UnB) · 2021 – 2025
 
-**Curso / Grau** — Instituição, ano
-: Breve descrição.
+## Experiência profissional e acadêmica
 
-## Experiência
+### Laboratório de Geografia, Ambiente e Saúde (LAGAS/UnB)
+**Pesquisador / Colaborador técnico** · 2022 – atual
 
-**Cargo** — Instituição, ano–ano
-: O que você fez, em uma ou duas linhas.
+- Análises espaciais aplicadas à saúde pública e ao clima
+- Produção e manutenção de dashboards interativos para divulgação científica (ex.: [GeoCalor](projetos/geocalor/index.qmd))
+- Apoio técnico em projetos de indicadores espaciais e sistemas de alerta para ondas de calor
+- Tratamento, organização e análise de bases de dados geográficos e climáticos
 
-## Projetos
+### Instituto Chico Mendes de Conservação da Biodiversidade (ICMBio)
+**Estagiário** · 2024 – 2025
 
-- **localdatasus** (2026): pacote R para dados de saúde do SUS por bairro. [Ver projeto](projetos/localdatasus/index.qmd).
-- **Saúde por bairro no Rio de Janeiro** (2026): mortalidade e internações por doenças circulatórias e respiratórias. [Ver projeto](projetos/saude-bairros-rj/index.qmd).
-- **Curso de SQL e PostGIS para dados de saúde** (2026). [Ver projeto](projetos/curso-postgis/index.qmd).
+- Sistematização e organização de dados geográficos em banco de dados geoespacial
+- Vetorização de polígonos e elaboração de mapas temáticos
+- Mapeamento de áreas atingidas por fogo com sensoriamento remoto
+- Atualização de dashboards e painéis de dados ambientais
+- Apoio técnico a projetos na área de meio ambiente
+- Scripts em Python (ArcPy) e ModelBuilder ([Arcpy_Fogo](https://github.com/Hendesson/Arcpy_Fogo))
 
-## Publicações e apresentações
+### Universidade de Brasília (UnB)
+**Monitor e tutor em Cartografia e Fotointerpretação** · 2022 – 2025
 
-- Autor(es). Título. *Revista*, ano. [link]()
+- Apoio didático e técnico nas disciplinas de Cartografia e Fotointerpretação
+- Auxílio no uso de softwares SIG (QGIS e ArcGIS Pro)
+- Correção de atividades, suporte a alunos e organização de materiais técnicos
 
-## Habilidades
+## Competências técnicas
 
-| Área | Ferramentas |
+| Área | |
 |---|---|
-| Análise de dados | R (data.table, tidyverse), SQL |
-| Geoprocessamento | PostgreSQL/PostGIS, QGIS, sf |
-| Dados de saúde | SIM, SINASC, SIH, SIA, SINAN, CNES, TabNet |
-| Desenvolvimento | pacotes R, testes (testthat), Git, Quarto |
+| Geoprocessamento e SIG | QGIS, ArcGIS Pro, ArcGIS Online (Field Maps, Dashboards), ModelBuilder |
+| Sensoriamento remoto | fotointerpretação, mapeamento de áreas queimadas |
+| Análise espacial | cartografia temática, estatística espacial, geoestatística |
+| Clima | climatologia, análise de eventos extremos e ondas de calor |
+| Dados | bancos de dados geoespaciais (PostgreSQL/PostGIS), dashboards e visualização |
+| Programação | Python (ArcPy, GeoPandas) e R aplicados a dados espaciais |
+
+## Cursos e capacitações
+
+- Análise de Dados em Linguagem R · ENAP
+- ArcGIS Dashboards · Esri
+- ArcGIS Pro Basics · Esri
+- ArcGIS API for Python · Esri
+- Métodos Geoestatísticos com GeoDa · UnB

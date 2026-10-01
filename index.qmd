@@ -1,40 +1,45 @@
 ---
 title: "Hendesson"
 toc: false
-image: imagens/perfil.svg
+image: imagens/perfil.jpg
 about:
   template: trestles
   image-shape: round
   image-width: 14em
   links:
-    # TROQUE os endereços abaixo pelos seus (apague os que não usar)
     - icon: github
       text: GitHub
       href: https://github.com/Hendesson
-    - icon: person-badge
-      text: ORCID
-      href: https://orcid.org/0000-0000-0000-0000
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/hendesson-alves
     - icon: mortarboard
       text: Lattes
-      href: http://lattes.cnpq.br/0000000000000000
-    - icon: google
-      text: Google Scholar
-      href: https://scholar.google.com/
+      href: http://lattes.cnpq.br/7900166623696256
+    - icon: journal-text
+      text: ResearchGate
+      href: https://www.researchgate.net/profile/Hendesson-Pereira
     - icon: envelope
       text: E-mail
-      href: mailto:SEU_EMAIL
+      href: mailto:hendesson124@gmail.com
 ---
 
-<!-- TROQUE este texto pela sua apresentação -->
+Sou **geógrafo** e **mestrando em Geografia** na Universidade de Brasília (UnB). Trabalho na interface entre **geografia, clima e saúde pública**: análise espacial, geoprocessamento e visualização de dados para entender como o território e os eventos climáticos extremos afetam a saúde da população.
 
-Trabalho com **dados de saúde pública, epidemiologia e geografia**: encontrar, organizar e analisar os dados do SUS na escala em que as pessoas vivem, o **bairro**.
+Sou pesquisador colaborador no **Laboratório de Geografia, Ambiente e Saúde (LAGAS/UnB)**. Lá participo do [GeoCalor](projetos/geocalor/index.qmd), um projeto sobre os impactos das ondas de calor na saúde. Também desenvolvo o [localdatasus](projetos/localdatasus/index.qmd), um pacote R que baixa dados de saúde do SUS por bairro.
 
-Sou autor do [localdatasus](projetos/localdatasus/index.qmd), um pacote R que baixa dados de saúde do SUS por bairro, com população, taxas e coordenadas. Ele junta microdados com CEP, arquivos das secretarias e os TabNets regionais.
-
-Neste site estão meus [projetos](projetos.qmd), [códigos](codigo.qmd), [tutoriais](tutoriais.qmd) detalhados e o meu [currículo](cv.qmd).
+Neste site estão meus [projetos](projetos.qmd), [códigos](codigo.qmd), [tutoriais](tutoriais.qmd) e o meu [currículo](cv.qmd).
 
 ### Interesses
 
-- Epidemiologia espacial e análise de dados por bairro
-- Sistemas de informação em saúde (SIM, SINASC, SIH, SINAN)
-- R, SQL, PostgreSQL/PostGIS e QGIS
+- Geografia da saúde e epidemiologia espacial
+- Clima, ondas de calor e eventos extremos
+- Sensoriamento remoto e mapeamento de áreas queimadas
+- Dashboards e visualização de dados geográficos
+- QGIS, ArcGIS Pro, Python (ArcPy), R e bancos de dados geoespaciais
+
+### Visitantes
+
+```{=html}
+<script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=rALDXoi4NW4BgsXmeYVq61UX1vEchz5kaop0hJQSnUU&cl=ffffff&w=a"></script>
+```

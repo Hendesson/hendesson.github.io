@@ -25,12 +25,13 @@ remotes::install_github("Hendesson/localdatasus")
 
 ::::
 
-## Scripts e materiais
+## Scripts e ferramentas
 
-<!-- TROQUE/COMPLETE com os links dos seus repositórios -->
+| Repositório | Linguagem | Descrição |
+|---|---|---|
+| [extracao-dados-SIM](https://github.com/Hendesson/extracao-dados-SIM) | R | Extração automatizada de dados de mortalidade do SIM por município e bairro no estado do Rio de Janeiro, via TabNet da SES-RJ. |
+| [Arcpy_Fogo](https://github.com/Hendesson/Arcpy_Fogo) | Python | Pré-processamento, análise espacial e atualização das Áreas Afetadas por Fogo (AAF) no sistema do ICMBio, com ArcPy, GeoPandas e PostgreSQL. |
+| [Arcpy-Kernel](https://github.com/Hendesson/Arcpy-Kernel) | Python | Metodologia de aplicação de Kernel Density e Zonal Statistics com ArcPy. |
+| [ArcGIS_WFS](https://github.com/Hendesson/ArcGIS_WFS) | Python | Acessa uma camada WFS no ArcGIS Pro e a transforma em shapefile. |
 
-| Repositório | Descrição |
-|---|---|
-| `tabnet-scraper` | Raspagem dos TabNets da SMS-Rio e da SES-RJ (2006–2026) |
-| `curso-postgis` | Curso de SQL e PostGIS com dados de saúde |
-| `sim-sih-rj` | Scripts comentados para baixar SIM e SIH com o microdatasus |
+Todos os repositórios: [github.com/Hendesson](https://github.com/Hendesson)

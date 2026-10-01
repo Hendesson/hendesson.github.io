@@ -3,10 +3,9 @@ project:
   output-dir: _site
 
 website:
-  # TROQUE: o endereço final do site (https://hendesson.github.io)
   site-url: https://hendesson.github.io
   title: "Hendesson"
-  description: "Saúde pública, dados e geografia: projetos, códigos e tutoriais."
+  description: "Geografia, clima e saúde: projetos, códigos e tutoriais."
   favicon: imagens/localdatasus-logo.png
   search: true
   page-navigation: true
@@ -26,7 +25,6 @@ website:
       - href: blog.qmd
         text: Blog
     right:
-      # TROQUE: seu usuário do GitHub
       - icon: github
         href: https://github.com/Hendesson
         aria-label: GitHub
