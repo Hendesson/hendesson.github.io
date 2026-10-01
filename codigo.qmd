@@ -33,5 +33,9 @@ remotes::install_github("Hendesson/localdatasus")
 | [Arcpy_Fogo](https://github.com/Hendesson/Arcpy_Fogo) | Python | Pré-processamento, análise espacial e atualização das Áreas Afetadas por Fogo (AAF) no sistema do ICMBio, com ArcPy, GeoPandas e PostgreSQL. |
 | [Arcpy-Kernel](https://github.com/Hendesson/Arcpy-Kernel) | Python | Metodologia de aplicação de Kernel Density e Zonal Statistics com ArcPy. |
 | [ArcGIS_WFS](https://github.com/Hendesson/ArcGIS_WFS) | Python | Acessa uma camada WFS no ArcGIS Pro e a transforma em shapefile. |
+| [geoprocessamento-arcpy-tutoriais](https://github.com/Hendesson/geoprocessamento-arcpy-tutoriais) | Python | Tutoriais de geoprocessamento com ArcPy. |
+| [geocodificador-gms](https://github.com/Hendesson/geocodificador-gms) | Python (Jupyter) | Geocodificador em Python com a API do Google Maps, com saída em graus, minutos e segundos. |
+| [Banco de Queimadas – Boca da Mata](https://github.com/Hendesson/-Banco-de-Queimadas---Parque-Distrital-Boca-da-Mata) | JavaScript | Sistema web de mapeamento e monitoramento de queimadas no Parque Distrital Boca da Mata (DF). |
+| [estudos](https://github.com/Hendesson/estudos) | SQL / Python | Estudos de SQL/PostGIS, Python e Git para análises espaciais e ambientais. |
 
 Todos os repositórios: [github.com/Hendesson](https://github.com/Hendesson)

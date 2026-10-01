@@ -26,10 +26,21 @@ mapa_bairro(obitos_bairro("São Paulo", 2023))          # mapa pronto
 
 ![Óbitos por doenças circulatórias por 10 mil habitantes, Rio de Janeiro, 2023.](../../imagens/mapa-circulatorio-rio.png)
 
-## Links
+## Instalar
 
-- [Tutoriais passo a passo](../../tutoriais.qmd)
-- [Código-fonte no GitHub](https://github.com/Hendesson/localdatasus)
+Versão atual: **0.1.0** (primeira versão pública).
+
+```r
+install.packages("remotes")
+remotes::install_github("rfsaldanha/microdatasus")
+remotes::install_github("Hendesson/localdatasus")
+```
+
+[Tutoriais passo a passo](../../tutoriais.qmd){.btn .btn-primary} [Código no GitHub](https://github.com/Hendesson/localdatasus){.btn .btn-outline-primary} [Relatar um problema](https://github.com/Hendesson/localdatasus/issues){.btn .btn-outline-primary} [Tirar uma dúvida](../../perguntas.qmd){.btn .btn-outline-primary}
+
+## Como citar
+
+> Alves H (2026). *localdatasus: Dados de Saúde do SUS por Bairro (Escala Local)*. Pacote R, versão 0.1.0. <https://github.com/Hendesson/localdatasus>
 
 ## O que dá para fazer
 

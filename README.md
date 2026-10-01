@@ -12,7 +12,7 @@ Site feito com [Quarto](https://quarto.org) e publicado no GitHub Pages: projeto
 | `codigo.qmd` | pacotes e repositórios |
 | `tutoriais.qmd` + `tutoriais/localdatasus/*.qmd` | tutoriais do localdatasus |
 | `documentos.qmd` + `documentos/` | PDFs, slides e notas técnicas |
-| `blog.qmd` + `posts/*/index.qmd` | blog (um post por pasta) |
+| `perguntas.qmd` | perguntas frequentes e caixa de perguntas (giscus) |
 | `_quarto.yml` | menu, rodapé e tema |
 | `styles.scss` | cores e fontes |
 
@@ -46,7 +46,16 @@ Depois disso, todo `git push` atualiza o site sozinho.
 
 Instale o [Quarto](https://quarto.org/docs/get-started/) e rode `quarto preview` nesta pasta.
 
-## Novo post ou novo tutorial
+## Caixa de perguntas (giscus), uma vez
 
-- **Post:** crie `posts/AAAA-MM-DD-titulo/index.qmd` com `title`, `date`, `description` e `categories`.
-- **Tutorial:** crie `tutoriais/localdatasus/07-nome.qmd` com `ordem: 7` e acrescente-o à barra lateral em `_quarto.yml`.
+A página **Perguntas** usa o [giscus](https://giscus.app): as perguntas ficam nas *Discussions* deste repositório. Para ligar:
+
+1. Em *Settings → General → Features*, marque **Discussions**.
+2. Instale o app do giscus em <https://github.com/apps/giscus>, escolhendo só o repositório `hendesson.github.io`.
+3. Faça qualquer `git push` (ou rode de novo a ação "Publicar site"): a caixa aparece no fim da página.
+
+Para responder, vá à aba *Discussions* do repositório, ou responda direto no site.
+
+## Novo tutorial
+
+Crie `tutoriais/localdatasus/07-nome.qmd` com `ordem: 7` e acrescente-o à barra lateral em `_quarto.yml`.

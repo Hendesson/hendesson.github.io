@@ -22,8 +22,8 @@ website:
         text: Tutoriais
       - href: documentos.qmd
         text: Documentos
-      - href: blog.qmd
-        text: Blog
+      - href: perguntas.qmd
+        text: Perguntas
     right:
       - icon: github
         href: https://github.com/Hendesson
@@ -43,7 +43,7 @@ website:
             - tutoriais/localdatasus/05-como-funciona.qmd
             - tutoriais/localdatasus/06-erros-e-ajuda.qmd
   page-footer:
-    left: "© 2026 Hendesson · Feito com [Quarto](https://quarto.org)"
+    left: "© 2026 Hendesson Alves · Feito com [Quarto](https://quarto.org)"
     right:
       - icon: github
         href: https://github.com/Hendesson
