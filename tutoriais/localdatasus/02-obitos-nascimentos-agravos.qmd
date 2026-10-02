@@ -28,6 +28,8 @@ obitos_bairro("Rio de Janeiro", 2023, cid = "J")          # respiratório
 obitos_bairro("Niterói", 2022, cid = "I20-I25")          # isquêmicas, em Niterói
 ```
 
+Tem um exemplo para cada capítulo da CID, em óbitos e internações, no [tutorial 7](07-exemplos-por-cid.qmd).
+
 ## Abrir a contagem: o argumento `por`
 
 Escreva a variável em linguagem comum. O pacote acha a opção certa no site:

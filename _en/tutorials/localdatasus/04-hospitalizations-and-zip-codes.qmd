@@ -20,6 +20,8 @@ int <- internacoes_bairro("Rio de Janeiro", 2023, cid = c("I", "J"), uf = "RJ")
 attr(int, "cobertura")      # how many admissions got a neighborhood, and why the others didn't
 ```
 
+Hospitalization examples for each ICD chapter, across all regions of Brazil, are in [tutorial 7](07-examples-by-icd.qmd).
+
 ::: {.callout-warning}
 ## It takes a while
 The package downloads about 18 months of DATASUS files. That is the requested year plus the following months, because December admissions are billed months later. The first run can take 10 to 30 minutes.

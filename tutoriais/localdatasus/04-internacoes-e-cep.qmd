@@ -20,6 +20,8 @@ int <- internacoes_bairro("Rio de Janeiro", 2023, cid = c("I", "J"), uf = "RJ")
 attr(int, "cobertura")      # quantas internações ganharam bairro, e por que as outras não
 ```
 
+Exemplos de internações para cada capítulo da CID, em todas as regiões do país, estão no [tutorial 7](07-exemplos-por-cid.qmd).
+
 ::: {.callout-warning}
 ## Demora
 O pacote baixa cerca de 18 meses de arquivos do DATASUS: o ano pedido e os meses seguintes, porque internações de dezembro são processadas meses depois. Pode levar de 10 a 30 minutos na primeira vez.

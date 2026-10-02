@@ -30,6 +30,8 @@ obitos_bairro("Rio de Janeiro", 2023, cid = "J")          # respiratory
 obitos_bairro("Niterói", 2022, cid = "I20-I25")          # ischaemic, in Niterói
 ```
 
+There is one example for each ICD chapter, for deaths and hospitalizations, in [tutorial 7](07-examples-by-icd.qmd).
+
 ## Breaking down: the `por` argument
 
 Write the variable in plain words, in Portuguese. The package finds the right option on the source website:
