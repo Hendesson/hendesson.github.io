@@ -27,7 +27,23 @@ estabelecimentos_bairro("Recife", tipo = "hospital")   # CNES, any municipality
 mapa_bairro(obitos_bairro("São Paulo", 2023))          # ready-made map
 ```
 
-![Deaths from circulatory diseases per 10,000 inhabitants, Rio de Janeiro, 2023.](../../imagens/mapa-circulatorio-rio.png)
+## Neighborhood maps
+
+Every table becomes a map with one line, `mapa_bairro()`, over IBGE's official neighborhood and district boundaries. Rates per 10,000 inhabitants:
+
+::: {layout-ncol=3}
+![Rio de Janeiro: deaths from circulatory diseases, 2023](../../imagens/mapa-rio.png)
+
+![São Paulo: deaths from circulatory diseases, 2023, by district](../../imagens/mapa-sp.png)
+
+![Fortaleza: live births, 2023](../../imagens/mapa-fortaleza.png)
+
+![Recife: notified dengue cases, 2024](../../imagens/mapa-recife.png)
+
+![Curitiba: consultations for respiratory diseases, Jun–Aug 2026](../../imagens/mapa-curitiba.png)
+
+![Recife: SAMU emergency calls for external causes, 2024](../../imagens/mapa-samu.png)
+:::
 
 ::: {.callout-note}
 ## The package speaks Portuguese
