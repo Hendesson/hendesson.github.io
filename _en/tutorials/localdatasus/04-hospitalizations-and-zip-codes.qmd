@@ -1,0 +1,73 @@
+---
+title: "4. Hospitalizations and postal codes"
+description: "Hospitalizations by neighborhood in any state, individual records, and your own tables with postal codes."
+ordem: 4
+tempo: "20 min"
+---
+
+Some SUS databases include the patient's home **postal code (CEP)**. With it, the package locates each record in a neighborhood, in **any Brazilian state**.
+
+| Database | Code |
+|---|---|
+| Hospital admissions (approved and rejected AIHs) | `SIH-RD`, `SIH-RJ` |
+| High-cost outpatient procedures (APAC): chemotherapy, radiotherapy, dialysis, nephrology, medicines, bariatric surgery... | `SIA-AQ`, `SIA-AR`, `SIA-ATD`... |
+| Live births in Rio de Janeiro state (State Health Department) | `SINASC-RJ` |
+
+## Hospitalizations by neighborhood
+
+```r
+int <- internacoes_bairro("Rio de Janeiro", 2023, cid = c("I", "J"), uf = "RJ")
+attr(int, "cobertura")      # how many admissions got a neighborhood, and why the others didn't
+```
+
+Hospitalization examples for each ICD chapter, across all regions of Brazil, are in [tutorial 7](07-examples-by-icd.qmd).
+
+::: {.callout-warning}
+## It takes a while
+The package downloads about 18 months of DATASUS files. That is the requested year plus the following months, because December admissions are billed months later. The first run can take 10 to 30 minutes.
+:::
+
+Admissions are counted by **admission date** and only for residents. In 2023, **57%** of admissions of Rio de Janeiro state residents for circulatory and respiratory diseases got a neighborhood.
+
+## Why not every postal code becomes a neighborhood
+
+The postal code is linked to a neighborhood through **CNEFE 2022**, the IBGE register of every address in the Census. A postal code gets no neighborhood when it is:
+
+| Situation (`situacao_cep`) | Why |
+|---|---|
+| invalid/missing | empty or mistyped field |
+| special | P.O. box or large-volume recipient (ending 900–999) |
+| not in CNEFE 2022 | new or wrong postal code |
+| excess of records | a "generic" postal code for the whole city, or the hospital's instead of the home address |
+| from another municipality | does not match the municipality of residence |
+| general/broad | covers several neighborhoods (less than 60% of addresses in one neighborhood) |
+
+::: {.callout-important}
+The loss is **not random**. It is higher in municipalities with a single postal code and where addresses are informal. Compare neighborhoods within the same municipality.
+:::
+
+## Record by record
+
+To get every record with all original columns, plus neighborhood and coordinates:
+
+```r
+quimio <- baixar_bairro("SIA-AQ", "RJ", 2024, mes_inicio = 1, mes_fim = 3)   # chemotherapy
+
+# Count DISTINCT patients per neighborhood (the same person appears in several months)
+agregar_bairro(quimio, contar_distintos = "id_paciente")
+```
+
+## Your own table with postal codes
+
+```r
+my_table <- data.frame(id = 1:3, cep = c("20031-170", "22041001", "24020005"))
+adicionar_bairro(my_table, "RJ", col_cep = "cep")      # "add neighborhood"
+```
+
+## Hospital coordinates
+
+```r
+cnes_coordenadas(c("2269880", "2270234"))     # by CNES code (national health facility registry)
+```
+
+**Next:** [5. How it works](05-how-it-works.qmd)

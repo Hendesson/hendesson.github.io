@@ -1,0 +1,60 @@
+---
+title: "Perguntas"
+description: "Deixe sua dúvida sobre o localdatasus, os projetos ou os tutoriais."
+toc: true
+comments:
+  giscus:
+    repo: Hendesson/hendesson.github.io
+    category: "General"
+    mapping: pathname
+    reactions-enabled: true
+    input-position: top
+    theme: light
+    language: pt
+---
+
+Tem alguma dúvida sobre o **localdatasus**, os **tutoriais** ou os **projetos**? Escreva no fim desta página. As perguntas e respostas ficam públicas, assim ajudam outras pessoas com a mesma dúvida.
+
+::: {.callout-note}
+## Como perguntar
+- **Pela caixa no fim da página:** é preciso entrar com uma conta do GitHub, que é gratuita.
+- **Encontrou um erro no pacote?** Abra um *issue* em [github.com/Hendesson/localdatasus/issues](https://github.com/Hendesson/localdatasus/issues). Inclua o código que você rodou e a mensagem de erro, com o código `LDS-xx`.
+- **Prefere não usar o GitHub?** Mande um e-mail para [hendesson124@gmail.com](mailto:hendesson124@gmail.com).
+:::
+
+## Perguntas frequentes
+
+### Como instalo o localdatasus?
+
+```r
+install.packages("remotes")
+remotes::install_github("Hendesson/localdatasus")
+```
+
+Depois, reinicie o R. O passo a passo completo está em [Instalação e primeira tabela](https://hendesson.github.io/localdatasus/articles/primeiros-passos.html).
+
+### Apareceu "não foi possível encontrar a função". E agora?
+
+A sua sessão do R ainda tem a versão antiga carregada. Reinicie o R (no RStudio: *Session → Restart R*) e rode `library(localdatasus)` de novo.
+
+### Tem dados por bairro da minha cidade?
+
+Rode `onde_tem_bairro()`. Hoje há óbitos, nascimentos e agravos por bairro para o **Rio de Janeiro** (capital e estado), **São Paulo** (capital, por distrito) e **Santa Catarina** (agravos). As **internações** funcionam em **todos os estados**, pelo CEP do paciente. Se a secretaria de saúde da sua cidade publica dados por bairro, conte aqui embaixo: dá para incluir no pacote.
+
+### O que significa um erro como `[LDS-03]`?
+
+Rode `ajuda("LDS-03")` no R: aparece o que aconteceu e como resolver. A lista completa está em [Erros e ajuda](https://hendesson.github.io/localdatasus/articles/erros-e-ajuda.html).
+
+### Por que alguns registros ficam sem bairro?
+
+Em geral, por CEP genérico (um CEP para a cidade inteira), CEP do hospital no lugar do da residência ou CEP que cobre vários bairros. Veja [Como o pacote funciona](https://hendesson.github.io/localdatasus/articles/como-funciona.html) e `attr(tabela, "cobertura")`.
+
+### A primeira consulta demorou muito. É normal?
+
+Sim. Na primeira vez o pacote baixa tabelas do IBGE (cerca de 340 MB para o RJ). Depois tudo fica em cache e as consultas levam segundos.
+
+### Posso usar os dados num artigo?
+
+Sim. Cite as fontes originais (SMS-Rio, SES-RJ, Prefeitura de São Paulo, DIVE-SC, DATASUS, IBGE) e o pacote. A citação aparece com `citation("localdatasus")`.
+
+## Deixe sua pergunta

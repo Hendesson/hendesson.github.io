@@ -1,0 +1,62 @@
+# Monta o site com o Quarto e publica no GitHub Pages.
+# Você não precisa instalar o Quarto no seu computador.
+#
+# Quando o site é atualizado:
+#   - a cada "git push" neste repositório;
+#   - todo dia às 6h (horário de Brasília), para pegar novidades dos projetos;
+#   - na hora, quando um projeto (ex.: localdatasus) avisa que foi atualizado;
+#   - à mão, na aba Actions > Publicar site > Run workflow.
+#
+# Configuração (uma vez): Settings > Pages > Build and deployment >
+# Source: "GitHub Actions".
+name: Publicar site
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 9 * * *"          # 9h UTC = 6h em Brasília
+  repository_dispatch:
+    types: [projeto-atualizado]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Só uma publicação por vez.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  montar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o repositório
+        uses: actions/checkout@v4
+
+      - name: Instalar o Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Buscar os dados dos projetos e montar o site (português e inglês)
+        run: bash scripts/montar_site.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Preparar os arquivos para o Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  publicar:
+    needs: montar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Publicar no GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4

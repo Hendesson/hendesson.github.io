@@ -1,0 +1,34 @@
+---
+title: "Pacotes & Código"
+toc: false
+---
+
+## Pacotes R
+
+:::: {.grid}
+
+::: {.g-col-12 .g-col-md-3}
+![](imagens/localdatasus-logo.png){width=140}
+:::
+
+::: {.g-col-12 .g-col-md-9}
+### localdatasus
+
+Dados de saúde do SUS **por bairro**: óbitos, nascimentos, agravos, internações, atendimentos, SAMU e estabelecimentos, com população, taxas, coordenadas e mapas prontos.
+
+{{< include _dados/localdatasus_versao.md >}}
+
+[Documentação](https://hendesson.github.io/localdatasus/){.btn .btn-primary .btn-sm} [Projeto](projetos/localdatasus/index.qmd){.btn .btn-outline-primary .btn-sm} [GitHub](https://github.com/Hendesson/localdatasus){.btn .btn-outline-primary .btn-sm}
+
+```r
+remotes::install_github("Hendesson/localdatasus")
+```
+:::
+
+::::
+
+## Todos os repositórios
+
+Esta lista é atualizada automaticamente a partir do GitHub: projetos novos, descrições e datas aparecem aqui sozinhos.
+
+{{< include _dados/repositorios.md >}}

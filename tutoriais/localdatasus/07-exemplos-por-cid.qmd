@@ -1,0 +1,10 @@
+---
+title: "7. Um exemplo para cada capítulo da CID"
+description: "Óbitos (SIM) e internações (SIH) por bairro para cada capítulo da CID-10, em lugares de todas as regiões."
+ordem: 7
+tempo: "10 min"
+include-in-header:
+  text: '<meta http-equiv="refresh" content="0; url=https://hendesson.github.io/localdatasus/articles/exemplos-por-cid.html">'
+---
+
+Este tutorial agora fica na **documentação do localdatasus**: [7. Um exemplo para cada capítulo da CID](https://hendesson.github.io/localdatasus/articles/exemplos-por-cid.html).

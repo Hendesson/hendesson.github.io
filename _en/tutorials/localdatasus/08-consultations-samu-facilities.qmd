@@ -1,0 +1,89 @@
+---
+title: "8. Consultations, SAMU and health facilities"
+description: "Primary care in Curitiba, SAMU emergency calls in Recife and health facilities in any municipality."
+ordem: 8
+tempo: "15 min"
+---
+
+Besides deaths, births, notifiable diseases and hospitalizations, the package has three more datasets by neighborhood. Each one measures something different, so check **whose neighborhood** it is in each case.
+
+| Function | Where | The neighborhood is... |
+|---|---|---|
+| `atendimentos_bairro()` | Curitiba | where the **patient lives** |
+| `samu_bairro()` | Recife and its metropolitan area | where the **emergency happened** |
+| `estabelecimentos_bairro()` | any municipality | where the **facility is** |
+
+## Medical consultations in Curitiba (e-Saúde)
+
+Curitiba's City Hall publishes every medical consultation in its municipal health network (health units, emergency units and other services), with the **patient's neighborhood** and the **ICD-10 code**.
+
+```r
+# Consultations for respiratory diseases (chapter J), January to March
+resp <- atendimentos_bairro("Curitiba", 2025, meses = 1:3, cid = "J")
+
+# Asthma by age group
+asma <- atendimentos_bairro("Curitiba", 2025, meses = 1:3, cid = "J45", por = "faixa etaria")
+
+# Emergency units (UPA) versus primary care units
+atendimentos_bairro("Curitiba", 2025, meses = 6, por = "tipo de unidade")
+```
+
+`por` accepts `"sexo"`, `"faixa etaria"`, `"tipo de unidade"`, `"profissional"` (the doctor's specialty), `"internamento"` (hospital referral) and `"unidade de saude"` (the facility).
+
+::: {.callout-warning}
+## Large files
+Each published file is about **480 MB** and covers **three months**. The first query for a whole year downloads four files. The package caches each month with only the columns it uses, so later queries are fast. Start with a few months (`meses = 1:3`).
+:::
+
+From June to August 2026 there were 1.24 million consultations of residents, and 99.9% were matched to one of Curitiba's 75 official neighborhoods.
+
+## SAMU emergency calls in Recife
+
+Recife's SAMU 192 serves the metropolitan area. The City Hall publishes every call with the **municipality and neighborhood where the emergency happened**.
+
+```r
+samu_bairro("Recife", 2024)
+
+# External causes only, by subtype (motorcycle crash, fall...)
+ext <- samu_bairro("Recife", 2024, tipo = "causas externas", por = "subtipo")
+
+# Other municipalities served
+samu_bairro("Olinda", 2023:2024)
+samu_bairro("Jaboatão dos Guararapes", 2024)
+```
+
+`tipo` accepts part of the call type, in Portuguese: `"causas externas"` (external causes), `"psiquiatrica"`, `"cardiologica"`, `"respiratoria"`... `por` accepts `"tipo"`, `"subtipo"`, `"sexo"`, `"origem do chamado"`, `"motivo de finalizacao"` and `"desfecho"`.
+
+::: {.callout-note}
+## Place of the emergency, not of residence
+A traffic crash in Boa Viagem counts for Boa Viagem, even if the victim lives elsewhere. Calls flagged as duplicates are dropped. The 2011–2015 files have no municipality, so the function starts in 2016.
+:::
+
+## Health facilities (CNES), in any municipality
+
+Brazil's national registry of health facilities (CNES) lists every facility with postal code, neighborhood and coordinates. The package counts **active facilities** by neighborhood.
+
+```r
+# Primary care units in Recife
+ubs <- estabelecimentos_bairro("Recife", tipo = "unidade basica")
+
+# Everything that serves SUS patients in Belo Horizonte, by type
+estabelecimentos_bairro("Belo Horizonte", por = "tipo", so_sus = TRUE)
+
+# Hospitals in the whole state of Rio de Janeiro
+estabelecimentos_bairro(uf = "RJ", tipo = "hospital")
+
+# The list of facilities, with name, type, postal code and coordinates
+head(attr(ubs, "registros"))
+```
+
+`tipo` accepts part of the official facility type, in Portuguese: `"hospital"`, `"unidade basica"` (primary care), `"pronto atendimento"` (emergency care), `"psicossocial"` (mental health, CAPS), `"farmacia"`... The type names come from the Ministry of Health's open data API.
+
+::: {.callout-tip}
+## Supply of services
+This function measures **where the services are**, not where patients live. You can use it, for example, to compare the supply of primary care units with each neighborhood's population: the rate in the table is facilities per 10,000 inhabitants.
+:::
+
+`so_sus = TRUE` counts only facilities with **outpatient** care for SUS patients. A hospital that only admits SUS patients as inpatients is left out.
+
+**Back to the start:** [1. Getting started](01-getting-started.qmd)

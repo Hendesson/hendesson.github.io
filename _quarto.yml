@@ -1,0 +1,55 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  site-url: https://hendesson.github.io
+  title: "Hendesson"
+  description: "Geografia, clima e saúde: projetos, códigos e tutoriais."
+  favicon: imagens/localdatasus-logo.png
+  search: true
+  page-navigation: true
+  back-to-top-navigation: true
+  navbar:
+    left:
+      - href: cv.qmd
+        text: CV
+      - href: projetos.qmd
+        text: Projetos
+      - href: codigo.qmd
+        text: Pacotes & Código
+      - href: tutoriais.qmd
+        text: Tutoriais
+      - href: documentos.qmd
+        text: Documentos
+      - href: perguntas.qmd
+        text: Perguntas
+    right:
+      - text: "English"
+        href: https://hendesson.github.io/en/
+        aria-label: "English version"
+      - icon: github
+        href: https://github.com/Hendesson
+        aria-label: GitHub
+  page-footer:
+    left: "© 2026 Hendesson Alves · Feito com [Quarto](https://quarto.org)"
+    right:
+      - icon: github
+        href: https://github.com/Hendesson
+
+format:
+  html:
+    theme:
+      light: [cosmo, styles.scss]
+    toc: true
+    toc-title: "Nesta página"
+    code-copy: true
+    code-overflow: wrap
+    lang: pt-BR
+    smooth-scroll: true
+    link-external-newwindow: true
+
+# O site não executa código: os tutoriais mostram o código e imagens já prontas.
+# (Assim o GitHub consegue montar o site sem baixar dados.)
+execute:
+  eval: false

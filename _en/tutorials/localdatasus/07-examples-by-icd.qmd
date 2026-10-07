@@ -1,0 +1,103 @@
+---
+title: "7. One example for each ICD chapter"
+description: "Deaths (SIM) and hospitalizations (SIH) by neighborhood for every ICD-10 chapter, in places across all regions."
+ordem: 7
+tempo: "10 min"
+---
+
+This page has a ready-to-use example for **every ICD-10 chapter**, for deaths and for hospitalizations, each in a different place. Copy the one you need and change the municipality and the year.
+
+::: {.callout-note}
+## How to write the cause
+- **One letter** takes the whole chapter: `cid = "I"`.
+- **A range** takes part of a letter: `cid = "D50-D89"`. The range must stay within the same letter.
+- **Several** at once: `cid = c("A", "B")`.
+:::
+
+## Deaths by neighborhood (SIM)
+
+Deaths by neighborhood are available for the **State of Rio de Janeiro** (all 92 municipalities) and for the **city of São Paulo** (by district). The examples therefore go through the health regions of Rio de Janeiro State and the city of São Paulo.
+
+| Chapter | Cause | Example | Place |
+|---|---|---|---|
+| I | Infectious and parasitic | `obitos_bairro("Rio de Janeiro", 2023, cid = c("A", "B"))` | Rio de Janeiro city |
+| II | Neoplasms (cancer) | `obitos_bairro("São Paulo", 2023, cid = "C")` | São Paulo city, by district |
+| III | Blood and immune | `obitos_bairro("Niterói", 2023, cid = "D50-D89")` | Metropolitana II (RJ) |
+| IV | Endocrine and metabolic (diabetes) | `obitos_bairro("Duque de Caxias", 2023, cid = "E")` | Metropolitana I (RJ) |
+| V | Mental disorders | `obitos_bairro("Campos dos Goytacazes", 2023, cid = "F")` | Norte (RJ) |
+| VI | Nervous system | `obitos_bairro("Petrópolis", 2023, cid = "G")` | Serrana (RJ) |
+| VII | Eye | `obitos_bairro("São Paulo", 2019:2023, cid = "H00-H59")` | São Paulo city |
+| VIII | Ear | `obitos_bairro("Rio de Janeiro", 2019:2023, cid = "H60-H95")` | Rio de Janeiro city |
+| IX | Circulatory | `obitos_bairro("Volta Redonda", 2023, cid = "I")` | Médio Paraíba (RJ) |
+| X | Respiratory | `obitos_bairro("Cabo Frio", 2023, cid = "J")` | Baixadas Litorâneas (RJ) |
+| XI | Digestive | `obitos_bairro("Angra dos Reis", 2023, cid = "K")` | Baía da Ilha Grande (RJ) |
+| XII | Skin | `obitos_bairro("Itaperuna", 2023, cid = "L")` | Noroeste (RJ) |
+| XIII | Musculoskeletal | `obitos_bairro("Três Rios", 2019:2023, cid = "M")` | Centro-Sul (RJ) |
+| XIV | Genitourinary (kidney) | `obitos_bairro("São Gonçalo", 2023, cid = "N")` | Metropolitana II (RJ) |
+| XV | Pregnancy and childbirth (maternal deaths) | `obitos_bairro("Nova Iguaçu", 2019:2023, cid = "O")` | Metropolitana I (RJ) |
+| XVI | Perinatal | `obitos_bairro("São Paulo", 2023, cid = "P")` | São Paulo city |
+| XVII | Congenital malformations | `obitos_bairro("Rio de Janeiro", 2023, cid = "Q")` | Rio de Janeiro city |
+| XVIII | Ill-defined causes | `obitos_bairro("Macaé", 2023, cid = "R")` | Norte (RJ) |
+| XX | External causes (accidents, homicides, suicides) | `obitos_bairro("Belford Roxo", 2023, cid = c("V", "W", "X", "Y"))` | Metropolitana I (RJ) |
+| — | COVID-19 | `obitos_bairro("Rio de Janeiro", 2021, cid = "B34")` | Rio de Janeiro city |
+
+::: {.callout-tip}
+## Why are some chapters missing?
+In the SIM, the cause of death is the **underlying cause**. Injuries (chapter XIX, S and T) and contact with health services (chapter XXI, Z) are not used as underlying causes, so use external causes (V to Y) for injuries. **COVID-19** deaths were coded B34.2 in the SIM, not in chapter U, which is why the example uses `cid = "B34"`.
+:::
+
+For chapters with few deaths (eye, ear, skin, musculoskeletal), combine years (`2019:2023`) for more stable numbers.
+
+To split any example by sex, add `por = "sexo"`:
+
+```r
+obitos_bairro("Volta Redonda", 2023, cid = "I", por = "sexo")
+```
+
+## Hospitalizations by neighborhood (SIH)
+
+Hospitalizations reach the neighborhood through the **patient's ZIP code (CEP)**, in **any municipality in Brazil**. The examples therefore cover all five regions. Always give the state (`uf`).
+
+| Chapter | Cause | Example | Region |
+|---|---|---|---|
+| I | Infectious and parasitic | `internacoes_bairro("Manaus", 2023, cid = c("A", "B"), uf = "AM")` | North |
+| II | Neoplasms | `internacoes_bairro("Porto Alegre", 2023, cid = c("C", "D00-D48"), uf = "RS")` | South |
+| III | Blood and immune | `internacoes_bairro("Teresina", 2023, cid = "D50-D89", uf = "PI")` | Northeast |
+| IV | Endocrine and metabolic | `internacoes_bairro("Campo Grande", 2023, cid = "E", uf = "MS")` | Center-West |
+| V | Mental disorders | `internacoes_bairro("Belo Horizonte", 2023, cid = "F", uf = "MG")` | Southeast |
+| VI | Nervous system | `internacoes_bairro("Florianópolis", 2023, cid = "G", uf = "SC")` | South |
+| VII | Eye | `internacoes_bairro("Natal", 2023, cid = "H00-H59", uf = "RN")` | Northeast |
+| VIII | Ear | `internacoes_bairro("Vitória", 2023, cid = "H60-H95", uf = "ES")` | Southeast |
+| IX | Circulatory | `internacoes_bairro("Recife", 2023, cid = "I", uf = "PE")` | Northeast |
+| X | Respiratory | `internacoes_bairro("Curitiba", 2023, cid = "J", uf = "PR")` | South |
+| XI | Digestive | `internacoes_bairro("Belém", 2023, cid = "K", uf = "PA")` | North |
+| XII | Skin | `internacoes_bairro("Cuiabá", 2023, cid = "L", uf = "MT")` | Center-West |
+| XIII | Musculoskeletal | `internacoes_bairro("Juiz de Fora", 2023, cid = "M", uf = "MG")` | Southeast |
+| XIV | Genitourinary | `internacoes_bairro("Fortaleza", 2023, cid = "N", uf = "CE")` | Northeast |
+| XV | Pregnancy and childbirth | `internacoes_bairro("Macapá", 2023, cid = "O", uf = "AP")` | North |
+| XVI | Perinatal | `internacoes_bairro("Salvador", 2023, cid = "P", uf = "BA")` | Northeast |
+| XVII | Congenital malformations | `internacoes_bairro("Ribeirão Preto", 2023, cid = "Q", uf = "SP")` | Southeast |
+| XVIII | Ill-defined | `internacoes_bairro("Maceió", 2023, cid = "R", uf = "AL")` | Northeast |
+| XIX | Injuries and poisoning (fractures, burns) | `internacoes_bairro("João Pessoa", 2023, cid = c("S", "T"), uf = "PB")` | Northeast |
+| XXI | Contact with health services | `internacoes_bairro("Londrina", 2023, cid = "Z", uf = "PR")` | South |
+
+::: {.callout-tip}
+## Differences from the SIM
+- The SIH uses the hospitalization's **principal diagnosis**, so injuries (chapter XIX, S and T) and contact with health services (chapter XXI, Z) appear.
+- External causes (V to Y) are recorded as secondary diagnoses and don't appear here.
+- In chapter II, `c("C", "D00-D48")` combines malignant (C) with benign and *in situ* neoplasms (D00 to D48). The letter D alone would also include blood diseases.
+:::
+
+::: {.callout-warning}
+## It takes a while
+Each call downloads the whole state's hospitalizations from DATASUS, so the first query for each state can take 10 to 30 minutes. For several causes in the same state, ask for all of them at once and split them afterwards by the `grupo` column:
+
+```r
+pe <- internacoes_bairro("Recife", 2023, cid = c("I", "J", "N"), uf = "PE")
+aggregate(internacoes ~ grupo, data = pe, FUN = sum)   # total for each cause
+```
+:::
+
+Every hospitalization result has `attr(x, "cobertura")`, which shows how many got a neighborhood and why the others didn't (see [tutorial 4](04-hospitalizations-and-zip-codes.qmd)).
+
+**Next:** [8. Consultations, SAMU and health facilities](08-consultations-samu-facilities.qmd)

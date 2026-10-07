@@ -1,0 +1,24 @@
+---
+title: "Curso: SQL e PostGIS para dados de saúde"
+description: "Do CSV ao mapa: preparar dados, SQL, PostGIS, análise espacial e QGIS, com dados reais do SUS."
+date: 2026-09-25
+image: ../../imagens/mapa-distritos-sp.png
+categories: [ensino, SQL, PostGIS, QGIS]
+---
+
+<!-- COMPLETE com os links para os arquivos do curso -->
+
+Um curso passo a passo, em oito módulos, que vai dos dados brutos do SUS até os mapas no QGIS:
+
+1. Preparar os dados no R
+2. Carregar no PostgreSQL (população por setor censitário, hospitais do CNES)
+3. SQL básico
+4. Joins, taxas e funções de janela
+5. Views e views materializadas
+6. Fundamentos do PostGIS (SRID, geometria e geografia)
+7. Análise espacial: vizinho mais próximo, grades hexagonais, agrupamentos (DBSCAN), I de Moran
+8. Camadas prontas para o QGIS
+
+Exemplos de resultados:
+- 82% da população do RJ vive a até 5 km de um hospital;
+- o I de Moran da mortalidade circulatória por bairro é 0,54, e o da respiratória é 0,27.

@@ -1,0 +1,10 @@
+---
+title: "6. Erros e ajuda"
+description: "O que significa cada código de erro (LDS-01 a LDS-23) e como resolver."
+ordem: 6
+tempo: "5 min"
+include-in-header:
+  text: '<meta http-equiv="refresh" content="0; url=https://hendesson.github.io/localdatasus/articles/erros-e-ajuda.html">'
+---
+
+Este tutorial agora fica na **documentação do localdatasus**: [6. Erros e ajuda](https://hendesson.github.io/localdatasus/articles/erros-e-ajuda.html).

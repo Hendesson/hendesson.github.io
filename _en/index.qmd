@@ -1,0 +1,45 @@
+---
+title: "Hendesson"
+toc: false
+image: imagens/perfil.jpg
+about:
+  template: trestles
+  image-shape: round
+  image-width: 14em
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/Hendesson
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/hendesson-alves
+    - icon: mortarboard
+      text: Lattes
+      href: http://lattes.cnpq.br/7900166623696256
+    - icon: journal-text
+      text: ResearchGate
+      href: https://www.researchgate.net/profile/Hendesson-Pereira
+    - icon: envelope
+      text: Email
+      href: mailto:hendesson124@gmail.com
+---
+
+I am a **geographer** and a **master's student in Geography** at the University of Brasília (UnB), Brazil. My work sits at the intersection of **geography, climate and public health**. I use spatial analysis, GIS and data visualization to understand how places and extreme climate events affect people's health.
+
+I am a research collaborator at the **Laboratory of Geography, Environment and Health (LAGAS/UnB)**. There I work on [GeoCalor](projects/geocalor/index.qmd), a project on the health impacts of heat waves. I also develop [localdatasus](projects/localdatasus/index.qmd), an R package that downloads Brazilian public health data (SUS) at the **neighborhood** level.
+
+On this site you will find my [projects](projects.qmd), [code](code.qmd), [tutorials](tutorials.qmd) and my [CV](cv.qmd).
+
+### Interests
+
+- Health geography and spatial epidemiology
+- Climate, heat waves and extreme events
+- Remote sensing and burned-area mapping
+- Dashboards and geographic data visualization
+- QGIS, ArcGIS Pro, Python (ArcPy), R and spatial databases
+
+### Visitors
+
+```{=html}
+<script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=rALDXoi4NW4BgsXmeYVq61UX1vEchz5kaop0hJQSnUU&cl=ffffff&w=a"></script>
+```

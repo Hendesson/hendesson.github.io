@@ -1,0 +1,10 @@
+---
+title: "8. Atendimentos, SAMU e estabelecimentos"
+description: "Atenção primária em Curitiba, chamados do SAMU no Recife e estabelecimentos de saúde em qualquer município."
+ordem: 8
+tempo: "15 min"
+include-in-header:
+  text: '<meta http-equiv="refresh" content="0; url=https://hendesson.github.io/localdatasus/articles/atendimentos-samu-estabelecimentos.html">'
+---
+
+Este tutorial agora fica na **documentação do localdatasus**: [8. Atendimentos, SAMU e estabelecimentos](https://hendesson.github.io/localdatasus/articles/atendimentos-samu-estabelecimentos.html).

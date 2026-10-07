@@ -1,0 +1,10 @@
+---
+title: "3. Mapas"
+description: "Mapas prontos com uma linha: estáticos para artigos e interativos para explorar."
+ordem: 3
+tempo: "10 min"
+include-in-header:
+  text: '<meta http-equiv="refresh" content="0; url=https://hendesson.github.io/localdatasus/articles/mapas.html">'
+---
+
+Este tutorial agora fica na **documentação do localdatasus**: [3. Mapas](https://hendesson.github.io/localdatasus/articles/mapas.html).

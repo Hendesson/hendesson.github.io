@@ -1,0 +1,45 @@
+---
+title: "Hendesson"
+toc: false
+image: imagens/perfil.jpg
+about:
+  template: trestles
+  image-shape: round
+  image-width: 14em
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/Hendesson
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/hendesson-alves
+    - icon: mortarboard
+      text: Lattes
+      href: http://lattes.cnpq.br/7900166623696256
+    - icon: journal-text
+      text: ResearchGate
+      href: https://www.researchgate.net/profile/Hendesson-Pereira
+    - icon: envelope
+      text: E-mail
+      href: mailto:hendesson124@gmail.com
+---
+
+Sou **geógrafo** e **mestrando em Geografia** na Universidade de Brasília (UnB). Trabalho na interface entre **geografia, clima e saúde pública**: análise espacial, geoprocessamento e visualização de dados para entender como o território e os eventos climáticos extremos afetam a saúde da população.
+
+Sou pesquisador colaborador no **Laboratório de Geografia, Ambiente e Saúde (LAGAS/UnB)**. Lá participo do [GeoCalor](projetos/geocalor/index.qmd), um projeto sobre os impactos das ondas de calor na saúde. Também desenvolvo o [localdatasus](projetos/localdatasus/index.qmd), um pacote R que baixa dados de saúde do SUS por bairro.
+
+Neste site estão meus [projetos](projetos.qmd), [códigos](codigo.qmd), [tutoriais](tutoriais.qmd) e o meu [currículo](cv.qmd).
+
+### Interesses
+
+- Geografia da saúde e epidemiologia espacial
+- Clima, ondas de calor e eventos extremos
+- Sensoriamento remoto e mapeamento de áreas queimadas
+- Dashboards e visualização de dados geográficos
+- QGIS, ArcGIS Pro, Python (ArcPy), R e bancos de dados geoespaciais
+
+### Visitantes
+
+```{=html}
+<script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=rALDXoi4NW4BgsXmeYVq61UX1vEchz5kaop0hJQSnUU&cl=ffffff&w=a"></script>
+```

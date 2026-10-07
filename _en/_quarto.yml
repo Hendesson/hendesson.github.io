@@ -1,0 +1,72 @@
+# English version of the site. It is a separate Quarto project (the "_"
+# keeps the Portuguese site from rendering it) and is published at /en/.
+# Build both versions with: bash scripts/montar_site.sh
+project:
+  type: website
+  output-dir: ../_site/en
+
+website:
+  site-url: https://hendesson.github.io/en
+  title: "Hendesson"
+  description: "Geography, climate and health: projects, code and tutorials."
+  favicon: imagens/localdatasus-logo.png
+  search: true
+  page-navigation: true
+  back-to-top-navigation: true
+  navbar:
+    left:
+      - href: cv.qmd
+        text: CV
+      - href: projects.qmd
+        text: Projects
+      - href: code.qmd
+        text: Packages & Code
+      - href: tutorials.qmd
+        text: Tutorials
+      - href: documents.qmd
+        text: Documents
+      - href: questions.qmd
+        text: Questions
+    right:
+      - text: "Português"
+        href: https://hendesson.github.io/
+        aria-label: "Versão em português"
+      - icon: github
+        href: https://github.com/Hendesson
+        aria-label: GitHub
+  sidebar:
+    - id: tutorials-localdatasus
+      title: "localdatasus tutorials"
+      style: docked
+      contents:
+        - tutorials.qmd
+        - section: "localdatasus"
+          contents:
+            - tutorials/localdatasus/01-getting-started.qmd
+            - tutorials/localdatasus/02-deaths-births-diseases.qmd
+            - tutorials/localdatasus/03-maps.qmd
+            - tutorials/localdatasus/04-hospitalizations-and-zip-codes.qmd
+            - tutorials/localdatasus/05-how-it-works.qmd
+            - tutorials/localdatasus/06-errors-and-help.qmd
+            - tutorials/localdatasus/07-examples-by-icd.qmd
+            - tutorials/localdatasus/08-consultations-samu-facilities.qmd
+  page-footer:
+    left: "© 2026 Hendesson Alves · Made with [Quarto](https://quarto.org)"
+    right:
+      - icon: github
+        href: https://github.com/Hendesson
+
+format:
+  html:
+    theme:
+      light: [cosmo, styles.scss]
+    toc: true
+    toc-title: "On this page"
+    code-copy: true
+    code-overflow: wrap
+    lang: en
+    smooth-scroll: true
+    link-external-newwindow: true
+
+execute:
+  eval: false

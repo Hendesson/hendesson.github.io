@@ -1,0 +1,53 @@
+---
+title: "6. Errors and help"
+description: "What each error code (LDS-01 to LDS-23) means and how to fix it."
+ordem: 6
+tempo: "5 min"
+---
+
+Every error or warning from localdatasus comes with a **code**. The message itself is in Portuguese:
+
+```r
+obitos_bairro("Bom Jardim", 2023)
+#> Erro: [LDS-03] Há mais de um município chamado "Bom Jardim" (MA, PE, RJ).
+#>   Diga a UF, por exemplo: uf = "MA".
+#>   Para entender e resolver: ajuda("LDS-03")
+```
+
+Look up the code in the table below for the English explanation. In R, `ajuda("LDS-03")` ("help") shows the same explanation in Portuguese, and `ajuda()` lists all codes.
+
+::: {.callout-tip}
+## Want to see each step?
+The package works quietly and only prints a summary at the end. To follow each query and download, use:
+`options(localdatasus.detalhes = TRUE)`
+:::
+
+## All codes
+
+Use <kbd>Ctrl</kbd> + <kbd>F</kbd> with the code (e.g., `LDS-13`) to find yours.
+
+| Code | Problem | How to fix it |
+|---|---|---|
+| `LDS-01` | **Invalid state (UF).** The state must be ONE valid two-letter abbreviation, like "RJ" or "SP". | Use the two-letter code: `uf = "RJ"`. |
+| `LDS-02` | **Municipality not found.** The name (or code) does not match any municipality in the 2022 Census. | Check the spelling (accents and case don't matter) or use the IBGE code: `municipio = "330455"`. |
+| `LDS-03` | **Repeated municipality name.** More than one municipality in Brazil has this name (e.g., Bom Jardim, in MA, PE and RJ). | Add the state: `obitos_bairro("Bom Jardim", 2023, uf = "RJ")`. |
+| `LDS-04` | **No place given.** The function needs to know WHERE: a municipality or a state. | Examples: `municipio = "Rio de Janeiro"` or `uf = "RJ"`. |
+| `LDS-05` | **No neighborhood data for this place.** Only some health departments publish data by neighborhood; there is no known public source for this place and data type. | See what exists with `onde_tem_bairro()`. For hospitalizations, use `internacoes_bairro()`, which works in every state (via postal codes). |
+| `LDS-06` | **Disease not available.** This disease is not in this place's TabNet. | See the diseases for each place: `subset(onde_tem_bairro(), funcao == "agravos_bairro()")`. |
+| `LDS-07` | **Ambiguous disease name.** The name matches more than one disease (e.g., "sifilis" = during pregnancy and congenital). | Be more specific: `"sifilis congenita"` or `"sifilis gestante"`. |
+| `LDS-08` | **Invalid ICD-10 code.** Use letters (chapters: "I", "J") OR 3-character codes ("I21", "I20-I25"), without mixing them. Ranges must stay within one letter. | Valid examples: `cid = "I"`; `cid = c("I", "J")`; `cid = "I21"`; `cid = "I20-I25"`. |
+| `LDS-09` | **ICD-10 code not available in this source.** The source cannot filter by cause, or none of the requested codes appear in it (there may have been no cases). | Try a whole chapter (`cid = "I"`) or see the options: `tabnet_opcoes("RIO-SIM", "filtros", filtro = "Causa (CID10 3C)")`. |
+| `LDS-10` | **`por` variable not found.** The text in `por` does not match any variable the source can break down by. | See the possible variables: `tabnet_opcoes("RIO-SIM", "colunas")` (use the right source; see `onde_tem_bairro()`). |
+| `LDS-11` | **Year outside the database.** The source has no data for some of the requested years; they were left out. | See the available years: `tabnet_opcoes("RIO-SIM", "anos")`. |
+| `LDS-12` | **No records found.** The query worked, but there are no records for these filters, place and years. | Widen the period, remove filters, or check whether the disease had cases in those years. |
+| `LDS-13` | **Connection failure.** The health department (or IBGE/DATASUS) website did not respond. It may be offline or slow. | Wait a few minutes and try again. The package already retries 3 times, and successful queries are cached. |
+| `LDS-14` | **The website changed or returned something unexpected.** The TabNet page did not come in the expected format. | Try again later. If it persists, tell the package authors: the source settings may need an update. |
+| `LDS-15` | **TabNet filter or option not found.** The requested label does not exist in the website form, or matches more than one option. | See the exact options with `tabnet_opcoes(fonte, "filtros", filtro = "...")`. The beginning of the text is enough. |
+| `LDS-16` | **Unknown source or system.** The source (TabNet) or system (microdata) code is not registered in the package. | See the options with `fontes_tabnet()` or `sistemas_bairro()`. |
+| `LDS-17` | **Column not found in the table.** The table does not have the given column. | Check the column name with `names(your_table)`. |
+| `LDS-18` | **SINASC-RJ only exists for Rio de Janeiro state.** Birth microdata with postal code and neighborhood are published only by the Rio de Janeiro State Health Department. | For other states, use `nascimentos_bairro()` with São Paulo city, or your health department's TabNet. |
+| `LDS-19` | **IBGE file not found.** The IBGE file for this municipality or state was not found on the server. | Check the municipality code. If the problem persists, IBGE may have renamed the file. |
+| `LDS-20` | **Map packages missing.** Maps use sf and ggplot2 (static) or sf and leaflet (interactive), which are not installed. | Install once: `install.packages(c("sf", "ggplot2", "leaflet"))`. |
+| `LDS-21` | **Table without location data for the map.** The table has neither an IBGE neighborhood code nor coordinates (lat/lon). | Use the table returned by `obitos_bairro()`, `nascimentos_bairro()`, `agravos_bairro()` or `agregar_bairro()`. |
+| `LDS-22` | **Few records got a neighborhood.** A large share of records has no neighborhood, usually because of generic postal codes (one for the whole city) or the hospital's postal code instead of the home address. | This is not an error. Compare neighborhoods within the same municipality and check `attr(x, "cobertura")`. |
+| `LDS-23` | **More than one year or category in the interactive map.** The interactive map shows one value per neighborhood; with several years or categories, the package adds them up. | For a single year, filter first: `mapa_interativo(subset(x, ano == 2023))`. |

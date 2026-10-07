@@ -1,0 +1,71 @@
+---
+title: "localdatasus"
+description: "R package to download Brazilian public health data (SUS) by neighborhood, with population, rates and coordinates."
+date: 2026-10-01
+image: ../../imagens/localdatasus-logo.png
+categories: [R, package, SUS, neighborhood, spatial epidemiology]
+---
+
+![](../../imagens/localdatasus-logo.png){width=160 fig-align="right"}
+
+Brazil's public health data (DATASUS) usually comes by **municipality**. [microdatasus](https://github.com/rfsaldanha/microdatasus) downloads it at that level, and **localdatasus** goes down to the **neighborhood**. It combines four kinds of source:
+
+- **microdata with the patient's postal code (CEP):** hospitalizations (SIH) and outpatient procedures such as chemotherapy, radiotherapy and dialysis;
+- **state health department files:** for example, live births in Rio de Janeiro state, with the mother's postal code and neighborhood;
+- **regional TabNet systems** that tabulate by neighborhood: Rio de Janeiro, São Paulo, Fortaleza and Santa Catarina;
+- **open data portals**: arboviruses and SAMU emergency calls from Recife, primary care consultations from Curitiba (e-Saúde) and the national registry of health facilities (CNES).
+
+Each neighborhood is linked to the **official IBGE neighborhood** (Brazil's census bureau). That link adds the 2022 Census population, a rate per 10,000 inhabitants and coordinates.
+
+```r
+library(localdatasus)
+
+obitos_bairro("Rio de Janeiro", 2023, cid = "I")       # deaths from circulatory diseases
+agravos_bairro("dengue", "Joinville", 2024)            # dengue cases
+obitos_bairro("Fortaleza", 2023)                       # Fortaleza TabNet
+estabelecimentos_bairro("Recife", tipo = "hospital")   # CNES, any municipality
+mapa_bairro(obitos_bairro("São Paulo", 2023))          # ready-made map
+```
+
+![Deaths from circulatory diseases per 10,000 inhabitants, Rio de Janeiro, 2023.](../../imagens/mapa-circulatorio-rio.png)
+
+::: {.callout-note}
+## The package speaks Portuguese
+Function names, messages and help pages are in Portuguese, like the Brazilian data sources themselves. The [tutorials](../../tutorials.qmd) on this site explain every function and argument in English.
+:::
+
+## Install
+
+{{< include ../../_dados/localdatasus_versao.md >}}
+
+```r
+install.packages("remotes")
+remotes::install_github("Hendesson/localdatasus")
+```
+
+[Step-by-step tutorials](../../tutorials.qmd){.btn .btn-primary} [Documentation (Portuguese)](https://hendesson.github.io/localdatasus/){.btn .btn-outline-primary} [Code on GitHub](https://github.com/Hendesson/localdatasus){.btn .btn-outline-primary} [Report a problem](https://github.com/Hendesson/localdatasus/issues){.btn .btn-outline-primary} [Ask a question](../../questions.qmd){.btn .btn-outline-primary}
+
+## How to cite
+
+{{< include ../../_dados/localdatasus_citacao.md >}}
+
+In R: `citation("localdatasus")`.
+
+## Changelog
+
+{{< include ../../_dados/localdatasus_novidades.md >}}
+
+## What it does
+
+| Function | What it does |
+|---|---|
+| `onde_tem_bairro()` | lists which data exist by neighborhood, where and for which years |
+| `obitos_bairro()` | deaths by neighborhood, cause (ICD-10) and year |
+| `nascimentos_bairro()` | live births by neighborhood |
+| `agravos_bairro()` | notifiable diseases: dengue, tuberculosis, syphilis, violence... |
+| `internacoes_bairro()` | public hospital admissions, located by the patient's postal code |
+| `atendimentos_bairro()` | medical consultations in Curitiba's municipal network (e-Saúde), with ICD-10 |
+| `samu_bairro()` | SAMU 192 emergency calls in Recife and its metropolitan area, by place of occurrence |
+| `estabelecimentos_bairro()` | health facilities (CNES) by neighborhood, in any municipality |
+| `mapa_bairro()`, `mapa_interativo()` | static and interactive maps |
+| `ajuda()` | explains each error code |

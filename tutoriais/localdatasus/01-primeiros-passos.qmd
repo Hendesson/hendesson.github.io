@@ -1,0 +1,10 @@
+---
+title: "1. Instalação e primeira tabela"
+description: "Instalar o pacote, ver que dados existem e baixar a primeira tabela de óbitos por bairro."
+ordem: 1
+tempo: "10 min"
+include-in-header:
+  text: '<meta http-equiv="refresh" content="0; url=https://hendesson.github.io/localdatasus/articles/primeiros-passos.html">'
+---
+
+Este tutorial agora fica na **documentação do localdatasus**: [1. Primeiros passos](https://hendesson.github.io/localdatasus/articles/primeiros-passos.html).

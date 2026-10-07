@@ -1,0 +1,19 @@
+---
+title: "Tutoriais"
+toc: false
+---
+
+Os tutoriais do **localdatasus** ficam na [documentação do pacote](https://hendesson.github.io/localdatasus/), junto com a referência de cada função e as novidades de cada versão. Começam do zero: cada passo tem o código pronto para copiar.
+
+[Abrir a documentação](https://hendesson.github.io/localdatasus/){.btn .btn-primary} [Referência das funções](https://hendesson.github.io/localdatasus/reference/){.btn .btn-outline-primary}
+
+| # | Tutorial | O que você vai aprender |
+|---|---|---|
+| 1 | [Instalação e primeira tabela](https://hendesson.github.io/localdatasus/articles/primeiros-passos.html) | Instalar o pacote, ver que dados existem e baixar a primeira tabela de óbitos por bairro. |
+| 2 | [Óbitos, nascimentos e agravos](https://hendesson.github.io/localdatasus/articles/obitos-nascimentos-agravos.html) | Filtrar por causa (CID), abrir por sexo ou idade, juntar vários anos e trocar de lugar. |
+| 3 | [Mapas](https://hendesson.github.io/localdatasus/articles/mapas.html) | Mapas prontos com uma linha: estáticos para artigos e interativos para explorar. |
+| 4 | [Internações e microdados com CEP](https://hendesson.github.io/localdatasus/articles/internacoes-e-cep.html) | Internações por bairro em qualquer estado, registros individuais e tabelas próprias com CEP. |
+| 5 | [Como o pacote funciona](https://hendesson.github.io/localdatasus/articles/como-funciona.html) | De onde vêm os dados, como os nomes viram bairros do IBGE e quais são as limitações. |
+| 6 | [Erros e ajuda](https://hendesson.github.io/localdatasus/articles/erros-e-ajuda.html) | O que significa cada código de erro (LDS-01 a LDS-23) e como resolver. |
+| 7 | [Um exemplo para cada capítulo da CID](https://hendesson.github.io/localdatasus/articles/exemplos-por-cid.html) | Óbitos (SIM) e internações (SIH) por bairro para cada capítulo da CID-10, em lugares de todas as regiões. |
+| 8 | [Atendimentos, SAMU e estabelecimentos](https://hendesson.github.io/localdatasus/articles/atendimentos-samu-estabelecimentos.html) | Atenção primária em Curitiba, chamados do SAMU no Recife e estabelecimentos de saúde em qualquer município. |

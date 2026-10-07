@@ -1,0 +1,27 @@
+---
+title: "Tutorials"
+listing:
+  contents: tutorials/localdatasus
+  type: table
+  sort: "ordem asc"
+  fields: [ordem, title, description, tempo]
+  field-display-names:
+    ordem: "#"
+    title: "Tutorial"
+    description: "What you will learn"
+    tempo: "Reading time"
+  sort-ui: false
+  filter-ui: false
+toc: false
+---
+
+Detailed tutorials, from scratch, for **localdatasus**. You will learn how to download Brazilian health data by neighborhood, make maps and understand where the numbers come from.
+
+You don't need much programming experience: every step has ready-to-copy code.
+
+::: {.callout-note}
+## A note on language
+The package, like its Brazilian data sources, uses Portuguese names: `obitos` = deaths, `nascimentos` = births, `agravos` = notifiable diseases, `internacoes` = hospitalizations, `bairro` = neighborhood, `anos` = years, `por` = "by" (breakdown). These tutorials translate everything along the way.
+:::
+
+The full package documentation, with the reference for every function, is at <https://hendesson.github.io/localdatasus/> (in Portuguese).

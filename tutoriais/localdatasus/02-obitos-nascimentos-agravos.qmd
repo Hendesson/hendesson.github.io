@@ -1,0 +1,10 @@
+---
+title: "2. Óbitos, nascimentos e agravos"
+description: "Filtrar por causa (CID), abrir por sexo ou idade, juntar vários anos e trocar de lugar."
+ordem: 2
+tempo: "15 min"
+include-in-header:
+  text: '<meta http-equiv="refresh" content="0; url=https://hendesson.github.io/localdatasus/articles/obitos-nascimentos-agravos.html">'
+---
+
+Este tutorial agora fica na **documentação do localdatasus**: [2. Óbitos, nascimentos e agravos](https://hendesson.github.io/localdatasus/articles/obitos-nascimentos-agravos.html).

@@ -1,0 +1,57 @@
+---
+title: "Currículo"
+---
+
+[Currículo Lattes](http://lattes.cnpq.br/7900166623696256){.btn .btn-outline-primary} [LinkedIn](https://www.linkedin.com/in/hendesson-alves){.btn .btn-outline-primary} [ResearchGate](https://www.researchgate.net/profile/Hendesson-Pereira){.btn .btn-outline-primary}
+
+## Formação acadêmica
+
+**Mestrado em Geografia** (em andamento) · Universidade de Brasília (UnB) · 2025 – atual
+
+**Graduação em Geografia** (Licenciatura e Bacharelado) · Universidade de Brasília (UnB) · 2021 – 2025
+
+## Experiência profissional e acadêmica
+
+### Laboratório de Geografia, Ambiente e Saúde (LAGAS/UnB)
+**Pesquisador / Colaborador técnico** · 2022 – atual
+
+- Análises espaciais aplicadas à saúde pública e ao clima
+- Produção e manutenção de dashboards interativos para divulgação científica (ex.: [GeoCalor](projetos/geocalor/index.qmd))
+- Apoio técnico em projetos de indicadores espaciais e sistemas de alerta para ondas de calor
+- Tratamento, organização e análise de bases de dados geográficos e climáticos
+
+### Instituto Chico Mendes de Conservação da Biodiversidade (ICMBio)
+**Estagiário** · 2024 – 2025
+
+- Sistematização e organização de dados geográficos em banco de dados geoespacial
+- Vetorização de polígonos e elaboração de mapas temáticos
+- Mapeamento de áreas atingidas por fogo com sensoriamento remoto
+- Atualização de dashboards e painéis de dados ambientais
+- Apoio técnico a projetos na área de meio ambiente
+- Scripts em Python (ArcPy) e ModelBuilder ([Arcpy_Fogo](https://github.com/Hendesson/Arcpy_Fogo))
+
+### Universidade de Brasília (UnB)
+**Monitor e tutor em Cartografia e Fotointerpretação** · 2022 – 2025
+
+- Apoio didático e técnico nas disciplinas de Cartografia e Fotointerpretação
+- Auxílio no uso de softwares SIG (QGIS e ArcGIS Pro)
+- Correção de atividades, suporte a alunos e organização de materiais técnicos
+
+## Competências técnicas
+
+| Área | |
+|---|---|
+| Geoprocessamento e SIG | QGIS, ArcGIS Pro, ArcGIS Online (Field Maps, Dashboards), ModelBuilder |
+| Sensoriamento remoto | fotointerpretação, mapeamento de áreas queimadas |
+| Análise espacial | cartografia temática, estatística espacial, geoestatística |
+| Clima | climatologia, análise de eventos extremos e ondas de calor |
+| Dados | bancos de dados geoespaciais (PostgreSQL/PostGIS), dashboards e visualização |
+| Programação | Python (ArcPy, GeoPandas) e R aplicados a dados espaciais |
+
+## Cursos e capacitações
+
+- Análise de Dados em Linguagem R · ENAP
+- ArcGIS Dashboards · Esri
+- ArcGIS Pro Basics · Esri
+- ArcGIS API for Python · Esri
+- Métodos Geoestatísticos com GeoDa · UnB

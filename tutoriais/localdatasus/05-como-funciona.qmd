@@ -1,0 +1,10 @@
+---
+title: "5. Como o pacote funciona"
+description: "De onde vêm os dados, como os nomes viram bairros do IBGE e quais são as limitações."
+ordem: 5
+tempo: "15 min"
+include-in-header:
+  text: '<meta http-equiv="refresh" content="0; url=https://hendesson.github.io/localdatasus/articles/como-funciona.html">'
+---
+
+Este tutorial agora fica na **documentação do localdatasus**: [5. Como o pacote funciona](https://hendesson.github.io/localdatasus/articles/como-funciona.html).

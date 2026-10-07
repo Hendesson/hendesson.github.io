@@ -1,0 +1,24 @@
+---
+title: "Neighborhood health in Rio de Janeiro"
+description: "Mortality and hospitalizations from circulatory and respiratory diseases across neighborhoods of Rio de Janeiro state."
+date: 2026-09-20
+image: ../../imagens/mapa-sexo-rio.png
+categories: [analysis, mortality, hospitalizations, Rio de Janeiro]
+---
+
+Analysis of deaths (SIM, Brazil's mortality information system) and hospitalizations (SIH, the hospital information system) from **circulatory diseases (ICD-10 I00–I99)** and **respiratory diseases (J00–J99)** in the neighborhoods of Rio de Janeiro state.
+
+## Data
+
+- **Deaths:** TabNet of the Rio de Janeiro City Health Department (2006 onward) and of the Rio de Janeiro State Health Department (all municipalities, neighborhoods from 2011).
+- **Hospitalizations:** hospital admission records (AIH) from SIH, located by the patient's postal code. In 2023, 57% received a neighborhood.
+- **Population and boundaries:** 2022 Census (IBGE).
+
+![Deaths from circulatory diseases by sex, Rio de Janeiro, 2023.](../../imagens/mapa-sexo-rio.png)
+
+## Methods
+
+All data were obtained and organized with the [localdatasus](../localdatasus/index.qmd) package and analyzed in PostgreSQL/PostGIS:
+- rates by neighborhood;
+- spatial autocorrelation (Moran's I);
+- distance to the nearest hospital.

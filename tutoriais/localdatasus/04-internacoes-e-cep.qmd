@@ -1,0 +1,10 @@
+---
+title: "4. Internações e microdados com CEP"
+description: "Internações por bairro em qualquer estado, registros individuais e tabelas próprias com CEP."
+ordem: 4
+tempo: "20 min"
+include-in-header:
+  text: '<meta http-equiv="refresh" content="0; url=https://hendesson.github.io/localdatasus/articles/internacoes-e-cep.html">'
+---
+
+Este tutorial agora fica na **documentação do localdatasus**: [4. Internações e microdados com CEP](https://hendesson.github.io/localdatasus/articles/internacoes-e-cep.html).
