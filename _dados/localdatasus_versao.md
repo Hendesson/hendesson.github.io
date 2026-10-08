@@ -1,1 +1,1 @@
-Versão atual: **0.1.0**
+Versão atual: **0.2.0**

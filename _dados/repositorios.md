@@ -1,6 +1,6 @@
 | Repositório | Linguagem | Descrição | Atualizado em |
 |---|---|---|---|
-| [localdatasus](https://github.com/Hendesson/localdatasus) | R | Dados do DataSUS espacializados por bairros. | 01/10/2026 |
+| [localdatasus](https://github.com/Hendesson/localdatasus) | R | Dados do DataSUS espacializados por bairros. | 08/10/2026 |
 | [geocalor_lagas_local](https://github.com/Hendesson/geocalor_lagas_local) | Python | — | 29/09/2026 |
 | [extracao-dados-SIM](https://github.com/Hendesson/extracao-dados-SIM) | R | Script em R para extração automatizada de dados de mortalidade do SIM por município e bairro no estado do Rio de Janeiro via TabNet da SES-RJ. | 29/09/2026 |
 | [estudos](https://github.com/Hendesson/estudos) | — | Aprendizado de SQL/POSTGIS, Python e Git para análises espaciais e ambientais | 13/08/2026 |

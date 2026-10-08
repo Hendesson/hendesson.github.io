@@ -58,6 +58,9 @@ def tabela_repositorios():
     gravar("repositorios.md", "\n".join(linhas["en"]), "en")
 
 
+DOI = "10.5281/zenodo.23244742"   # DOI geral do localdatasus no Zenodo (todas as versões)
+
+
 def dados_do_pacote():
     bruto = f"https://raw.githubusercontent.com/{USUARIO}/{PACOTE}/main/"
     descricao = baixar(bruto + "DESCRIPTION")
@@ -66,8 +69,10 @@ def dados_do_pacote():
     repo = json.loads(baixar(f"https://api.github.com/repos/{USUARIO}/{PACOTE}"))
     ano = repo["created_at"][:4]
 
-    citacao = (f"> Alves, Hendesson ({ano}). *{PACOTE}: {titulo}*. "
-               "{rotulo} {versao}. <https://github.com/" + USUARIO + "/" + PACOTE + ">")
+    # O título do DESCRIPTION está em inglês (exigência prática do CRAN); a
+    # citação usa o título em português, o mesmo do Zenodo e do inst/CITATION.
+    citacao = (f"> Alves, Hendesson ({ano}). *{PACOTE}: dados de saúde do SUS por bairro*. "
+               "{rotulo} {versao}. <https://doi.org/" + DOI + ">")
     gravar("localdatasus_versao.md", f"Versão atual: **{versao}**", "pt")
     gravar("localdatasus_versao.md", f"Current version: **{versao}**", "en")
     gravar("localdatasus_citacao.md", citacao.format(rotulo="Pacote R, versão", versao=versao), "pt")
