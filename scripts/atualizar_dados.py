@@ -73,8 +73,14 @@ def dados_do_pacote():
     # citação usa o título em português, o mesmo do Zenodo e do inst/CITATION.
     citacao = (f"> Alves, Hendesson ({ano}). *{PACOTE}: dados de saúde do SUS por bairro*. "
                "{rotulo} {versao}. <https://doi.org/" + DOI + ">")
-    gravar("localdatasus_versao.md", f"Versão atual: **{versao}**", "pt")
-    gravar("localdatasus_versao.md", f"Current version: **{versao}**", "en")
+    # Versões x.y.z.9000 são as de desenvolvimento (GitHub), depois da última x.y.z.
+    if re.search(r"\.9\d{3}$", versao):
+        base = re.sub(r"\.9\d{3}$", "", versao)
+        gravar("localdatasus_versao.md", f"Versão atual: **{base}**, com novidades em desenvolvimento no GitHub ({versao})", "pt")
+        gravar("localdatasus_versao.md", f"Current version: **{base}**, with new features in development on GitHub ({versao})", "en")
+    else:
+        gravar("localdatasus_versao.md", f"Versão atual: **{versao}**", "pt")
+        gravar("localdatasus_versao.md", f"Current version: **{versao}**", "en")
     gravar("localdatasus_citacao.md", citacao.format(rotulo="Pacote R, versão", versao=versao), "pt")
     gravar("localdatasus_citacao.md", citacao.format(rotulo="R package version", versao=versao), "en")
     try:
