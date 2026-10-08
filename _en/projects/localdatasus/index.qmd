@@ -38,11 +38,11 @@ Every table becomes a map with one line, `mapa_bairro()`, over IBGE's official n
 
 ![Fortaleza: live births, 2023](../../imagens/mapa-fortaleza.png)
 
-![Recife: notified dengue cases, 2024](../../imagens/mapa-recife.png)
+![Recife: notified dengue cases, 2024 (smoothed rate)](../../imagens/mapa-recife.png)
 
 ![Curitiba: consultations for respiratory diseases, Jun–Aug 2026](../../imagens/mapa-curitiba.png)
 
-![Recife: SAMU emergency calls for external causes, 2024](../../imagens/mapa-samu.png)
+![Recife: SAMU emergency calls for external causes, 2024 (number of calls, by place of occurrence)](../../imagens/mapa-samu.png)
 :::
 
 ::: {.callout-note}
