@@ -3,7 +3,7 @@ title: "Saúde por bairro no Rio de Janeiro"
 description: "Mortalidade e internações por doenças circulatórias e respiratórias nos bairros do estado do RJ."
 date: 2026-09-20
 image: ../../imagens/mapa-sexo-rio.png
-categories: [análise, SIM, SIH, Rio de Janeiro]
+categories: [Análise, Saúde]
 ---
 
 <!-- TROQUE/COMPLETE com os objetivos e resultados do seu projeto -->

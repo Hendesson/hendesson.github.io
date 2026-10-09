@@ -3,7 +3,7 @@ title: "Neighborhood health in Rio de Janeiro"
 description: "Mortality and hospitalizations from circulatory and respiratory diseases across neighborhoods of Rio de Janeiro state."
 date: 2026-09-20
 image: ../../imagens/mapa-sexo-rio.png
-categories: [analysis, mortality, hospitalizations, Rio de Janeiro]
+categories: [Analysis, Health]
 ---
 
 Analysis of deaths (SIM, Brazil's mortality information system) and hospitalizations (SIH, the hospital information system) from **circulatory diseases (ICD-10 I00–I99)** and **respiratory diseases (J00–J99)** in the neighborhoods of Rio de Janeiro state.

@@ -1,5 +1,5 @@
 ---
-title: "Pacotes & Código"
+title: "Pacotes e código"
 toc: false
 ---
 

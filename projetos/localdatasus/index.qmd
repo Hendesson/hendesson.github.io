@@ -3,7 +3,7 @@ title: "localdatasus"
 description: "Pacote R para baixar dados de saúde do SUS por bairro, com população, taxas e coordenadas."
 date: 2026-10-01
 image: ../../imagens/localdatasus-logo.png
-categories: [R, pacote, SUS, bairro, epidemiologia espacial]
+categories: [Pacote R, Saúde]
 ---
 
 ![](../../imagens/localdatasus-logo.png){width=160 fig-align="right"}

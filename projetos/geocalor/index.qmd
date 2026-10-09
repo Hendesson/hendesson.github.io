@@ -3,7 +3,7 @@ title: "GeoCalor"
 description: "Impactos das ondas de calor na saúde: dashboard que integra dados climáticos e de saúde nas regiões metropolitanas do Brasil."
 date: 2026-10-01
 image: ../../imagens/geocalor.png
-categories: [clima, ondas de calor, saúde, dashboard, LAGAS]
+categories: [Dashboard, Clima e saúde]
 ---
 
 [Acessar o dashboard GeoCalor](https://geocalor.icict.fiocruz.br/){.btn .btn-primary}

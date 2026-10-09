@@ -12,18 +12,16 @@ website:
   back-to-top-navigation: true
   navbar:
     left:
-      - href: cv.qmd
-        text: CV
       - href: projetos.qmd
         text: Projetos
       - href: codigo.qmd
-        text: Pacotes & Código
+        text: Pacotes
       - href: tutoriais.qmd
         text: Tutoriais
-      - href: documentos.qmd
-        text: Documentos
+      - href: cv.qmd
+        text: Currículo
       - href: perguntas.qmd
-        text: Perguntas
+        text: Dúvidas
     right:
       - text: "English"
         href: https://hendesson.github.io/en/

@@ -1,6 +1,17 @@
 ---
 title: "Hendesson"
 toc: false
+listing:
+  id: destaques
+  contents:
+    - projetos/localdatasus/index.qmd
+    - projetos/geocalor/index.qmd
+    - tutoriais/mapas-preto-e-branco.qmd
+  type: default
+  image-height: 90px
+  image-align: left
+  fields: [image, title, description]
+  sort: false
 image: imagens/perfil.jpg
 about:
   template: trestles
@@ -28,7 +39,10 @@ Sou **geógrafo** e **mestrando em Geografia** na Universidade de Brasília (UnB
 
 Sou pesquisador colaborador no **Laboratório de Geografia, Ambiente e Saúde (LAGAS/UnB)**. Lá participo do [GeoCalor](projetos/geocalor/index.qmd), um projeto sobre os impactos das ondas de calor na saúde. Também desenvolvo o [localdatasus](projetos/localdatasus/index.qmd), um pacote R que baixa dados de saúde do SUS por bairro.
 
-Neste site estão meus [projetos](projetos.qmd), [códigos](codigo.qmd), [tutoriais](tutoriais.qmd) e o meu [currículo](cv.qmd).
+### Destaques
+
+::: {#destaques}
+:::
 
 ### Interesses
 

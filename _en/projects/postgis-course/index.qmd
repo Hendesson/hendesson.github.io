@@ -3,7 +3,7 @@ title: "Course: SQL and PostGIS for health data"
 description: "From CSV to map: data preparation, SQL, PostGIS, spatial analysis and QGIS, with real Brazilian health data."
 date: 2026-09-25
 image: ../../imagens/mapa-distritos-sp.png
-categories: [teaching, SQL, PostGIS, QGIS]
+categories: [Teaching, Health]
 ---
 
 A step-by-step course in eight modules, from raw public health data to maps in QGIS:

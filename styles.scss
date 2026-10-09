@@ -27,3 +27,9 @@ $headings-font-weight: 700;
 // Destaque vermelho discreto
 h2 { border-bottom: 2px solid #f1d4d4; padding-bottom: .2rem; }
 .destaque { color: #d00000; font-weight: 700; }
+
+// Destaques da página inicial: lista compacta, com imagem pequena
+#listing-destaques .quarto-post { padding-bottom: .6rem; margin-bottom: .6rem; }
+#listing-destaques .quarto-post .thumbnail img { object-fit: contain; }
+#listing-destaques .listing-title { font-size: 1.05rem; margin-bottom: .1rem; }
+#listing-destaques .listing-description { font-size: .9rem; }

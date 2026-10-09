@@ -2,7 +2,7 @@
 title: "Fire Database – Boca da Mata District Park"
 description: "Web system to map and monitor fires in Boca da Mata District Park (Federal District, Brazil)."
 date: 2025-08-13
-categories: [fire, monitoring, web system, Federal District]
+categories: [Web system, Environment]
 ---
 
 [Code on GitHub](https://github.com/Hendesson/-Banco-de-Queimadas---Parque-Distrital-Boca-da-Mata){.btn .btn-primary}

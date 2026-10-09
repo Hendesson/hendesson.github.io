@@ -1,10 +1,9 @@
 ---
 title: "Documents"
 toc: false
+search: false
+include-in-header:
+  text: '<meta http-equiv="refresh" content="0; url=cv.html">'
 ---
 
-| Document | Type |
-|---|---|
-| [Lattes CV (Portuguese)](http://lattes.cnpq.br/7900166623696256) | CV |
-| [Technical notes: how localdatasus links postal codes and neighborhoods](tutorials/localdatasus/05-how-it-works.qmd) | documentation |
-| [localdatasus error codes](tutorials/localdatasus/06-errors-and-help.qmd) | documentation |
+This page is now part of the [CV](cv.qmd).

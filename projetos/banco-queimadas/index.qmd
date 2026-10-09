@@ -2,7 +2,7 @@
 title: "Banco de Queimadas – Parque Distrital Boca da Mata"
 description: "Sistema web para mapear e monitorar queimadas no Parque Distrital Boca da Mata (DF)."
 date: 2025-08-13
-categories: [fogo, monitoramento, sistema web, Distrito Federal]
+categories: [Sistema web, Meio ambiente]
 ---
 
 [Código no GitHub](https://github.com/Hendesson/-Banco-de-Queimadas---Parque-Distrital-Boca-da-Mata){.btn .btn-primary}

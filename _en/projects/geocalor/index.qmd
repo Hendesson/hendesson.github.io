@@ -3,7 +3,7 @@ title: "GeoCalor"
 description: "Health impacts of heat waves: a dashboard that combines climate and health data for Brazilian metropolitan areas."
 date: 2026-10-01
 image: ../../imagens/geocalor.png
-categories: [climate, heat waves, health, dashboard, LAGAS]
+categories: [Dashboard, Climate and health]
 ---
 
 [Open the GeoCalor dashboard (Portuguese)](https://geocalor.icict.fiocruz.br/){.btn .btn-primary}

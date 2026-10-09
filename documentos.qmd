@@ -1,12 +1,9 @@
 ---
 title: "Documentos"
 toc: false
+search: false
+include-in-header:
+  text: '<meta http-equiv="refresh" content="0; url=cv.html">'
 ---
 
-<!-- Coloque os arquivos (PDF, slides...) na pasta documentos/ e liste aqui. -->
-
-| Documento | Tipo |
-|---|---|
-| [Currículo Lattes](http://lattes.cnpq.br/7900166623696256) | currículo |
-| [Notas técnicas: como o localdatasus liga CEP e bairro](https://hendesson.github.io/localdatasus/articles/como-funciona.html) | documentação |
-| [Códigos de erro do localdatasus](https://hendesson.github.io/localdatasus/articles/erros-e-ajuda.html) | documentação |
+Esta página foi incorporada ao [Currículo](cv.qmd).

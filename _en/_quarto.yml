@@ -15,16 +15,14 @@ website:
   back-to-top-navigation: true
   navbar:
     left:
-      - href: cv.qmd
-        text: CV
       - href: projects.qmd
         text: Projects
       - href: code.qmd
-        text: Packages & Code
+        text: Packages
       - href: tutorials.qmd
         text: Tutorials
-      - href: documents.qmd
-        text: Documents
+      - href: cv.qmd
+        text: CV
       - href: questions.qmd
         text: Questions
     right:

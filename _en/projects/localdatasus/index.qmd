@@ -3,7 +3,7 @@ title: "localdatasus"
 description: "R package to download Brazilian public health data (SUS) by neighborhood, with population, rates and coordinates."
 date: 2026-10-01
 image: ../../imagens/localdatasus-logo.png
-categories: [R, package, SUS, neighborhood, spatial epidemiology]
+categories: [R package, Health]
 ---
 
 ![](../../imagens/localdatasus-logo.png){width=160 fig-align="right"}

@@ -3,7 +3,7 @@ title: "Curso: SQL e PostGIS para dados de saúde"
 description: "Do CSV ao mapa: preparar dados, SQL, PostGIS, análise espacial e QGIS, com dados reais do SUS."
 date: 2026-09-25
 image: ../../imagens/mapa-distritos-sp.png
-categories: [ensino, SQL, PostGIS, QGIS]
+categories: [Ensino, Saúde]
 ---
 
 <!-- COMPLETE com os links para os arquivos do curso -->
