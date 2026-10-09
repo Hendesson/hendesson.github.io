@@ -17,3 +17,9 @@ Os tutoriais do **localdatasus** ficam na [documentação do pacote](https://hen
 | 6 | [Erros e ajuda](https://hendesson.github.io/localdatasus/articles/erros-e-ajuda.html) | O que significa cada código de erro (LDS-01 a LDS-23) e como resolver. |
 | 7 | [Um exemplo para cada capítulo da CID](https://hendesson.github.io/localdatasus/articles/exemplos-por-cid.html) | Óbitos (SIM) e internações (SIH) por bairro para cada capítulo da CID-10, em lugares de todas as regiões. |
 | 8 | [Atendimentos, SAMU e estabelecimentos](https://hendesson.github.io/localdatasus/articles/atendimentos-samu-estabelecimentos.html) | Atenção primária em Curitiba, chamados do SAMU no Recife e estabelecimentos de saúde em qualquer município. |
+
+## Outros tutoriais
+
+| Tutorial | O que você vai aprender |
+|---|---|
+| [Mapas acadêmicos em preto e branco no R](tutoriais/mapas-preto-e-branco.qmd) | Tons de cinza, classes, moldura com coordenadas, escala, rosa dos ventos e vários mapas numa só figura, prontos para artigo. |
