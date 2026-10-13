@@ -13,11 +13,12 @@ image: imagens/perfil.jpg
 ::::: {.g-col-12 .g-col-md-4 .inicio-perfil}
 ![](imagens/perfil.jpg){.foto fig-alt="Foto de Hendesson Alves"}
 
-# Hendesson Alves
+## Hendesson Alves
 
-Geógrafo · Mestrando em Geografia (UnB)<br>Pesquisador no LAGAS/UnB
+Geógrafo, mestrando em Geografia na Universidade de Brasília.
 
-[<i class="bi bi-github"></i>](https://github.com/Hendesson){.icone title="GitHub" aria-label="GitHub"} [<i class="bi bi-linkedin"></i>](https://www.linkedin.com/in/hendesson-alves){.icone title="LinkedIn" aria-label="LinkedIn"} [<i class="bi bi-mortarboard"></i>](http://lattes.cnpq.br/7900166623696256){.icone title="Lattes" aria-label="Lattes"} [<i class="bi bi-journal-text"></i>](https://www.researchgate.net/profile/Hendesson-Pereira){.icone title="ResearchGate" aria-label="ResearchGate"} [<i class="bi bi-envelope"></i>](mailto:hendesson124@gmail.com){.icone title="E-mail" aria-label="E-mail"}
+[GitHub](https://github.com/Hendesson) · [LinkedIn](https://www.linkedin.com/in/hendesson-alves) · [Lattes](http://lattes.cnpq.br/7900166623696256) · [ResearchGate](https://www.researchgate.net/profile/Hendesson-Pereira)<br>
+[hendesson124@gmail.com](mailto:hendesson124@gmail.com)
 
 ```{=html}
 <div class="visitantes">
@@ -26,39 +27,22 @@ Geógrafo · Mestrando em Geografia (UnB)<br>Pesquisador no LAGAS/UnB
 ```
 :::::
 
-::::: {.g-col-12 .g-col-md-8}
-Trabalho na interface entre **geografia, clima e saúde pública**: análise espacial, geoprocessamento e visualização de dados para entender como o território e os eventos climáticos extremos afetam a saúde da população. No **Laboratório de Geografia, Ambiente e Saúde (LAGAS/UnB)**, participo do GeoCalor e desenvolvo o localdatasus.
+::::: {.g-col-12 .g-col-md-8 .inicio-texto}
+Sou geógrafo e faço mestrado em Geografia na UnB. Estudo como o lugar onde as pessoas vivem e os extremos de calor afetam a saúde, usando dados do SUS, mapas e análise espacial. Sou pesquisador colaborador no Laboratório de Geografia, Ambiente e Saúde (LAGAS/UnB).
 
-[Geografia da saúde]{.chip} [Epidemiologia espacial]{.chip} [Clima e ondas de calor]{.chip} [Sensoriamento remoto]{.chip} [Dashboards]{.chip} [R · Python · QGIS · ArcGIS · PostGIS]{.chip}
+#### No que estou trabalhando
 
-### Destaques
+- [localdatasus](projetos/localdatasus/index.qmd): pacote R que leva os dados do SUS do município ao bairro.
+- [GeoCalor](projetos/geocalor/index.qmd): painel sobre ondas de calor e saúde nas regiões metropolitanas, no LAGAS.
+- Mestrado em Geografia na UnB.
 
-:::::: {.grid .destaques}
+#### Recentes
 
-::::::: {.g-col-12 .g-col-md-4}
-[![](imagens/localdatasus-logo.png)](projetos/localdatasus/index.qmd)
+- *out. 2026* · localdatasus 0.2.0 enviado ao CRAN.
+- *out. 2026* · Tutorial: [mapas acadêmicos em preto e branco no R](tutoriais/mapas-preto-e-branco.qmd).
+- *set. 2026* · Curso: [SQL e PostGIS para dados de saúde](projetos/curso-postgis/index.qmd).
 
-**[localdatasus](projetos/localdatasus/index.qmd)**<br>
-Pacote R com dados de saúde do SUS por bairro.
-:::::::
-
-::::::: {.g-col-12 .g-col-md-4}
-[![](imagens/geocalor.png)](projetos/geocalor/index.qmd)
-
-**[GeoCalor](projetos/geocalor/index.qmd)**<br>
-Dashboard sobre ondas de calor e saúde.
-:::::::
-
-::::::: {.g-col-12 .g-col-md-4}
-[![](imagens/mapa-preto-e-branco.png)](tutoriais/mapas-preto-e-branco.qmd)
-
-**[Mapas acadêmicos no R](tutoriais/mapas-preto-e-branco.qmd)**<br>
-Tutorial de mapas em preto e branco para artigos.
-:::::::
-
-::::::
-
-[Projetos](projetos.qmd){.btn .btn-primary .btn-sm} [Pacotes](codigo.qmd){.btn .btn-outline-primary .btn-sm} [Tutoriais](tutoriais.qmd){.btn .btn-outline-primary .btn-sm} [Currículo](cv.qmd){.btn .btn-outline-primary .btn-sm}
+Veja também os [projetos](projetos.qmd), os [tutoriais](tutoriais.qmd) e o [currículo](cv.qmd).
 :::::
 
 ::::

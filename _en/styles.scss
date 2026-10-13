@@ -6,44 +6,29 @@ $link-color: #1d3557;
 $navbar-bg: #ffffff;
 $navbar-fg: #1d3557;
 $navbar-hl: #d00000;
-$font-family-sans-serif: "Lato", "Helvetica Neue", Arial, sans-serif;
-$headings-font-weight: 700;
+$font-family-sans-serif: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+$headings-font-family: "Source Serif 4", Georgia, serif;
+$headings-font-weight: 600;
 
 /*-- scss:rules --*/
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&family=Source+Serif+4:wght@600&display=swap');
 
 .navbar { border-bottom: 1px solid #e9ecef; }
-.navbar-brand { font-weight: 700; }
+.navbar-brand { font-weight: 600; }
 
-// Página inicial (modelo "trestles"): foto redonda
-.about-entity .about-image { border-radius: 50%; }
-.about-link { border-color: #1d3557 !important; color: #1d3557 !important; }
-.about-link:hover { background: #1d3557 !important; color: #fff !important; }
+// Listagens (projetos, tutoriais): bordas simples, sem efeitos
+.quarto-grid-item { border-radius: 4px; }
 
-// Cartões das listagens (projetos, pacotes)
-.quarto-grid-item { border-radius: 10px; transition: box-shadow .2s; }
-.quarto-grid-item:hover { box-shadow: 0 4px 18px rgba(29, 53, 87, .18); }
+// Títulos de seção com um fio cinza discreto
+h2 { border-bottom: 1px solid #dee2e6; padding-bottom: .2rem; }
 
-// Destaque vermelho discreto
-h2 { border-bottom: 2px solid #f1d4d4; padding-bottom: .2rem; }
-.destaque { color: #d00000; font-weight: 700; }
-
-// Página inicial: tudo visível sem rolar a tela
-.inicio { max-width: 1100px; margin: 1.2rem auto 0; }
-.inicio-perfil { text-align: center; }
-.inicio-perfil .foto { width: 150px; height: 150px; object-fit: cover; border-radius: 50%; }
-.inicio-perfil h1 { font-size: 1.6rem; margin: .6rem 0 .3rem; border: 0; }
-.inicio-perfil p { margin-bottom: .5rem; color: #495057; }
-.icone { font-size: 1.35rem; margin: 0 .3rem; text-decoration: none; }
-.visitantes { margin-top: .6rem; display: flex; justify-content: center; }
-.chip { display: inline-block; font-size: .8rem; padding: .1rem .55rem; margin: 0 .15rem .35rem 0;
-        border: 1px solid #c9d3e0; border-radius: 1rem; color: #1d3557; background: #f5f7fa; }
-.inicio h3 { margin-top: .9rem; }
-.destaques > div { border: 1px solid #e3e7ec; border-radius: 10px; padding: .6rem; font-size: .9rem;
-                   transition: box-shadow .2s; }
-.destaques > div:hover { box-shadow: 0 4px 18px rgba(29, 53, 87, .18); }
-.destaques img { width: 100%; height: 95px; object-fit: contain; margin-bottom: .4rem; }
-.destaques p { margin-bottom: 0; }
+// Página inicial
 body:has(.inicio) #title-block-header { display: none; }
-.inicio .btn { margin-top: .8rem; }
-@media (max-width: 767.98px) { .visitantes { display: none; } }
+.inicio { max-width: 1050px; margin: 1.5rem auto 0; }
+.inicio-perfil .foto { width: 170px; height: 170px; object-fit: cover; border-radius: 4px; }
+.inicio-perfil h2 { border: 0; font-size: 1.5rem; margin: .7rem 0 .2rem; }
+.inicio-perfil p { margin-bottom: .6rem; }
+.visitantes { margin-top: .8rem; }
+.inicio-texto h4 { font-size: 1.05rem; margin-top: 1.2rem; }
+.inicio-texto ul { padding-left: 1.1rem; margin-bottom: .6rem; }
+.inicio-texto em { color: #6c757d; font-style: normal; }
