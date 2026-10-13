@@ -8,41 +8,46 @@ image: imagens/perfil.jpg
 
 ::: {.inicio}
 
-:::: {.grid}
-
-::::: {.g-col-12 .g-col-md-4 .inicio-perfil}
+:::: {.inicio-topo}
 ![](imagens/perfil.jpg){.foto fig-alt="Photo of Hendesson Alves"}
 
+::::: {.inicio-apresentacao}
 ## Hendesson Alves
 
-Geographer, master's student in Geography at the University of Brasília.
+[Geographer · Master's student in Geography at the University of Brasília (UnB)]{.subtitulo}
 
-[GitHub](https://github.com/Hendesson) · [LinkedIn](https://www.linkedin.com/in/hendesson-alves) · [Lattes](http://lattes.cnpq.br/7900166623696256) · [ResearchGate](https://www.researchgate.net/profile/Hendesson-Pereira)<br>
-[hendesson124@gmail.com](mailto:hendesson124@gmail.com)
+I study how where people live, and extreme heat, affect their health, using Brazilian public health data (SUS), maps and spatial analysis. I am a research collaborator at the Laboratory of Geography, Environment and Health (LAGAS/UnB).
 
-```{=html}
-<div class="visitantes">
-<script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=rALDXoi4NW4BgsXmeYVq61UX1vEchz5kaop0hJQSnUU&cl=ffffff&w=200"></script>
-</div>
-```
+[GitHub](https://github.com/Hendesson) · [LinkedIn](https://www.linkedin.com/in/hendesson-alves) · [Lattes](http://lattes.cnpq.br/7900166623696256) · [ResearchGate](https://www.researchgate.net/profile/Hendesson-Pereira) · [hendesson124@gmail.com](mailto:hendesson124@gmail.com)
 :::::
+::::
 
-::::: {.g-col-12 .g-col-md-8 .inicio-texto}
-I am a geographer doing a master's in Geography at the University of Brasília (UnB), Brazil. I study how where people live, and extreme heat, affect their health, using public health data (SUS), maps and spatial analysis. I am a research collaborator at the Laboratory of Geography, Environment and Health (LAGAS/UnB).
+:::: {.grid .inicio-colunas}
 
+::::: {.g-col-12 .g-col-md-4}
 #### What I am working on
 
 - [localdatasus](projects/localdatasus/index.qmd): an R package that takes Brazilian health data from the municipality down to the neighborhood.
-- [GeoCalor](projects/geocalor/index.qmd): a dashboard on heat waves and health in metropolitan areas, at LAGAS.
+- [GeoCalor](projects/geocalor/index.qmd): a dashboard on heat waves and health, at LAGAS.
 - My master's in Geography at UnB.
+:::::
 
+::::: {.g-col-12 .g-col-md-4}
 #### Recent
 
 - *Oct 2026* · localdatasus 0.2.0 submitted to CRAN.
 - *Oct 2026* · Tutorial (in Portuguese): [black-and-white academic maps in R](https://hendesson.github.io/tutoriais/mapas-preto-e-branco.html).
 - *Sep 2026* · Course: [SQL and PostGIS for health data](projects/postgis-course/index.qmd).
+:::::
 
-See also my [projects](projects.qmd), [tutorials](tutorials.qmd) and [CV](cv.qmd).
+::::: {.g-col-12 .g-col-md-4}
+#### Visitors
+
+```{=html}
+<div class="visitantes">
+<script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=rALDXoi4NW4BgsXmeYVq61UX1vEchz5kaop0hJQSnUU&cl=ffffff&w=240"></script>
+</div>
+```
 :::::
 
 ::::

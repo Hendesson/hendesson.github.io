@@ -22,13 +22,23 @@ $headings-font-weight: 600;
 // Títulos de seção com um fio cinza discreto
 h2 { border-bottom: 1px solid #dee2e6; padding-bottom: .2rem; }
 
-// Página inicial
+// Página inicial: apresentação em cima, três colunas embaixo
 body:has(.inicio) #title-block-header { display: none; }
-.inicio { max-width: 1050px; margin: 1.5rem auto 0; }
-.inicio-perfil .foto { width: 170px; height: 170px; object-fit: cover; border-radius: 4px; }
-.inicio-perfil h2 { border: 0; font-size: 1.5rem; margin: .7rem 0 .2rem; }
-.inicio-perfil p { margin-bottom: .6rem; }
-.visitantes { margin-top: .8rem; }
-.inicio-texto h4 { font-size: 1.05rem; margin-top: 1.2rem; }
-.inicio-texto ul { padding-left: 1.1rem; margin-bottom: .6rem; }
-.inicio-texto em { color: #6c757d; font-style: normal; }
+.inicio { max-width: 1050px; margin: 1.8rem auto 0; }
+.inicio-topo { display: flex; gap: 2rem; align-items: center; padding-bottom: 1.4rem;
+               border-bottom: 1px solid #dee2e6; }
+.inicio-topo .foto { width: 170px; height: 170px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
+.inicio-topo > :first-child { flex: 0 0 170px; margin: 0; }
+.inicio-topo p { margin: 0; }
+.visitantes, .visitantes * { margin-left: 0 !important; text-align: left; }
+.inicio-apresentacao h2 { border: 0; font-size: 1.7rem; margin: 0 0 .15rem; }
+.inicio-apresentacao .subtitulo { color: #6c757d; }
+.inicio-apresentacao p + p { margin-top: .6rem; }
+.inicio-colunas { margin-top: 1.2rem; }
+.inicio-colunas h4 { font-size: 1.05rem; margin: 0 0 .6rem; }
+.inicio-colunas ul { padding-left: 1.1rem; margin: 0; }
+.inicio-colunas li { margin-bottom: .45rem; }
+.inicio-colunas em { color: #6c757d; font-style: normal; }
+@media (max-width: 767.98px) {
+  .inicio-topo { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
