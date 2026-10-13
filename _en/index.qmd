@@ -1,45 +1,66 @@
 ---
 title: "Hendesson"
+title-block-style: none
 toc: false
+page-layout: full
 image: imagens/perfil.jpg
-about:
-  template: trestles
-  image-shape: round
-  image-width: 14em
-  links:
-    - icon: github
-      text: GitHub
-      href: https://github.com/Hendesson
-    - icon: linkedin
-      text: LinkedIn
-      href: https://www.linkedin.com/in/hendesson-alves
-    - icon: mortarboard
-      text: Lattes
-      href: http://lattes.cnpq.br/7900166623696256
-    - icon: journal-text
-      text: ResearchGate
-      href: https://www.researchgate.net/profile/Hendesson-Pereira
-    - icon: envelope
-      text: Email
-      href: mailto:hendesson124@gmail.com
 ---
 
-I am a **geographer** and a **master's student in Geography** at the University of Brasília (UnB), Brazil. My work sits at the intersection of **geography, climate and public health**. I use spatial analysis, GIS and data visualization to understand how places and extreme climate events affect people's health.
+::: {.inicio}
 
-I am a research collaborator at the **Laboratory of Geography, Environment and Health (LAGAS/UnB)**. There I work on [GeoCalor](projects/geocalor/index.qmd), a project on the health impacts of heat waves. I also develop [localdatasus](projects/localdatasus/index.qmd), an R package that downloads Brazilian public health data (SUS) at the **neighborhood** level.
+:::: {.grid}
 
-On this site you will find my [projects](projects.qmd), [code](code.qmd), [tutorials](tutorials.qmd) and my [CV](cv.qmd).
+::::: {.g-col-12 .g-col-md-4 .inicio-perfil}
+![](imagens/perfil.jpg){.foto fig-alt="Photo of Hendesson Alves"}
 
-### Interests
+# Hendesson Alves
 
-- Health geography and spatial epidemiology
-- Climate, heat waves and extreme events
-- Remote sensing and burned-area mapping
-- Dashboards and geographic data visualization
-- QGIS, ArcGIS Pro, Python (ArcPy), R and spatial databases
+Geographer · Master's student in Geography (UnB)<br>Researcher at LAGAS/UnB
 
-### Visitors
+[<i class="bi bi-github"></i>](https://github.com/Hendesson){.icone title="GitHub" aria-label="GitHub"} [<i class="bi bi-linkedin"></i>](https://www.linkedin.com/in/hendesson-alves){.icone title="LinkedIn" aria-label="LinkedIn"} [<i class="bi bi-mortarboard"></i>](http://lattes.cnpq.br/7900166623696256){.icone title="Lattes" aria-label="Lattes"} [<i class="bi bi-journal-text"></i>](https://www.researchgate.net/profile/Hendesson-Pereira){.icone title="ResearchGate" aria-label="ResearchGate"} [<i class="bi bi-envelope"></i>](mailto:hendesson124@gmail.com){.icone title="E-mail" aria-label="E-mail"}
 
 ```{=html}
-<script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=rALDXoi4NW4BgsXmeYVq61UX1vEchz5kaop0hJQSnUU&cl=ffffff&w=a"></script>
+<div class="visitantes">
+<script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=rALDXoi4NW4BgsXmeYVq61UX1vEchz5kaop0hJQSnUU&cl=ffffff&w=200"></script>
+</div>
 ```
+:::::
+
+::::: {.g-col-12 .g-col-md-8}
+My work sits at the intersection of **geography, climate and public health**: spatial analysis, GIS and data visualization to understand how places and extreme climate events affect people's health. At the **Laboratory of Geography, Environment and Health (LAGAS/UnB)**, I work on GeoCalor and develop localdatasus.
+
+[Health geography]{.chip} [Spatial epidemiology]{.chip} [Climate and heat waves]{.chip} [Remote sensing]{.chip} [Dashboards]{.chip} [R · Python · QGIS · ArcGIS · PostGIS]{.chip}
+
+### Highlights
+
+:::::: {.grid .destaques}
+
+::::::: {.g-col-12 .g-col-md-4}
+[![](imagens/localdatasus-logo.png)](projects/localdatasus/index.qmd)
+
+**[localdatasus](projects/localdatasus/index.qmd)**<br>
+R package with Brazilian public health data by neighborhood.
+:::::::
+
+::::::: {.g-col-12 .g-col-md-4}
+[![](imagens/geocalor.png)](projects/geocalor/index.qmd)
+
+**[GeoCalor](projects/geocalor/index.qmd)**<br>
+Dashboard on heat waves and health.
+:::::::
+
+::::::: {.g-col-12 .g-col-md-4}
+[![](imagens/mapa-preto-e-branco.png)](https://hendesson.github.io/tutoriais/mapas-preto-e-branco.html)
+
+**[Academic maps in R](https://hendesson.github.io/tutoriais/mapas-preto-e-branco.html)**<br>
+Black-and-white maps for papers (in Portuguese).
+:::::::
+
+::::::
+
+[Projects](projects.qmd){.btn .btn-primary .btn-sm} [Packages](code.qmd){.btn .btn-outline-primary .btn-sm} [Tutorials](tutorials.qmd){.btn .btn-outline-primary .btn-sm} [CV](cv.qmd){.btn .btn-outline-primary .btn-sm}
+:::::
+
+::::
+
+:::

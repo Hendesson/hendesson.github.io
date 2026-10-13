@@ -28,8 +28,22 @@ $headings-font-weight: 700;
 h2 { border-bottom: 2px solid #f1d4d4; padding-bottom: .2rem; }
 .destaque { color: #d00000; font-weight: 700; }
 
-// Destaques da página inicial: lista compacta, com imagem pequena
-#listing-destaques .quarto-post { padding-bottom: .6rem; margin-bottom: .6rem; }
-#listing-destaques .quarto-post .thumbnail img { object-fit: contain; }
-#listing-destaques .listing-title { font-size: 1.05rem; margin-bottom: .1rem; }
-#listing-destaques .listing-description { font-size: .9rem; }
+// Página inicial: tudo visível sem rolar a tela
+.inicio { max-width: 1100px; margin: 1.2rem auto 0; }
+.inicio-perfil { text-align: center; }
+.inicio-perfil .foto { width: 150px; height: 150px; object-fit: cover; border-radius: 50%; }
+.inicio-perfil h1 { font-size: 1.6rem; margin: .6rem 0 .3rem; border: 0; }
+.inicio-perfil p { margin-bottom: .5rem; color: #495057; }
+.icone { font-size: 1.35rem; margin: 0 .3rem; text-decoration: none; }
+.visitantes { margin-top: .6rem; display: flex; justify-content: center; }
+.chip { display: inline-block; font-size: .8rem; padding: .1rem .55rem; margin: 0 .15rem .35rem 0;
+        border: 1px solid #c9d3e0; border-radius: 1rem; color: #1d3557; background: #f5f7fa; }
+.inicio h3 { margin-top: .9rem; }
+.destaques > div { border: 1px solid #e3e7ec; border-radius: 10px; padding: .6rem; font-size: .9rem;
+                   transition: box-shadow .2s; }
+.destaques > div:hover { box-shadow: 0 4px 18px rgba(29, 53, 87, .18); }
+.destaques img { width: 100%; height: 95px; object-fit: contain; margin-bottom: .4rem; }
+.destaques p { margin-bottom: 0; }
+body:has(.inicio) #title-block-header { display: none; }
+.inicio .btn { margin-top: .8rem; }
+@media (max-width: 767.98px) { .visitantes { display: none; } }

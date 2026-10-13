@@ -1,59 +1,66 @@
 ---
 title: "Hendesson"
+title-block-style: none
 toc: false
-listing:
-  id: destaques
-  contents:
-    - projetos/localdatasus/index.qmd
-    - projetos/geocalor/index.qmd
-    - tutoriais/mapas-preto-e-branco.qmd
-  type: default
-  image-height: 90px
-  image-align: left
-  fields: [image, title, description]
-  sort: false
+page-layout: full
 image: imagens/perfil.jpg
-about:
-  template: trestles
-  image-shape: round
-  image-width: 14em
-  links:
-    - icon: github
-      text: GitHub
-      href: https://github.com/Hendesson
-    - icon: linkedin
-      text: LinkedIn
-      href: https://www.linkedin.com/in/hendesson-alves
-    - icon: mortarboard
-      text: Lattes
-      href: http://lattes.cnpq.br/7900166623696256
-    - icon: journal-text
-      text: ResearchGate
-      href: https://www.researchgate.net/profile/Hendesson-Pereira
-    - icon: envelope
-      text: E-mail
-      href: mailto:hendesson124@gmail.com
 ---
 
-Sou **geógrafo** e **mestrando em Geografia** na Universidade de Brasília (UnB). Trabalho na interface entre **geografia, clima e saúde pública**: análise espacial, geoprocessamento e visualização de dados para entender como o território e os eventos climáticos extremos afetam a saúde da população.
+::: {.inicio}
 
-Sou pesquisador colaborador no **Laboratório de Geografia, Ambiente e Saúde (LAGAS/UnB)**. Lá participo do [GeoCalor](projetos/geocalor/index.qmd), um projeto sobre os impactos das ondas de calor na saúde. Também desenvolvo o [localdatasus](projetos/localdatasus/index.qmd), um pacote R que baixa dados de saúde do SUS por bairro.
+:::: {.grid}
+
+::::: {.g-col-12 .g-col-md-4 .inicio-perfil}
+![](imagens/perfil.jpg){.foto fig-alt="Foto de Hendesson Alves"}
+
+# Hendesson Alves
+
+Geógrafo · Mestrando em Geografia (UnB)<br>Pesquisador no LAGAS/UnB
+
+[<i class="bi bi-github"></i>](https://github.com/Hendesson){.icone title="GitHub" aria-label="GitHub"} [<i class="bi bi-linkedin"></i>](https://www.linkedin.com/in/hendesson-alves){.icone title="LinkedIn" aria-label="LinkedIn"} [<i class="bi bi-mortarboard"></i>](http://lattes.cnpq.br/7900166623696256){.icone title="Lattes" aria-label="Lattes"} [<i class="bi bi-journal-text"></i>](https://www.researchgate.net/profile/Hendesson-Pereira){.icone title="ResearchGate" aria-label="ResearchGate"} [<i class="bi bi-envelope"></i>](mailto:hendesson124@gmail.com){.icone title="E-mail" aria-label="E-mail"}
+
+```{=html}
+<div class="visitantes">
+<script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=rALDXoi4NW4BgsXmeYVq61UX1vEchz5kaop0hJQSnUU&cl=ffffff&w=200"></script>
+</div>
+```
+:::::
+
+::::: {.g-col-12 .g-col-md-8}
+Trabalho na interface entre **geografia, clima e saúde pública**: análise espacial, geoprocessamento e visualização de dados para entender como o território e os eventos climáticos extremos afetam a saúde da população. No **Laboratório de Geografia, Ambiente e Saúde (LAGAS/UnB)**, participo do GeoCalor e desenvolvo o localdatasus.
+
+[Geografia da saúde]{.chip} [Epidemiologia espacial]{.chip} [Clima e ondas de calor]{.chip} [Sensoriamento remoto]{.chip} [Dashboards]{.chip} [R · Python · QGIS · ArcGIS · PostGIS]{.chip}
 
 ### Destaques
 
-::: {#destaques}
+:::::: {.grid .destaques}
+
+::::::: {.g-col-12 .g-col-md-4}
+[![](imagens/localdatasus-logo.png)](projetos/localdatasus/index.qmd)
+
+**[localdatasus](projetos/localdatasus/index.qmd)**<br>
+Pacote R com dados de saúde do SUS por bairro.
+:::::::
+
+::::::: {.g-col-12 .g-col-md-4}
+[![](imagens/geocalor.png)](projetos/geocalor/index.qmd)
+
+**[GeoCalor](projetos/geocalor/index.qmd)**<br>
+Dashboard sobre ondas de calor e saúde.
+:::::::
+
+::::::: {.g-col-12 .g-col-md-4}
+[![](imagens/mapa-preto-e-branco.png)](tutoriais/mapas-preto-e-branco.qmd)
+
+**[Mapas acadêmicos no R](tutoriais/mapas-preto-e-branco.qmd)**<br>
+Tutorial de mapas em preto e branco para artigos.
+:::::::
+
+::::::
+
+[Projetos](projetos.qmd){.btn .btn-primary .btn-sm} [Pacotes](codigo.qmd){.btn .btn-outline-primary .btn-sm} [Tutoriais](tutoriais.qmd){.btn .btn-outline-primary .btn-sm} [Currículo](cv.qmd){.btn .btn-outline-primary .btn-sm}
+:::::
+
+::::
+
 :::
-
-### Interesses
-
-- Geografia da saúde e epidemiologia espacial
-- Clima, ondas de calor e eventos extremos
-- Sensoriamento remoto e mapeamento de áreas queimadas
-- Dashboards e visualização de dados geográficos
-- QGIS, ArcGIS Pro, Python (ArcPy), R e bancos de dados geoespaciais
-
-### Visitantes
-
-```{=html}
-<script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=rALDXoi4NW4BgsXmeYVq61UX1vEchz5kaop0hJQSnUU&cl=ffffff&w=a"></script>
-```
