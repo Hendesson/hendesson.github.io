@@ -6,7 +6,7 @@ image: ../../imagens/localdatasus-logo.png
 categories: [Pacote R, Saúde]
 ---
 
-![](../../imagens/localdatasus-logo.png){width=160 fig-align="right"}
+![](../../imagens/localdatasus-logo.png){width=160 .logo-direita}
 
 O [microdatasus](https://github.com/rfsaldanha/microdatasus) traz os dados do SUS por **município**. O **localdatasus** desce ao **bairro**. Ele junta quatro tipos de fonte:
 

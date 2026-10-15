@@ -4,52 +4,72 @@ title-block-style: none
 toc: false
 page-layout: full
 image: imagens/perfil.jpg
+date-modified: last-modified
+date-format: "DD/MM/YYYY"
 ---
 
-::: {.inicio}
+::: {.grid .inicio}
 
-:::: {.inicio-topo}
+:::: {.g-col-12 .g-col-md-4 .inicio-lateral}
+
+::::: {.caixa .caixa-perfil}
 ![](imagens/perfil.jpg){.foto fig-alt="Foto de Hendesson Alves"}
 
-::::: {.inicio-apresentacao}
-## Hendesson Alves
-
-[Geógrafo · Mestrando em Geografia na Universidade de Brasília (UnB)]{.subtitulo}
-
-Estudo como o lugar onde as pessoas vivem e os extremos de calor afetam a saúde, usando dados do SUS, mapas e análise espacial. Sou pesquisador colaborador no Laboratório de Geografia, Ambiente e Saúde (LAGAS/UnB).
-
-[GitHub](https://github.com/Hendesson) · [LinkedIn](https://www.linkedin.com/in/hendesson-alves) · [Lattes](http://lattes.cnpq.br/7900166623696256) · [ResearchGate](https://www.researchgate.net/profile/Hendesson-Pereira) · [hendesson124@gmail.com](mailto:hendesson124@gmail.com)
-:::::
-::::
-
-:::: {.grid .inicio-colunas}
-
-::::: {.g-col-12 .g-col-md-4}
-#### No que estou trabalhando
-
-- [localdatasus](projetos/localdatasus/index.qmd): pacote R que leva os dados do SUS do município ao bairro.
-- [GeoCalor](projetos/geocalor/index.qmd): painel sobre ondas de calor e saúde, no LAGAS.
-- Mestrado em Geografia na UnB.
+**Hendesson Alves**\
+Geógrafo\
+Mestrando em Geografia\
+Universidade de Brasília (UnB)
 :::::
 
-::::: {.g-col-12 .g-col-md-4}
-#### Recentes
+::::: {.caixa}
+##### Contato
 
-- *out. 2026* · localdatasus 0.2.0 enviado ao CRAN.
-- *out. 2026* · Tutorial: [mapas acadêmicos em preto e branco no R](tutoriais/mapas-preto-e-branco.qmd).
-- *set. 2026* · Curso: [SQL e PostGIS para dados de saúde](projetos/curso-postgis/index.qmd).
+- [E-mail](mailto:hendesson124@gmail.com)
+- [Currículo](cv.qmd)
+- [GitHub](https://github.com/Hendesson)
+- [LinkedIn](https://www.linkedin.com/in/hendesson-alves)
+- [Lattes](http://lattes.cnpq.br/7900166623696256)
+- [ResearchGate](https://www.researchgate.net/profile/Hendesson-Pereira)
 :::::
 
-::::: {.g-col-12 .g-col-md-4}
-#### Visitantes
+::::: {.caixa}
+##### Visitantes
 
 ```{=html}
 <div class="visitantes">
-<script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=rALDXoi4NW4BgsXmeYVq61UX1vEchz5kaop0hJQSnUU&cl=ffffff&w=240"></script>
+<script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=rALDXoi4NW4BgsXmeYVq61UX1vEchz5kaop0hJQSnUU&cl=ffffff&w=290"></script>
 </div>
 ```
 :::::
 
+::::
+
+:::: {.g-col-12 .g-col-md-8 .inicio-principal}
+## Sobre
+
+Estudo como o lugar onde as pessoas vivem e os extremos de calor afetam a saúde, usando dados do SUS, mapas e análise espacial. Sou pesquisador colaborador no Laboratório de Geografia, Ambiente e Saúde (LAGAS/UnB).
+
+## Projetos atuais
+
+::::: {.tabela-inicio}
+| Projeto | Descrição | Tipo |
+|:--|:--|:--|
+| [localdatasus](projetos/localdatasus/index.qmd) | Leva os dados do SUS do município ao bairro. | Pacote R |
+| [GeoCalor](projetos/geocalor/index.qmd) | Ondas de calor e saúde, no LAGAS/UnB. | Painel |
+:::::
+
+Outros trabalhos estão em [Projetos](projetos.qmd).
+
+## Notícias
+
+::::: {.tabela-inicio .noticias}
+| Data | Notícia |
+|:--|:--|
+| out. 2026 | localdatasus 0.2.0 enviado ao CRAN. |
+| out. 2026 | Tutorial: [mapas acadêmicos em preto e branco no R](tutoriais/mapas-preto-e-branco.qmd). |
+:::::
+
+[Última atualização: {{< meta date-modified >}}]{.atualizado}
 ::::
 
 :::

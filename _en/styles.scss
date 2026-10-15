@@ -1,44 +1,113 @@
 /*-- scss:defaults --*/
-// Cores do site: o azul e o vermelho do logo do localdatasus.
-$primary:   #1d3557;
-$secondary: #d00000;
-$link-color: #1d3557;
-$navbar-bg: #ffffff;
-$navbar-fg: #1d3557;
-$navbar-hl: #d00000;
-$font-family-sans-serif: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
-$headings-font-family: "Source Serif 4", Georgia, serif;
-$headings-font-weight: 600;
+// Cores e letras no estilo das páginas pessoais dos anos 2000:
+// fundo cinza, papel branco, títulos em preto e negrito, Verdana/Georgia.
+$body-bg:    #cfcfcf;
+$body-color: #000000;
+$primary:    #333333;
+$secondary:  #555555;
+$link-color: #000000;
+$link-hover-color: #444444;
+$navbar-bg:  #bdbdbd;
+$navbar-fg:  #000000;
+$navbar-hl:  #000000;
+$footer-bg:  #dcdcdc;
+$code-block-bg: #efefef;
+$font-family-sans-serif: Verdana, Tahoma, Geneva, sans-serif;
+$headings-font-family: Georgia, "Times New Roman", serif;
+$headings-font-weight: bold;
+$headings-color: #000000;
+$font-size-root: 15px;
+$font-size-base: .9375rem;
+$border-radius: 0;
+$border-radius-sm: 0;
+$border-radius-lg: 0;
+$btn-border-radius: 0;
+$btn-border-radius-sm: 0;
 
 /*-- scss:rules --*/
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&family=Source+Serif+4:wght@600&display=swap');
+// Cores fixas usadas nas regras abaixo
+$papel: #ffffff;
+$borda: #7a7a7a;
+$faixa: #dcdcdc;
+$grade: #a0a0a0;
+$escuro: #000000;
 
-.navbar { border-bottom: 1px solid #e9ecef; }
-.navbar-brand { font-weight: 600; }
+// Links do texto sublinhados; botões, menu e cartões ficam de fora
+main a:not(.btn):not(.quarto-grid-link):not(.nav-link) { text-decoration: underline; }
+main a:not(.btn):not(.quarto-grid-link):not(.nav-link):visited { color: #444444; }
 
-// Listagens (projetos, tutoriais): bordas simples, sem efeitos
-.quarto-grid-item { border-radius: 4px; }
+// Botões: cores fixas também depois de visitados (antes ficava cinza sobre cinza)
+.btn-primary, .btn-primary:visited { background: #333333; border-color: #000000; color: #ffffff; }
+.btn-primary:hover, .btn-primary:focus { background: #000000; border-color: #000000; color: #ffffff; }
+.btn-outline-primary, .btn-outline-primary:visited { background: #ffffff; border-color: #7a7a7a; color: #000000; }
+.btn-outline-primary:hover, .btn-outline-primary:focus { background: #dcdcdc; border-color: #000000; color: #000000; }
 
-// Títulos de seção com um fio cinza discreto
-h2 { border-bottom: 1px solid #dee2e6; padding-bottom: .2rem; }
+// Barra do menu e rodapé
+.navbar { border-bottom: 3px solid #7a7a7a; }
+.navbar .nav-link { font-weight: bold; }
+.navbar-brand { font-family: Georgia, "Times New Roman", serif; font-weight: bold; }
+.nav-footer { border-top: 1px solid $borda; }
 
-// Página inicial: apresentação em cima, três colunas embaixo
+// Conteúdo das páginas num painel claro com borda
+main.content { background: $papel; border: 1px solid $borda; padding: 1rem 1.4rem 1.4rem; align-self: start; }
+// Comentários (giscus) num painel igual, logo abaixo do conteúdo
+.giscus { background: $papel; border: 1px solid $borda; border-top: 0; padding: .5rem 1.4rem 1.4rem; }
+#title-block-header h1.title { border-bottom: 3px double $escuro; padding-bottom: .3rem; }
+
+// Títulos de seção como faixa cinza com fio preto
+main h2 { font-size: 1.15rem; color: #000; margin: 1.6rem 0 .8rem; padding: .25rem .5rem;
+          background: $faixa; border: 0; border-bottom: 2px solid $escuro; }
+main h3 { font-size: 1.05rem; border-bottom: 1px dotted $grade; padding-bottom: .15rem; }
+
+// Tabelas com grade, cabeçalho cinza e linhas alternadas
+main .table { border-collapse: collapse; }
+main .table th, main .table td { border: 1px solid $grade; padding: .3rem .55rem; vertical-align: top; }
+main .table thead th { background: $faixa; color: $body-color; font-weight: bold; }
+main .table > tbody > tr > td { background: $papel; }
+main .table > tbody > tr:nth-child(even) > td { background: #efefef; }
+
+// Listagens (projetos, tutoriais): caixas com borda, sem efeitos
+.quarto-grid-item { border: 1px solid $borda; border-radius: 0; background: $papel; }
+.quarto-grid-item .card-title { font-family: Georgia, "Times New Roman", serif; font-weight: bold; color: $body-color; }
+.quarto-grid-item img { border-bottom: 1px solid $borda; }
+.listing-category, .quarto-listing-category .category { border-radius: 0; }
+
+// Blocos de código, código no texto e caixas de aviso
+div.sourceCode { border: 1px solid $grade; }
+p code:not(.sourceCode), li code:not(.sourceCode), td code:not(.sourceCode), h3 code, h4 code {
+  color: #000000; background: #efefef; border: 1px solid #d0d0d0; padding: 0 .25em; }
+.callout { border-radius: 0; border: 1px solid $grade !important; border-left: 4px solid #555555 !important; }
+.callout .callout-header { background: $faixa !important; }
+.callout .callout-icon::before, .callout-title-container { color: #000000; }
+
+// Logo flutuando à direita do texto
+.logo-direita { float: right; margin: 0 0 1rem 1.5rem; }
+
+// Página inicial: coluna lateral em caixas e coluna principal num painel
 body:has(.inicio) #title-block-header { display: none; }
-.inicio { max-width: 1050px; margin: 1.8rem auto 0; }
-.inicio-topo { display: flex; gap: 2rem; align-items: center; padding-bottom: 1.4rem;
-               border-bottom: 1px solid #dee2e6; }
-.inicio-topo .foto { width: 170px; height: 170px; object-fit: cover; border-radius: 4px; flex-shrink: 0; }
-.inicio-topo > :first-child { flex: 0 0 170px; margin: 0; }
-.inicio-topo p { margin: 0; }
+body:has(.inicio) main.content { background: transparent; border: 0; padding: 0; }
+.inicio { max-width: 1000px; margin: 1.5rem auto 0; column-gap: 1.2rem;
+          font-size: 13px; }
+
+// Caixas da coluna lateral
+.caixa { background: #ffffff; border: 1px solid #7a7a7a; margin-bottom: 1rem; }
+.caixa > h5 { font-family: Verdana, Tahoma, sans-serif; font-size: 12px; font-weight: bold;
+              margin: 0; padding: .3rem .6rem; background: #bdbdbd; color: #000000;
+              border-bottom: 1px solid #7a7a7a; }
+.caixa > p, .caixa > ul, .caixa > .visitantes { margin: 0; padding: .6rem; }
+.caixa ul { list-style: square; padding-left: 1.8rem; }
+.caixa li { padding: .15rem 0; }
+.caixa-perfil { padding: 6px; }
+.caixa-perfil .foto { width: 100%; display: block; border: 1px solid #7a7a7a; }
+.caixa-perfil > p:first-child { padding: 0; }
+.caixa-perfil > p + p { padding: .6rem .2rem .2rem; }
 .visitantes, .visitantes * { margin-left: 0 !important; text-align: left; }
-.inicio-apresentacao h2 { border: 0; font-size: 1.7rem; margin: 0 0 .15rem; }
-.inicio-apresentacao .subtitulo { color: #6c757d; }
-.inicio-apresentacao p + p { margin-top: .6rem; }
-.inicio-colunas { margin-top: 1.2rem; }
-.inicio-colunas h4 { font-size: 1.05rem; margin: 0 0 .6rem; }
-.inicio-colunas ul { padding-left: 1.1rem; margin: 0; }
-.inicio-colunas li { margin-bottom: .45rem; }
-.inicio-colunas em { color: #6c757d; font-style: normal; }
-@media (max-width: 767.98px) {
-  .inicio-topo { flex-direction: column; align-items: flex-start; gap: 1rem; }
-}
+
+// Coluna principal num painel claro com borda
+.inicio-principal { background: #ffffff; border: 1px solid #7a7a7a; padding: 1rem 1.2rem; align-self: start; }
+.inicio-principal h2:first-child { margin-top: 0; }
+
+.atualizado { display: block; margin-top: 1.2rem; padding-top: .5rem; border-top: 1px dashed #a0a0a0;
+              font-size: 11px; color: #555555; font-style: italic; }
+.noticias .table td:first-child { color: #555555; white-space: nowrap; }
+.tabela-inicio .table td:first-child { white-space: nowrap; }

@@ -6,7 +6,7 @@ image: ../../imagens/localdatasus-logo.png
 categories: [R package, Health]
 ---
 
-![](../../imagens/localdatasus-logo.png){width=160 fig-align="right"}
+![](../../imagens/localdatasus-logo.png){width=160 .logo-direita}
 
 Brazil's public health data (DATASUS) usually comes by **municipality**. [microdatasus](https://github.com/rfsaldanha/microdatasus) downloads it at that level, and **localdatasus** goes down to the **neighborhood**. It combines four kinds of source:
 
