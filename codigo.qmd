@@ -21,7 +21,7 @@ Dados de saúde do SUS **por bairro**: óbitos, nascimentos, agravos, internaç�
 [Documentação](https://hendesson.github.io/localdatasus/){.btn .btn-primary .btn-sm} [Projeto](projetos/localdatasus/index.qmd){.btn .btn-outline-primary .btn-sm} [GitHub](https://github.com/Hendesson/localdatasus){.btn .btn-outline-primary .btn-sm}
 
 ```r
-remotes::install_github("Hendesson/localdatasus")
+install.packages("localdatasus")
 ```
 :::
 

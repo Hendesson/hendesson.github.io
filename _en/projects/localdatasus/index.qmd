@@ -55,8 +55,11 @@ Function names, messages and help pages are in Portuguese, like the Brazilian da
 {{< include ../../_dados/localdatasus_versao.md >}}
 
 ```r
-install.packages("remotes")
-remotes::install_github("Hendesson/localdatasus")
+install.packages("localdatasus")
+
+# Development version, from GitHub:
+# install.packages("remotes")
+# remotes::install_github("Hendesson/localdatasus")
 ```
 
 [Step-by-step tutorials](../../tutorials.qmd){.btn .btn-primary} [Documentation (Portuguese)](https://hendesson.github.io/localdatasus/){.btn .btn-outline-primary} [Code on GitHub](https://github.com/Hendesson/localdatasus){.btn .btn-outline-primary} [Report a problem](https://github.com/Hendesson/localdatasus/issues){.btn .btn-outline-primary} [Ask a question](../../questions.qmd){.btn .btn-outline-primary}

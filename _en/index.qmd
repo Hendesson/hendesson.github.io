@@ -65,7 +65,7 @@ More work is listed under [Projects](projects.qmd).
 ::::: {.tabela-inicio .noticias}
 | Date | News |
 |:--|:--|
-| Oct 2026 | localdatasus 0.2.0 submitted to CRAN. |
+| Oct 2026 | localdatasus 0.2.0 accepted on [CRAN](https://CRAN.R-project.org/package=localdatasus): `install.packages("localdatasus")`. |
 | Oct 2026 | Tutorial (in Portuguese): [black-and-white academic maps in R](https://hendesson.github.io/tutoriais/mapas-preto-e-branco.html). |
 :::::
 

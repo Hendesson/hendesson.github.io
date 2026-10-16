@@ -50,8 +50,11 @@ Cada tabela vira um mapa com uma linha, `mapa_bairro()`, sobre os contornos ofic
 {{< include ../../_dados/localdatasus_versao.md >}}
 
 ```r
-install.packages("remotes")
-remotes::install_github("Hendesson/localdatasus")
+install.packages("localdatasus")
+
+# Versão em desenvolvimento, do GitHub:
+# install.packages("remotes")
+# remotes::install_github("Hendesson/localdatasus")
 ```
 
 [Documentação e tutoriais](https://hendesson.github.io/localdatasus/){.btn .btn-primary} [Código no GitHub](https://github.com/Hendesson/localdatasus){.btn .btn-outline-primary} [Relatar um problema](https://github.com/Hendesson/localdatasus/issues){.btn .btn-outline-primary} [Tirar uma dúvida](../../perguntas.qmd){.btn .btn-outline-primary}

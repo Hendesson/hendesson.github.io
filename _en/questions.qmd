@@ -27,8 +27,7 @@ Do you have a question about **localdatasus**, the **tutorials** or the **projec
 ### How do I install localdatasus?
 
 ```r
-install.packages("remotes")
-remotes::install_github("Hendesson/localdatasus")
+install.packages("localdatasus")
 ```
 
 Then restart R. The full walkthrough is in [Getting started](tutorials/localdatasus/01-getting-started.qmd).
