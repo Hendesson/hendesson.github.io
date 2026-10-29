@@ -1,0 +1,100 @@
+/* Só nas páginas de Artigos (ligado em _metadata.yml) */
+
+/* Tabelas largas rolam na horizontal no celular, em vez de passar da borda */
+@media (max-width: 767px) {
+  main.content table { display: block; max-width: 100%; overflow-x: auto; }
+}
+
+/* Desenhos em texto (fluxogramas) não quebram linha: rolam na horizontal */
+main.content pre:not(.sourceCode) { white-space: pre; overflow-x: auto; }
+
+/* Cartões de ferramentas com ícone */
+.ferramentas { margin: 1rem 0 1.5rem; }
+.ferramenta { border: 1px solid #a0a0a0; background: #fafafa; padding: .8rem .9rem; line-height: 1.45; }
+.ferramenta p { margin: 0; }
+.ferramenta img { width: 44px; height: 44px; float: left; margin: .15rem .8rem .3rem 0; }
+.ferramenta strong a { text-decoration: none; }
+
+/* Faixa de ícones e "comece aqui" na página de entrada */
+.faixa-icones { display: flex; flex-wrap: wrap; gap: 1.1rem; align-items: center; margin: .5rem 0 1rem; }
+.faixa-icones img { width: 40px; height: 40px; }
+.comece { border: 2px solid #000; background: #fafafa; padding: .9rem 1rem; height: 100%; }
+.comece h4 { margin-top: 0; font-size: 1rem; }
+
+/* Figuras: legenda legível e imagens que cabem no celular */
+main.content figure img { max-width: 100%; height: auto; border: 1px solid #d0d0d0; }
+main.content figcaption { font-size: .85rem; color: #333; }
+
+/* Foco visível para quem navega pelo teclado */
+main.content a:focus-visible, .sidebar a:focus-visible { outline: 3px solid #0072B2; outline-offset: 2px; }
+
+/* Selo de texto para programas sem ícone livre (ArcGIS) */
+.selo-texto { display: inline-block; border: 2px solid #2b2b2b; border-radius: 4px;
+  padding: .1rem .45rem; font-weight: 700; font-size: .85rem; line-height: 1.6; color: #2b2b2b; }
+.faixa-icones .selo-texto { height: 40px; line-height: 34px; }
+
+/* Abas de programa: destaque da aba ativa */
+.panel-tabset .nav-tabs .nav-link.active { font-weight: 700; }
+
+/* ---------------------------------------------------------------- Artigos como publicações */
+
+/* Faixa de capa: a imagem do artigo ao fundo, escurecida para o título ficar legível */
+.quarto-title-banner {
+  position: relative;
+  background-size: cover !important;
+  background-position: center 30% !important;
+  min-height: 300px;
+  display: flex;
+  align-items: flex-end;
+}
+.quarto-title-banner::before {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, .35) 0%, rgba(0, 0, 0, .78) 100%);
+}
+.quarto-title-banner > * { position: relative; }
+.quarto-title-banner .title,
+.quarto-title-banner .subtitle,
+.quarto-title-banner .description,
+.quarto-title-banner .quarto-title-breadcrumbs,
+.quarto-title-banner a { color: #fff !important; }
+.quarto-title-banner .title { text-shadow: 0 2px 6px rgba(0, 0, 0, .5); }
+.quarto-title-banner .quarto-category {
+  color: #fff !important; border-color: rgba(255, 255, 255, .8) !important; opacity: 1;
+}
+
+/* Linha de autor e datas */
+.quarto-title-meta { margin-top: .8rem; }
+.quarto-title-meta-heading { font-size: .72rem; letter-spacing: .04em; color: #555; }
+
+/* Resumo */
+#title-block-header .abstract {
+  border-left: 4px solid #0072B2; background: #f3f8fc; padding: .8rem 1rem; margin: 1rem 0 .5rem;
+}
+#title-block-header .abstract .block-title { font-weight: 700; color: #0072B2; margin-bottom: .2rem; }
+
+/* Ficha do artigo (nível, leitura, dados, programas) */
+.ficha {
+  display: flex; flex-wrap: wrap; gap: .45rem 1.4rem; align-items: center;
+  border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: .6rem 0; margin: 0 0 1.5rem;
+  font-size: .92rem;
+}
+.ficha p { display: contents; margin: 0; }
+.ficha .rotulo {
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; color: #555; margin-right: .3rem;
+}
+.ficha img { width: 22px; height: 22px; vertical-align: middle; margin-right: .15rem; }
+.ficha .selo-texto { font-size: .7rem; padding: 0 .3rem; line-height: 1.5; vertical-align: middle; }
+
+/* Página de entrada: cartões */
+.intro-artigos { max-width: 760px; font-size: 1.05rem; margin: 0 auto 1.5rem; }
+.quarto-listing .card { border: 1px solid #d6d6d6; transition: transform .15s, box-shadow .15s; }
+.quarto-listing .card:hover, .quarto-listing .card:focus-within {
+  transform: translateY(-3px); box-shadow: 0 6px 18px rgba(0, 0, 0, .12);
+}
+.quarto-listing .card-img-top { object-fit: cover; object-position: center 30%; }
+.quarto-listing .card-title { font-size: 1.05rem; font-weight: 700; }
+@media (prefers-reduced-motion: reduce) {
+  .quarto-listing .card { transition: none; }
+  .quarto-listing .card:hover { transform: none; }
+}

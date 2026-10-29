@@ -1,0 +1,31 @@
+{
+  "chave": "artigos/03-prodes-ucs.qmd",
+  "metadata": {
+    "title": "Desmatamento anual do PRODES nas UCs da Amazônia e do Cerrado",
+    "upload_type": "publication",
+    "publication_type": "technicalnote",
+    "description": "Um código só para cruzar o PRODES da Amazônia e do Cerrado com as Unidades de Conservação, montar a tabela por UC e a série histórica, e atualizar o ano novo sem duplicar. Nos dois biomas, quase todo o desmatamento em UCs está nas de Uso Sustentável.",
+    "creators": [
+      {
+        "name": "Alves, Hendesson"
+      }
+    ],
+    "keywords": [
+      "UCs",
+      "PRODES",
+      "geoprocessamento",
+      "monitoramento ambiental"
+    ],
+    "language": "por",
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "publication_date": "2026-10-29",
+    "related_identifiers": [
+      {
+        "identifier": "https://hendesson.github.io/artigos/03-prodes-ucs.html",
+        "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      }
+    ]
+  }
+}

@@ -1,0 +1,100 @@
+---
+title: Formatos e serviços
+description: Shapefile, GeoPackage, GeoJSON, GeoTIFF e GeoParquet; serviços WFS e WMS; como abrir cada
+  um.
+ordem: 2
+subtitle: Guia · Capítulo 2 de 5
+body-classes: capitulo
+---
+
+## Formatos de arquivo
+
+### Vetor
+
+| Formato | Extensão | Prós | Contras |
+|---|---|---|---|
+| **Shapefile** | `.shp` + `.dbf` + `.shx` + `.prj` (+ outros) | universal, todo programa abre | vários arquivos por camada; nomes de coluna com no máximo 10 caracteres; limite de 2 GB; sem tipo data-hora |
+| **GeoPackage** | `.gpkg` | um arquivo só, várias camadas, sem limites do shapefile; é um banco SQLite | menos conhecido por quem só usa shapefile |
+| **GeoJSON** | `.geojson` | texto legível, padrão da web | arquivos grandes; fica lento com muitos dados |
+| **KML / KMZ** | `.kml`, `.kmz` | abre no Google Earth | pouco prático para análise |
+| **GeoParquet** | `.parquet` | muito compacto e rápido para grandes volumes; lido por Python, R, DuckDB | ainda pouco suportado em programas de mesa antigos |
+| **CSV com coordenadas** | `.csv` | qualquer planilha abre | só pontos (ou WKT em texto); sem SRC declarado |
+
+::: {.callout-tip}
+Para guardar e trocar dados, prefira **GeoPackage**. Use shapefile só quando alguém exigir.
+:::
+
+### Raster
+
+| Formato | Uso |
+|---|---|
+| **GeoTIFF** (`.tif`) | o padrão para imagens e mapas temáticos |
+| **COG** (*Cloud Optimized GeoTIFF*) | GeoTIFF organizado para ser lido em partes direto da internet, sem baixar o arquivo todo |
+| **NetCDF** (`.nc`) | dados climáticos e séries temporais em várias dimensões |
+
+### Arquivos compactados
+
+Muitas fontes entregam `.zip`. O GDAL lê de dentro do zip sem descompactar:
+
+```bash
+ogrinfo /vsizip/cnuc.zip                     # lista as camadas dentro do zip
+ogr2ogr -f GPKG ucs.gpkg /vsizip/cnuc.zip    # converte para GeoPackage
+```
+
+## Serviços web (OGC)
+
+Em vez de baixar um arquivo, você pode pedir os dados a um servidor. Os padrões da
+[OGC](https://www.ogc.org) mais comuns:
+
+| Serviço | Entrega | Para quê |
+|---|---|---|
+| **WFS** (*Web Feature Service*) | as feições vetoriais, com atributos | baixar só uma área, um período ou algumas colunas |
+| **WMS** (*Web Map Service*) | uma imagem pronta do mapa | ver por cima de outras camadas; não serve para análise |
+| **WCS** (*Web Coverage Service*) | dados raster | baixar recortes de imagens |
+| **OGC API – Features** | o sucessor moderno do WFS, em JSON | mesmo uso do WFS |
+| **ArcGIS REST** (`/FeatureServer`, `/MapServer`) | padrão da Esri, comum em órgãos públicos | o GDAL e o QGIS também leem |
+
+### Explorando um WFS
+
+1. **Que camadas existem?** Abra no navegador:
+   `https://terrabrasilis.dpi.inpe.br/geoserver/deter-amz/ows?service=WFS&request=GetCapabilities`
+2. **Que colunas a camada tem?** Use o `ogrinfo`:
+
+```bash
+ogrinfo -so "WFS:https://terrabrasilis.dpi.inpe.br/geoserver/deter-amz/ows" deter-amz:deter_amz
+```
+
+3. **Baixar só o que interessa**, com filtro espacial (`-spat`) e de atributo (`-where`), que o
+   servidor executa:
+
+```bash
+ogr2ogr -f GPKG deter.gpkg "WFS:https://terrabrasilis.dpi.inpe.br/geoserver/deter-amz/ows" \
+  deter-amz:deter_amz -spat -56.5 -8.5 -54.5 -5.5 -where "view_date >= '2025-01-01'"
+```
+
+No QGIS: *Camada → Adicionar camada → Adicionar camada WFS*, cole a URL do serviço e escolha a camada.
+
+::: {.callout-note}
+Servidores públicos limitam quantas feições entregam por pedido. O GDAL pagina sozinho (pede em
+partes), mas downloads muito grandes podem demorar ou falhar. Quando existir, prefira o arquivo
+completo da página de downloads.
+:::
+
+## Bancos de dados espaciais
+
+Quando os dados crescem ou precisam ser cruzados muitas vezes, um banco é melhor que arquivos soltos:
+
+| | Arquivos (GPKG, SHP) | PostgreSQL + PostGIS |
+|---|---|---|
+| Várias pessoas ao mesmo tempo | difícil | sim |
+| Cruzar milhões de polígonos | lento | rápido, com índices espaciais |
+| Repetir a análise toda semana | scripts frágeis | scripts SQL versionados |
+| Ligar no Power BI ou num painel | importar arquivo | conexão direta |
+
+O [curso](../index.qmd#curso) usa **PostgreSQL + PostGIS**. O **DuckDB** com a extensão
+`spatial` é uma alternativa leve, sem servidor, ótima para análises pontuais.
+
+## Próximo passo
+
+[Fontes de dados](03-fontes-de-dados.qmd): onde baixar dados de desmatamento, fogo, áreas
+protegidas, fiscalização e cadastro fundiário.

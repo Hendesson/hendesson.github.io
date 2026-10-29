@@ -1,0 +1,31 @@
+{
+  "chave": "artigos/10-mapas-automaticos.qmd",
+  "metadata": {
+    "title": "Um mapa por UC, automático: do ArcMap ao QGIS e ao Python",
+    "upload_type": "publication",
+    "publication_type": "technicalnote",
+    "description": "Um mapa por Unidade de Conservação, gerado sem cliques: o arcpy.mapping do ArcMap, o arcpy.mp e as séries de mapas do ArcGIS Pro, o Atlas do QGIS montado por código e um laço com matplotlib.",
+    "creators": [
+      {
+        "name": "Alves, Hendesson"
+      }
+    ],
+    "keywords": [
+      "Mapas",
+      "ArcMap",
+      "geoprocessamento",
+      "monitoramento ambiental"
+    ],
+    "language": "por",
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "publication_date": "2026-10-29",
+    "related_identifiers": [
+      {
+        "identifier": "https://hendesson.github.io/artigos/10-mapas-automaticos.html",
+        "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+# Vale para todas as páginas dentro de artigos/
+format:
+  html:
+    css: [artigos.css, ../estilos/livro.css]
+title-block-banner-color: white
+abstract-title: "Resumo"
+date-format: "D [de] MMMM [de] YYYY"
+toc-title: "Neste artigo"
+citation-location: document
+language:
+  title-block-published: "Publicado em"
+  title-block-modified: "Atualizado em"
+  title-block-author-single: "Autor"
+  section-title-citation: "Como citar"
+  section-title-reuse: "Licença"
+license: "CC BY"
+citation:
+  type: article
+  container-title: "Artigos de geoprocessamento para monitoramento ambiental"
+  publisher: "Hendesson Alves"
+  language: pt-BR
+appendix-cite-as: [display, bibtex]

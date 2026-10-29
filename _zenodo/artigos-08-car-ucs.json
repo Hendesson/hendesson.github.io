@@ -1,0 +1,31 @@
+{
+  "chave": "artigos/08-car-ucs.qmd",
+  "metadata": {
+    "title": "Imóveis do CAR dentro das UCs: selecionar e medir a sobreposição",
+    "upload_type": "publication",
+    "publication_type": "technicalnote",
+    "description": "Imóveis do CAR baixados do serviço público do SICAR e cruzados com as UCs: quem só encosta no limite, quem está lá dentro e quanto de cada UC está declarado como imóvel rural. Tirar os cadastros cancelados muda a conclusão.",
+    "creators": [
+      {
+        "name": "Alves, Hendesson"
+      }
+    ],
+    "keywords": [
+      "CAR",
+      "UCs",
+      "geoprocessamento",
+      "monitoramento ambiental"
+    ],
+    "language": "por",
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "publication_date": "2026-10-29",
+    "related_identifiers": [
+      {
+        "identifier": "https://hendesson.github.io/artigos/08-car-ucs.html",
+        "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      }
+    ]
+  }
+}

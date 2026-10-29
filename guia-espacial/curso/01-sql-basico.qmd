@@ -1,0 +1,257 @@
+---
+title: 'Módulo 1: SQL básico'
+description: SELECT, WHERE, cuidados com NULL, tipos, datas, CASE e COALESCE.
+ordem: 1
+tempo: 45 min
+subtitle: Curso de SQL, PostGIS e Power BI · Módulo 1
+body-classes: capitulo
+---
+
+::: {.callout-tip appearance="simple"}
+## Neste módulo
+- Consultar e filtrar uma tabela de alertas
+- Entender por que comparações com NULL falham
+- Trabalhar com datas e o ano PRODES
+
+**Tempo estimado:** 45 min · **Módulo anterior:** [Módulo 0: Ambiente e dados](00-ambiente-e-dados.qmd)
+:::
+
+Pré-requisito: banco montado no [Módulo 0](00-ambiente-e-dados.qmd).
+
+Todos os exemplos usam `desmatamento.deter_ucs`, a tabela de alertas DETER no interior e no
+entorno das Unidades de Conservação. Colunas principais: `id_alerta`, `classname`, `data`, `ano`,
+`mes`, `local`, `nome_uc`, `cnuc`, `uf`, `area_ha`, `geom`.
+
+Abra o `psql` (`psql -d monitoramento_ambiental`), o DBeaver ou o pgAdmin e vá testando.
+
+---
+
+## 1. SELECT: escolher colunas
+
+```sql
+SELECT id_alerta, nome_uc, area_ha, data
+FROM desmatamento.deter_ucs
+LIMIT 10;
+```
+
+- `desmatamento` é o **schema** (uma espécie de pasta) e `deter_ucs` é a **tabela**.
+- `LIMIT 10` traz só 10 linhas. Use sempre que estiver explorando.
+- `SELECT *` traz todas as colunas. Evite em tabelas com geometria, porque `geom` é pesada para exibir.
+
+### Apelidos (aliases)
+
+```sql
+SELECT d.id_alerta AS id, d.area_ha AS area
+FROM desmatamento.deter_ucs d;
+```
+
+`d` é um apelido para a tabela, e `AS id` renomeia a coluna no resultado. Apelidos curtos deixam
+as consultas com várias tabelas muito mais legíveis.
+
+---
+
+## 2. WHERE: filtrar linhas
+
+```sql
+SELECT id_alerta, nome_uc, area_ha
+FROM desmatamento.deter_ucs
+WHERE area_ha > 10
+  AND local = 'Interior'
+  AND classname = 'DESMATAMENTO_CR'
+ORDER BY area_ha DESC
+LIMIT 20;
+```
+
+| Operador | Exemplo |
+|---|---|
+| `=`, `<>`, `>`, `<`, `>=`, `<=` | `area_ha >= 6.25` |
+| `AND`, `OR`, `NOT` | `local = 'Interior' OR local = 'Entorno'` |
+| `IN` | `classname IN ('DESMATAMENTO_CR', 'MINERACAO')` |
+| `BETWEEN` | `data BETWEEN '2024-01-01' AND '2024-06-30'` |
+| `LIKE` / `ILIKE` | `nome_uc ILIKE '%jamanxim%'` (`ILIKE` ignora maiúsculas e minúsculas) |
+| `IS NULL` / `IS NOT NULL` | `legalidade IS NULL` |
+
+### Cuidado com NULL
+
+`NULL` significa "sem valor". **Nenhuma comparação com NULL dá verdadeiro**: `coluna = NULL` não
+encontra nada, e `coluna <> 'Ilegal'` **não traz** as linhas nulas.
+
+```sql
+-- Quantas linhas têm legalidade diferente de 'Ilegal'?
+SELECT count(*) FROM desmatamento.deter_ucs WHERE legalidade <> 'Ilegal';          -- 0 (!)
+
+-- Agora contando os nulos também
+SELECT count(*) FROM desmatamento.deter_ucs
+WHERE legalidade <> 'Ilegal' OR legalidade IS NULL;                                -- todas
+
+-- Forma curta e equivalente
+SELECT count(*) FROM desmatamento.deter_ucs WHERE coalesce(legalidade, '') <> 'Ilegal';
+```
+
+A coluna `legalidade` começa vazia (`NULL`) em todos os alertas, por isso a primeira consulta dá zero.
+
+Para colunas booleanas, `IS NOT TRUE` e `IS NOT FALSE` já tratam o `NULL`:
+`apuracao IS NOT TRUE` traz `false` **e** `NULL`.
+
+---
+
+## 3. ORDER BY e LIMIT
+
+```sql
+SELECT nome_uc, area_ha, data
+FROM desmatamento.deter_ucs
+ORDER BY area_ha DESC   -- DESC: do maior para o menor; ASC (padrão): do menor para o maior
+LIMIT 5;                -- os 5 maiores alertas
+```
+
+---
+
+## 4. Tipos e conversão com `::`
+
+O PostgreSQL é rígido com tipos. Converta com `::tipo`:
+
+```sql
+SELECT '2024'::int + 1;              -- 2025
+SELECT 10::text;                     -- '10'
+SELECT true::int;                    -- 1
+SELECT area_ha::int FROM desmatamento.deter_ucs LIMIT 5;   -- arredonda para inteiro
+```
+
+Tipos mais usados: `int`, `numeric` (decimal exato), `double precision` (decimal aproximado),
+`text`, `boolean`, `date`, `timestamp`, `geometry`.
+
+`round()` com casas decimais só funciona com `numeric`:
+
+```sql
+SELECT round(sum(area_ha)::numeric, 1) FROM desmatamento.deter_ucs;
+```
+
+---
+
+## 5. Datas
+
+```sql
+-- Texto para data
+SELECT to_date('25/03/2024', 'DD/MM/YYYY');            -- 2024-03-25
+SELECT DATE '2024-03-25';                              -- forma direta (formato ISO)
+
+-- Extrair partes
+SELECT extract(year FROM DATE '2024-03-25');           -- 2024
+SELECT extract(month FROM DATE '2024-03-25');          -- 3
+SELECT to_char(DATE '2024-03-25', 'YYYY-MM');          -- '2024-03'
+
+-- Diferença em dias (date - date = número inteiro)
+SELECT CURRENT_DATE - DATE '2024-03-25';
+
+-- Somar dias ou meses
+SELECT CURRENT_DATE - 30;                              -- 30 dias atrás
+SELECT CURRENT_DATE - INTERVAL '6 months';
+```
+
+### Exemplo: o "ano PRODES"
+
+O PRODES mede o desmatamento de **1º de agosto a 31 de julho**. Um alerta de setembro de 2024
+pertence ao "ano PRODES 2025". Em SQL:
+
+```sql
+SELECT data,
+       extract(year FROM data)
+         + CASE WHEN extract(month FROM data) >= 8 THEN 1 ELSE 0 END AS ano_prodes
+FROM desmatamento.deter_ucs
+LIMIT 10;
+```
+
+É assim que a coluna `ano_prodes` foi criada no `01_preparar_tabelas.sql`.
+
+### Exercício
+
+Há quantos dias foi o alerta mais recente de cada UC?
+
+```sql
+SELECT nome_uc, max(data) AS ultimo_alerta, CURRENT_DATE - max(data) AS dias
+FROM desmatamento.deter_ucs
+GROUP BY nome_uc
+ORDER BY dias;
+```
+
+(`GROUP BY` é explicado no Módulo 2.)
+
+---
+
+## 6. CASE: "se... então..."
+
+```sql
+SELECT id_alerta, area_ha,
+       CASE
+           WHEN area_ha >= 100 THEN 'Grande'
+           WHEN area_ha >= 10  THEN 'Médio'
+           ELSE 'Pequeno'
+       END AS porte
+FROM desmatamento.deter_ucs
+LIMIT 20;
+```
+
+O `CASE` testa as condições **em ordem** e para na primeira verdadeira. Por isso não é preciso
+escrever `area_ha >= 10 AND area_ha < 100` na segunda linha. A priorização (Módulo 5) usa
+exatamente isso para transformar um índice numérico em classes.
+
+---
+
+## 7. COALESCE e NULLIF
+
+`COALESCE` devolve o primeiro valor que não é nulo:
+
+```sql
+SELECT coalesce(NULL, NULL, 'terceiro');                          -- 'terceiro'
+SELECT id_alerta, coalesce(legalidade, 'Não avaliado') FROM desmatamento.deter_ucs LIMIT 5;
+```
+
+Na apuração (Módulo 4), `COALESCE` faz a revisão manual vencer o cálculo automático:
+
+```sql
+coalesce(d.legalidade,                                  -- 1º: o que o analista preencheu
+         CASE WHEN casou_com_embargo THEN 'Ilegal' END) -- 2º: o cálculo
+```
+
+`NULLIF(a, b)` devolve `NULL` quando `a = b`. Serve para evitar divisão por zero:
+
+```sql
+SELECT 10 / 0;              -- ERRO: divisão por zero
+SELECT 10 / NULLIF(0, 0);   -- NULL
+```
+
+---
+
+## 8. Comentários
+
+```sql
+-- comentário de uma linha
+/* comentário
+   de várias linhas */
+```
+
+---
+
+## Exercícios
+
+1. Liste os 10 alertas mais antigos de mineração (`MINERACAO`) no interior das UCs.
+2. Mostre `id_alerta`, `area_ha` e uma coluna `porte` com `'≥ 6,25 ha'` ou `'< 6,25 ha'`.
+3. Quantos alertas há em cada `ano_prodes`? (Dica: `GROUP BY`.)
+
+<details><summary>Respostas</summary>
+
+```sql
+-- 1
+SELECT id_alerta, nome_uc, data, area_ha FROM desmatamento.deter_ucs
+WHERE classname = 'MINERACAO' AND local = 'Interior'
+ORDER BY data ASC LIMIT 10;
+
+-- 2
+SELECT id_alerta, area_ha,
+       CASE WHEN area_ha >= 6.25 THEN '≥ 6,25 ha' ELSE '< 6,25 ha' END AS porte
+FROM desmatamento.deter_ucs;
+
+-- 3
+SELECT ano_prodes, count(*) FROM desmatamento.deter_ucs GROUP BY ano_prodes ORDER BY 1;
+```
+</details>

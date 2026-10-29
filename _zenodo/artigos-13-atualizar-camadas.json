@@ -1,0 +1,31 @@
+{
+  "chave": "artigos/13-atualizar-camadas.qmd",
+  "metadata": {
+    "title": "Atualizar camadas sem duplicar: substituir, anexar e carga incremental",
+    "upload_type": "publication",
+    "publication_type": "technicalnote",
+    "description": "Os quatro jeitos de atualizar uma base que recebe dados novos e a receita de carga incremental do DETER que sobrevive a três armadilhas reais: código repetido, filtro de data com fuso e alertas publicados com atraso.",
+    "creators": [
+      {
+        "name": "Alves, Hendesson"
+      }
+    ],
+    "keywords": [
+      "DETER",
+      "Automação",
+      "geoprocessamento",
+      "monitoramento ambiental"
+    ],
+    "language": "por",
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "publication_date": "2026-10-29",
+    "related_identifiers": [
+      {
+        "identifier": "https://hendesson.github.io/artigos/13-atualizar-camadas.html",
+        "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      }
+    ]
+  }
+}

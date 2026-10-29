@@ -1,0 +1,33 @@
+{
+  "chave": "guia-espacial",
+  "metadata": {
+    "title": "Guia de dados espaciais para monitoramento ambiental",
+    "upload_type": "publication",
+    "publication_type": "book",
+    "description": "Onde encontrar e como usar dados públicos de desmatamento, fogo, áreas protegidas e fiscalização, mais um curso do zero ao painel no Power BI.",
+    "creators": [
+      {
+        "name": "Alves, Hendesson"
+      }
+    ],
+    "keywords": [
+      "monitoramento ambiental",
+      "PostGIS",
+      "SQL",
+      "Power BI",
+      "dados espaciais",
+      "Amazônia"
+    ],
+    "language": "por",
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "publication_date": "2026-10-29",
+    "related_identifiers": [
+      {
+        "identifier": "https://hendesson.github.io/guia-espacial/",
+        "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      }
+    ]
+  }
+}

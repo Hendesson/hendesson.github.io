@@ -1,0 +1,30 @@
+{
+  "chave": "artigos/07-juntar-atributos.qmd",
+  "metadata": {
+    "title": "Trazer informações de outra tabela: junções e listas de valores",
+    "upload_type": "publication",
+    "publication_type": "technicalnote",
+    "description": "Levar a categoria e o grupo da UC para cada alerta pelo código CNUC e juntar vários valores numa lista, como os municípios de cada UC. Os scripts antigos usavam dezenas de linhas de cursores; aqui são poucas linhas em cada programa.",
+    "creators": [
+      {
+        "name": "Alves, Hendesson"
+      }
+    ],
+    "keywords": [
+      "Tabelas",
+      "geoprocessamento",
+      "monitoramento ambiental"
+    ],
+    "language": "por",
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "publication_date": "2026-10-29",
+    "related_identifiers": [
+      {
+        "identifier": "https://hendesson.github.io/artigos/07-juntar-atributos.html",
+        "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      }
+    ]
+  }
+}

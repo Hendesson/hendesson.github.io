@@ -1,0 +1,165 @@
+---
+title: "Guia de dados espaciais para monitoramento ambiental"
+subtitle: "Conceitos, fontes públicas e um curso prático de SQL, PostGIS e Power BI"
+description: "Onde encontrar e como usar dados públicos de desmatamento, fogo, áreas protegidas e fiscalização, mais um curso do zero ao painel no Power BI."
+date: 2026-10-29
+image: ../imagens/guia-espacial/capa.png
+image-alt: "Mapa de prioridade de fiscalização dos alertas de desmatamento na região de Novo Progresso, no Pará."
+categories: [Ensino, Meio ambiente, PostGIS]
+resources:
+  - sql/*
+  - curso-sql.zip
+---
+
+Este guia reúne o que eu gostaria de ter encontrado quando comecei a trabalhar com
+monitoramento de desmatamento em Unidades de Conservação: **o que são** os dados espaciais,
+**de onde baixar** os dados públicos e **como transformá-los em informação**, de uma consulta
+SQL a um painel para gestores.
+
+Tudo usa dados abertos do **INPE**, do **MMA** e do **IBAMA**. Qualquer pessoa pode reproduzir,
+e todos os programas são gratuitos.
+
+::: {.faixa-icones}
+![](../imagens/ferramentas/qgis.svg){fig-alt="QGIS"}
+![](../imagens/ferramentas/postgresql.svg){fig-alt="PostgreSQL"}
+![](../imagens/ferramentas/postgis.svg){fig-alt="PostGIS"}
+![](../imagens/ferramentas/gdal.svg){fig-alt="GDAL"}
+![](../imagens/ferramentas/python.svg){fig-alt="Python"}
+![](../imagens/ferramentas/powerbi.svg){fig-alt="Power BI"}
+:::
+
+## Comece aqui
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4 .comece}
+#### Quero entender os dados
+
+O que é vetor e raster, por que existem tantos códigos EPSG e onde baixar cada base.
+
+→ [Conceitos de dados espaciais](guia/01-conceitos.qmd)
+:::
+
+::: {.g-col-12 .g-col-md-4 .comece}
+#### Quero aprender SQL e PostGIS
+
+Do zero: montar o banco, fazer consultas, medir áreas e cruzar camadas.
+
+→ [Módulo 0: Ambiente e dados](curso/00-ambiente-e-dados.qmd)
+:::
+
+::: {.g-col-12 .g-col-md-4 .comece}
+#### Quero um painel
+
+Pular direto para as views prontas e o Power BI, rodando os scripts do curso.
+
+→ [Módulo 7: Power BI](curso/07-power-bi.qmd)
+:::
+
+::: {.g-col-12 .comece}
+#### Uso ArcGIS (ou QGIS) e quero resolver um problema específico
+
+Treze artigos com a mesma análise em ArcGIS Pro, QGIS, PostGIS e Python: interior e entorno, PRODES,
+focos de calor, CAR, Kernel, mapas e relatórios automáticos.
+
+→ [Artigos](../artigos/index.qmd), uma seção à parte do site
+:::
+
+:::
+
+## O que você vai construir
+
+```{mermaid}
+%%| eval: true
+%%| fig-cap: "O projeto do curso, de ponta a ponta"
+flowchart LR
+    A["Baixar dados públicos<br/>DETER, PRODES, UCs, embargos"] --> B[("Banco PostGIS")]
+    B --> C["Apuração<br/>alertas × embargos"]
+    B --> D["Priorização<br/>clusters e índice"]
+    C --> E["Views para<br/>o Power BI"]
+    D --> E
+    E --> F["Painel"]
+```
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+![Onde fica a área de exemplo do curso.](../imagens/guia-espacial/localizacao.png){fig-alt="Mapa do Brasil com a Amazônia Legal em verde e um retângulo vermelho no sudoeste do Pará, na região de Novo Progresso."}
+:::
+
+::: {.g-col-12 .g-col-md-6}
+![Resultado final: prioridade de fiscalização dos alertas do último ano.](../imagens/guia-espacial/prioridade.png){fig-alt="Mapa da região de exemplo com Unidades de Conservação em verde claro, embargos em cinza e alertas do último ano coloridos do amarelo-claro (prioridade muito baixa) ao vermelho-escuro (alta), além dos já embargados em azul."}
+:::
+
+:::
+
+## Guia {#guia}
+
+Leitura rápida, para consultar quando precisar.
+
+| | Página | O que tem |
+|---|---|---|
+| 1 | [Conceitos de dados espaciais](guia/01-conceitos.qmd) | Vetor e raster, geometrias, SIRGAS 2000, quando usar cada sistema de coordenadas, escala e resolução |
+| 2 | [Formatos e serviços](guia/02-formatos-e-servicos.qmd) | Shapefile, GeoPackage, GeoJSON, GeoTIFF; como usar WFS e WMS |
+| 3 | [Fontes de dados](guia/03-fontes-de-dados.qmd) | Onde baixar PRODES, DETER, MapBiomas, focos de calor, UCs, Terras Indígenas, embargos, CAR |
+| 4 | [Ferramentas](guia/04-ferramentas.qmd) | QGIS, PostGIS, GDAL, Python, Power BI: o que cada um faz |
+| 5 | [Glossário](guia/05-glossario.qmd) | Os termos do guia e do curso, em uma ou duas frases |
+
+## Curso {#curso}
+
+Um projeto completo, em oito módulos. Cada módulo tem objetivos, código pronto para copiar,
+mapas do resultado e exercícios com resposta.
+
+| Módulo | Tempo | O que você vai aprender |
+|---|---|---|
+| [0. Ambiente e dados](curso/00-ambiente-e-dados.qmd) | 60 min | Instalar PostgreSQL, PostGIS e GDAL; baixar dados do INPE, MMA e IBAMA; carregar no banco |
+| [1. SQL básico](curso/01-sql-basico.qmd) | 45 min | `SELECT`, `WHERE`, `NULL`, tipos, datas, `CASE`, `COALESCE` |
+| [2. JOINs, agregações e tabelas](curso/02-joins-e-agregacoes.qmd) | 60 min | `JOIN`, `UNION`, `GROUP BY`, funções de janela, `WITH`, views |
+| [3. PostGIS](curso/03-postgis.qmd) | 75 min | Áreas em hectares, interseção, distância, geometrias inválidas, agrupamento espacial |
+| [4. Apuração: alertas × embargos](curso/04-apuracao.qmd) | 45 min | Quais alertas já têm embargo cobrindo a área |
+| [5. Priorização](curso/05-priorizacao.qmd) | 60 min | Agrupar alertas no espaço e no tempo e calcular um índice de prioridade |
+| [6. Python + PostGIS](curso/06-python.qmd) | 45 min | Ler e gravar no banco com geopandas, sem senha no código |
+| [7. Painel no Power BI](curso/07-power-bi.qmd) | 90 min | Conectar ao banco, modelo, medidas DAX, mapas e publicação |
+
+**Para quem é:** quem trabalha ou estuda meio ambiente, geografia, engenharia florestal ou áreas
+próximas e quer sair do "abrir shapefile no QGIS" para análises repetíveis. Não precisa saber SQL.
+
+**O que você precisa:** um computador com 8 GB de memória e uns 2 GB livres. Todos os programas
+são gratuitos. O Power BI Desktop só roda no Windows.
+
+### Scripts do curso
+
+Os scripts rodam o projeto inteiro, do download às views do Power BI, em uns 2 minutos (recorte de exemplo):
+
+[Baixar todos os scripts (.zip)](curso-sql.zip){.btn .btn-primary role="button"}
+
+Ou um a um: [`00_baixar_dados.sh`](sql/00_baixar_dados.sh) ·
+[`01_preparar_tabelas.sql`](sql/01_preparar_tabelas.sql) ·
+[`02_apuracao.sql`](sql/02_apuracao.sql) ·
+[`03_priorizacao.sql`](sql/03_priorizacao.sql) ·
+[`04_views_powerbi.sql`](sql/04_views_powerbi.sql) ·
+[`05_exportar_csv.sh`](sql/05_exportar_csv.sh) ·
+[`rodar_tudo.sh`](sql/rodar_tudo.sh) ·
+[`figuras.py`](sql/figuras.py) (os mapas desta página)
+
+```bash
+unzip curso-sql.zip && cd sql
+./rodar_tudo.sh
+```
+
+Testado com PostgreSQL 17, PostGIS 3.5 e GDAL 3.10, em outubro de 2026.
+
+## Limitações
+
+- Os dados abertos de embargos são só do **IBAMA**. Embargos estaduais e do ICMBio não estão
+  incluídos, então a parcela de alertas "apurados" calculada aqui fica abaixo da real.
+- Os critérios de apuração e de prioridade (distâncias, prazos, pesos) são **escolhas didáticas**,
+  explicadas nos módulos 4 e 5. Não são critérios oficiais de nenhum órgão.
+- Nenhum dado pessoal (nome, CPF/CNPJ) é usado ou publicado.
+
+## Acessibilidade
+
+Todas as imagens têm descrição em texto para leitores de tela. Os mapas usam cores seguras para
+daltonismo (paleta Okabe-Ito e escalas sequenciais) e trazem legenda, escala e fonte. Se algo
+estiver difícil de ler ou usar, me avise pelo [e-mail](mailto:hendesson124@gmail.com) ou no
+[GitHub](https://github.com/Hendesson).

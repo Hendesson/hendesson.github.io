@@ -1,0 +1,31 @@
+{
+  "chave": "artigos/12-priorizacao-arcgis-qgis.qmd",
+  "metadata": {
+    "title": "Priorizar alertas em ArcGIS Pro, QGIS e Python",
+    "upload_type": "publication",
+    "publication_type": "technicalnote",
+    "description": "Agrupar alertas vizinhos, medir área, quantidade, tempo e velocidade de cada grupo e transformar tudo numa nota de prioridade. Com os parâmetros do script original, os 11 grupos de prioridade máxima concentram quase 40% da área de alertas do ano.",
+    "creators": [
+      {
+        "name": "Alves, Hendesson"
+      }
+    ],
+    "keywords": [
+      "DETER",
+      "Priorização",
+      "geoprocessamento",
+      "monitoramento ambiental"
+    ],
+    "language": "por",
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "publication_date": "2026-10-29",
+    "related_identifiers": [
+      {
+        "identifier": "https://hendesson.github.io/artigos/12-priorizacao-arcgis-qgis.html",
+        "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      }
+    ]
+  }
+}

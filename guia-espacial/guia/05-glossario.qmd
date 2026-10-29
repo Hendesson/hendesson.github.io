@@ -1,0 +1,137 @@
+---
+title: Glossário
+description: Os termos usados no guia e no curso, explicados em uma ou duas frases.
+ordem: 5
+subtitle: Guia · Capítulo 5 de 5
+body-classes: capitulo
+---
+
+Termos em ordem alfabética. Use **Ctrl + F** para procurar.
+
+## Monitoramento e fiscalização
+
+Alerta
+: Polígono que indica uma mudança detectada por satélite (desmatamento, degradação, queimada) num certo período. Não é uma confirmação em campo.
+
+Apuração
+: Neste curso, a verificação de que um alerta já tem um **embargo** cobrindo a área. Um alerta "apurado" já foi alvo de ação da fiscalização.
+
+Área embargada
+: Área em que o órgão ambiental proibiu atividades após uma infração, para permitir a recuperação. Está ligada a um **auto de infração**.
+
+Auto de infração
+: Documento que registra uma infração ambiental e o responsável por ela.
+
+Amazônia Legal
+: Região definida em lei que inclui os estados da Região Norte, Mato Grosso e parte do Maranhão. É a área de referência do PRODES Amazônia.
+
+Ano PRODES
+: Período de 1º de agosto a 31 de julho usado pelo PRODES. O "PRODES 2025" vai de agosto de 2024 a julho de 2025.
+
+CAR
+: Cadastro Ambiental Rural: registro autodeclarado dos imóveis rurais, com APP e reserva legal.
+
+Cicatriz de queimada
+: Área onde a vegetação foi queimada, identificada depois do fogo. Diferente de **foco de calor**.
+
+CNUC
+: Cadastro Nacional de Unidades de Conservação, mantido pelo MMA. Cada UC tem um código CNUC único.
+
+Corte raso
+: Remoção completa da vegetação. É o que o PRODES mede.
+
+Corte seletivo
+: Retirada de parte das árvores, mantendo a floresta de pé. No DETER, classes `CS_DESORDENADO` e `CS_GEOMETRICO`.
+
+DETER
+: Sistema do INPE de alertas quase diários de desmatamento e degradação, feito para apoiar a fiscalização.
+
+Entorno
+: Neste curso, a faixa de 3 km em volta de uma UC, sem o interior dela.
+
+Foco de calor
+: Pixel de imagem de satélite com temperatura muito alta num instante. Indica fogo ativo, mas não mede área queimada.
+
+PRODES
+: Projeto do INPE que mapeia o desmatamento por corte raso uma vez por ano. É a taxa oficial do Brasil.
+
+Priorização
+: Neste curso, uma nota de 0 a 1 que ordena os alertas para a fiscalização, com base em área, fragmentação, idade e velocidade do desmatamento.
+
+Unidade de Conservação (UC)
+: Área protegida por lei. Pode ser de **Proteção Integral** (ex.: Parque Nacional) ou de **Uso Sustentável** (ex.: Floresta Nacional, APA).
+
+## Dados espaciais
+
+Buffer
+: Área a uma certa distância em volta de uma geometria. No PostGIS, `ST_Buffer`.
+
+Cluster
+: Grupo de geometrias próximas umas das outras.
+
+EPSG
+: Catálogo de códigos de sistemas de coordenadas. Ex.: EPSG:4674 é o SIRGAS 2000.
+
+Geometria
+: A forma de uma feição: ponto, linha ou polígono, com suas coordenadas.
+
+Geometria inválida
+: Polígono que quebra as regras (ex.: borda que cruza a si mesma). Causa erros em cruzamentos; corrige-se com `ST_MakeValid`.
+
+GeoPackage
+: Formato de arquivo `.gpkg` que guarda várias camadas num arquivo só. Alternativa moderna ao shapefile.
+
+Projeção
+: Forma de transformar a superfície curva da Terra num plano. Toda projeção distorce algo (área, forma ou distância).
+
+Raster
+: Dado em forma de grade de células (pixels), como uma imagem de satélite.
+
+Shapefile
+: Formato antigo e muito comum de dados vetoriais, dividido em vários arquivos (`.shp`, `.dbf`, `.shx`, `.prj`...).
+
+SIRGAS 2000
+: Sistema de referência oficial do Brasil. Em coordenadas geográficas, é o EPSG:4674.
+
+SRC / SRID
+: Sistema de Referência de Coordenadas. No PostGIS, o número que identifica o SRC de uma geometria é o SRID.
+
+Vetor
+: Dado formado por pontos, linhas e polígonos descritos por coordenadas.
+
+WFS
+: *Web Feature Service*: serviço que entrega dados vetoriais pela internet, com filtros por área e atributo.
+
+WKT
+: *Well-Known Text*: geometria escrita como texto, ex.: `POINT(-55.38 -7.14)`.
+
+## Banco de dados e SQL
+
+Chave primária
+: Coluna (ou colunas) que identifica cada linha de forma única.
+
+CTE (`WITH`)
+: Consulta com nome, usada como etapa dentro de outra consulta.
+
+Índice espacial (GiST)
+: Estrutura que acelera buscas espaciais, como `ST_Intersects`.
+
+JOIN
+: Junção de duas tabelas por uma condição (uma chave em comum ou uma relação espacial).
+
+Schema
+: "Pasta" dentro do banco que agrupa tabelas. Ex.: `desmatamento.deter_ucs`.
+
+View
+: Consulta salva no banco, que se comporta como uma tabela mas é recalculada a cada uso.
+
+## Power BI
+
+DAX
+: Linguagem de fórmulas do Power BI, usada para criar medidas.
+
+Medida
+: Cálculo que responde aos filtros do painel, como "área total" ou "% apurado".
+
+Modelo estrela
+: Organização com tabelas de **fatos** (eventos, como alertas) ligadas a tabelas de **dimensão** (descrições, como UCs e datas).

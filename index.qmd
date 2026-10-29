@@ -65,6 +65,7 @@ Outros trabalhos estão em [Projetos](projetos.qmd).
 ::::: {.tabela-inicio .noticias}
 | Data | Notícia |
 |:--|:--|
+| out. 2026 | Novo: [Guia de dados espaciais para monitoramento ambiental](guia-espacial/index.qmd), com curso de SQL, PostGIS e Power BI, e [Artigos](artigos/index.qmd) com a mesma análise em ArcGIS, QGIS, PostGIS e Python. |
 | out. 2026 | localdatasus 0.2.0 aceito no [CRAN](https://CRAN.R-project.org/package=localdatasus): `install.packages("localdatasus")`. |
 | out. 2026 | Tutorial: [mapas acadêmicos em preto e branco no R](tutoriais/mapas-preto-e-branco.qmd). |
 :::::

@@ -1,0 +1,31 @@
+{
+  "chave": "artigos/02-interior-entorno.qmd",
+  "metadata": {
+    "title": "Interior e entorno das UCs: o cruzamento que todo relatório usa",
+    "upload_type": "publication",
+    "publication_type": "technicalnote",
+    "description": "Como separar o desmatamento que caiu dentro de uma UC do que caiu na faixa de 3 km em volta, sem contar duas vezes as UCs vizinhas. Com os alertas do DETER de 2024 a 2026, o artigo mostra o passo a passo em quatro programas e quatro armadilhas que apareceram com os dados reais.",
+    "creators": [
+      {
+        "name": "Alves, Hendesson"
+      }
+    ],
+    "keywords": [
+      "UCs",
+      "DETER",
+      "geoprocessamento",
+      "monitoramento ambiental"
+    ],
+    "language": "por",
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "publication_date": "2026-10-29",
+    "related_identifiers": [
+      {
+        "identifier": "https://hendesson.github.io/artigos/02-interior-entorno.html",
+        "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      }
+    ]
+  }
+}

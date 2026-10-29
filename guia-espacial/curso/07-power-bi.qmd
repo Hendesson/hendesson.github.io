@@ -1,0 +1,324 @@
+---
+title: 'Módulo 7: Painel no Power BI'
+description: Conectar o Power BI ao PostGIS, montar o modelo, medidas DAX, mapas e publicar.
+ordem: 7
+tempo: 90 min
+subtitle: Curso de SQL, PostGIS e Power BI · Módulo 7
+body-classes: capitulo
+---
+
+::: {.callout-tip appearance="simple"}
+## Neste módulo
+- Preparar views espaciais para o Power BI (lat/lon e WKT)
+- Montar um modelo estrela e medidas DAX
+- Publicar com segurança, sem dados pessoais
+
+**Tempo estimado:** 90 min · **Módulo anterior:** [Módulo 6: Python + PostgreSQL/PostGIS](06-python.qmd)
+:::
+
+Objetivo: um painel com os alertas de desmatamento nas UCs, o que já foi apurado (embargado)
+e a fila de prioridades, usando as views do schema `powerbi`.
+
+Pré-requisitos: módulos 0, 4 e 5 rodados (ou só `sql/rodar_tudo.sh`).
+
+---
+
+## 1. Antes de começar
+
+| Item | Detalhe |
+|---|---|
+| **Power BI Desktop** | Gratuito, **só roda no Windows**. Baixe na Microsoft Store ou em https://powerbi.microsoft.com/desktop. No Linux ou Mac, use uma máquina virtual Windows ou outro computador |
+| **Conta para publicar** | Para publicar no serviço online (app.powerbi.com), a Microsoft exige e-mail **corporativo ou de instituição de ensino**. Gmail, Outlook.com e similares não são aceitos. Alternativas: e-mail de universidade, conta de avaliação do Microsoft 365, ou publicar só o arquivo `.pbix` e imagens do painel |
+| **Driver do PostgreSQL** | Já vem no Power BI Desktop (Npgsql). Não precisa instalar nada |
+
+---
+
+## 2. As views do schema `powerbi`
+
+Criadas por [`sql/04_views_powerbi.sql`](../sql/04_views_powerbi.sql):
+
+| View | Tipo | Uma linha por | Colunas principais |
+|---|---|---|---|
+| `dim_ucs` | dimensão | UC | `cnuc`, `nome_uc`, `categoria`, `grupo`, `esfera`, `uf`, `area_ha`, `lat`, `lon`, `wkt` |
+| `dim_calendario` | dimensão | dia | `data`, `ano`, `mes_num`, `mes`, `ano_mes`, `ano_prodes` |
+| `fato_deter` | fato | alerta DETER | `id_alerta`, `cnuc`, `data`, `classe`, `local`, `area_ha`, `apuracao`, `prioridade`, `ind_priori`, `lat`, `lon`, `wkt` |
+| `fato_prodes` | fato | polígono PRODES | `id_alerta`, `cnuc`, `ano`, `local`, `area_ha`, `apuracao`, `lat`, `lon`, `wkt` |
+| `fato_embargos` | fato | embargo | `id_embargo`, `num_embargo`, `data`, `ano`, `origem_geom`, `cnuc`, `local`, `lat`, `lon` |
+
+### Por que lat/lon e WKT?
+
+O Power BI **não entende** o tipo `geometry` do PostGIS. Por isso as views entregam:
+
+- `lat` / `lon`: um ponto garantidamente **dentro** do polígono (`ST_PointOnSurface`), para mapas de pontos e bolhas;
+- `wkt`: o polígono como texto (`ST_AsText`), para visuais que desenham polígonos.
+
+O Power BI corta textos acima de **32.766 caracteres**. A view `dim_ucs` simplifica cada UC até
+o WKT caber, e as coordenadas são arredondadas para 5 casas (~1 m):
+
+```sql
+SELECT nome_uc, length(wkt) FROM powerbi.dim_ucs ORDER BY 2 DESC;   -- todos abaixo de 32.000
+```
+
+::: {.callout-note}
+Por que views e não tabelas? Porque as views sempre refletem os dados mais recentes. O Power
+BI importa o resultado na hora da atualização, então a lentidão de uma view só aparece nesse momento.
+:::
+
+---
+
+## 3. Conectar o Power BI ao banco
+
+### Opção A: direto no PostgreSQL (recomendada)
+
+1. **Página Inicial → Obter dados → Mais... → Banco de dados PostgreSQL**.
+2. **Servidor:** `localhost` (ou `localhost:5432`). Se o banco estiver em outro computador, use o IP dele (veja o quadro abaixo).
+3. **Banco de dados:** `monitoramento_ambiental`.
+4. **Modo:** *Importar*. Copia os dados para o arquivo e deixa o painel rápido.
+   *DirectQuery* consulta o banco a cada clique e exige o banco sempre ligado.
+5. Usuário e senha do banco (o Power BI guarda no seu perfil do Windows, não no `.pbix`).
+6. No navegador de tabelas, marque as 5 views `powerbi.*` → **Carregar**.
+
+::: {.callout-warning}
+**Banco no Linux (ou numa VM), Power BI no Windows:** o PostgreSQL só aceita conexões locais
+por padrão. No servidor:
+1. em `postgresql.conf`, defina `listen_addresses = '*'`;
+2. em `pg_hba.conf`, acrescente uma linha liberando a sua rede, por exemplo
+   `host monitoramento_ambiental all 192.168.0.0/24 scram-sha-256`;
+3. reinicie o serviço (`sudo systemctl restart postgresql`) e libere a porta 5432 no firewall.
+
+Faça isso só numa rede de confiança, nunca com o banco exposto na internet.
+:::
+
+### Opção B: arquivos CSV
+
+Sem acesso de rede ao banco:
+
+```bash
+./sql/05_exportar_csv.sh csv_powerbi
+```
+
+Copie a pasta `csv_powerbi` para o Windows e use **Obter dados → Texto/CSV** em cada arquivo.
+No Power Query, confira se a origem está como *65001: Unicode (UTF-8)*, para os acentos aparecerem certos.
+
+---
+
+## 4. Ajustes no Power Query
+
+Em **Transformar dados**:
+
+- Confira os tipos: `data` como *Data*, `area_ha` / `lat` / `lon` como *Número decimal*.
+- Se `lat`/`lon` vierem como texto (CSV com ponto decimal num Windows em português), use
+  *Alterar tipo → Usando localidade → Inglês (Estados Unidos)*.
+- Na coluna `lat`, em **Ferramentas de coluna → Categoria de dados**, escolha *Latitude*; em `lon`, *Longitude*.
+
+---
+
+## 5. Modelo de dados (estrela)
+
+Em **Exibição de modelo**, crie as relações (arrastando uma coluna sobre a outra):
+
+```
+                    dim_ucs (cnuc)
+           1 ┌───────────┼────────────┐ 1
+             │           │1           │
+          * ▼          * ▼          * ▼
+      fato_deter    fato_prodes   fato_embargos
+          * ▲                         * ▲
+             │1                       │1
+             └──── dim_calendario (data) ┘
+```
+
+| De | Para | Cardinalidade | Direção do filtro |
+|---|---|---|---|
+| `dim_ucs[cnuc]` | `fato_deter[cnuc]` | 1 : * | única |
+| `dim_ucs[cnuc]` | `fato_prodes[cnuc]` | 1 : * | única |
+| `dim_ucs[cnuc]` | `fato_embargos[cnuc]` | 1 : * | única |
+| `dim_calendario[data]` | `fato_deter[data]` | 1 : * | única |
+| `dim_calendario[data]` | `fato_embargos[data]` | 1 : * | única |
+
+Marque `dim_calendario` como **tabela de datas** (clique direito → *Marcar como tabela de data* → coluna `data`).
+
+O PRODES é anual e não tem data diária. Filtre o PRODES por `fato_prodes[ano]`, ou crie uma
+`dim_ano` se quiser um filtro de ano comum às três tabelas.
+
+### Calendário em DAX (alternativa à view)
+
+**Modelagem → Nova tabela**:
+
+```{.dax}
+Calendario =
+ADDCOLUMNS (
+    CALENDAR ( DATE ( 2019, 1, 1 ), TODAY () ),
+    "Ano", YEAR ( [Date] ),
+    "Mês", FORMAT ( [Date], "MMM", "pt-BR" ),
+    "Mês Nº", MONTH ( [Date] ),
+    "Ano-Mês", FORMAT ( [Date], "YYYY-MM" ),
+    "Ano PRODES", YEAR ( [Date] ) + IF ( MONTH ( [Date] ) >= 8, 1, 0 )
+)
+```
+
+---
+
+## 6. Medidas DAX
+
+Crie uma tabela só para as medidas (**Página Inicial → Inserir dados**, tabela vazia chamada
+`_Medidas`) e adicione cada medida com **Nova medida**:
+
+```{.dax}
+Alertas = COUNTROWS ( fato_deter )
+
+Área DETER (ha) = SUM ( fato_deter[area_ha] )
+
+Alertas apurados =
+CALCULATE ( [Alertas], fato_deter[apuracao] = "Sim" )
+
+% apurado =
+DIVIDE ( [Alertas apurados], [Alertas] )
+
+Área desmatamento (ha) =
+CALCULATE (
+    [Área DETER (ha)],
+    fato_deter[classe] IN { "DESMATAMENTO_CR", "DESMATAMENTO_VEG" }
+)
+
+Alertas alta prioridade =
+CALCULATE ( [Alertas], fato_deter[prioridade] IN { "Muito Alta", "Alta" } )
+
+Área PRODES (ha) = SUM ( fato_prodes[area_ha] )
+
+Embargos = COUNTROWS ( fato_embargos )
+
+Área DETER ano anterior (ha) =
+CALCULATE ( [Área DETER (ha)], SAMEPERIODLASTYEAR ( dim_calendario[data] ) )
+
+Variação anual =
+DIVIDE ( [Área DETER (ha)] - [Área DETER ano anterior (ha)], [Área DETER ano anterior (ha)] )
+
+Desmatamento / área da UC =
+DIVIDE ( [Área desmatamento (ha)], SUM ( dim_ucs[area_ha] ) )
+```
+
+Formate `% apurado`, `Variação anual` e `Desmatamento / área da UC` como **porcentagem**
+(Ferramentas de medida → Formato).
+
+**Relação com o SQL:** `CALCULATE(medida, filtro)` faz o papel do `count(*) FILTER (WHERE ...)`
+do Módulo 2, e `DIVIDE` é a divisão segura, como o `NULLIF` do Módulo 1.
+
+### Ordem das classes de prioridade
+
+Para que "Muito Alta" apareça antes de "Baixa" (e não em ordem alfabética), crie uma coluna em
+`fato_deter` (**Nova coluna**):
+
+```{.dax}
+Ordem prioridade =
+SWITCH ( fato_deter[prioridade],
+    "Muito Alta", 1, "Alta", 2, "Média", 3, "Baixa", 4,
+    "Muito Baixa", 5, "Apurado", 6, 7 )
+```
+
+Selecione a coluna `prioridade` → **Classificar por coluna** → `Ordem prioridade`.
+
+---
+
+## 7. Mapas
+
+| Visual | Desenha | Usa | Observação |
+|---|---|---|---|
+| **Azure Maps** (nativo) | pontos e bolhas; camada de referência GeoJSON | `lat`, `lon` | Substitui os antigos "Mapa" e "Mapa coroplético" (Bing). Pode precisar ser habilitado pelo administrador numa conta corporativa |
+| **Icon Map Pro** (AppSource) | polígonos a partir de WKT | `wkt` + uma coluna de ID única | Melhor opção para desenhar alertas e UCs como polígonos. Tem versão gratuita com limitações |
+| **Mapa de formas** (nativo, em versão prévia) | polígonos de um arquivo TopoJSON | arquivo + coluna de ligação | Bom para as UCs: exporte `limites.ucs` para TopoJSON (ex.: no mapshaper.org) |
+
+### Mapa de pontos com Azure Maps
+
+1. Insira o visual **Azure Maps**.
+2. **Latitude:** `fato_deter[lat]` · **Longitude:** `fato_deter[lon]` · **Tamanho:** `Área DETER (ha)` · **Legenda:** `fato_deter[prioridade]`.
+3. Em *Formatar → Camada de referência*, carregue um GeoJSON com os limites das UCs
+   (exporte do banco: `ogr2ogr -f GeoJSON ucs.geojson PG:dbname=monitoramento_ambiental limites.ucs -simplify 0.001`).
+
+### Polígonos com Icon Map Pro
+
+1. Em **Visuais → Obter mais visuais**, procure *Icon Map Pro*.
+2. Arraste `fato_deter[id_alerta]` para o campo de ID, `fato_deter[wkt]` para o campo de imagem/WKT,
+   e a medida de prioridade (ou a coluna) para a cor.
+3. Para mostrar as UCs junto, use uma segunda camada com `dim_ucs[wkt]`. Consulte a documentação
+   do visual sobre como combinar tabelas diferentes.
+
+::: {.callout-note}
+Mapas com milhares de polígonos ficam pesados. Para o painel publicado, filtre (ex.: só
+`local = Interior` e o último ano) ou use pontos.
+:::
+
+---
+
+## 8. Sugestão de páginas
+
+**Página 1: Visão geral**
+- Cartões: `Área DETER (ha)`, `Alertas`, `% apurado`, `Alertas alta prioridade`
+- Colunas: `Área desmatamento (ha)` por `dim_calendario[Ano-Mês]`
+- Barras: `Área DETER (ha)` por `dim_ucs[nome_uc]`
+- Segmentações: `dim_calendario[ano_prodes]`, `fato_deter[classe]`, `fato_deter[local]`, `dim_ucs[esfera]`
+
+**Página 2: Fila de fiscalização**
+- Tabela: `id_alerta`, `nome_uc`, `data`, `area_ha`, `ind_priori`, `prioridade`, ordenada por `ind_priori` (decrescente)
+- Mapa de pontos colorido por `prioridade`
+- Filtro de página: `prioridade` diferente de "Apurado" e "Sem prioridade"
+
+**Página 3: Série histórica (PRODES)**
+- Colunas empilhadas: `Área PRODES (ha)` por `fato_prodes[ano]` e `fato_prodes[local]`
+- Linha: `% apurado` do PRODES por ano (crie a medida equivalente para `fato_prodes`)
+
+**Página 4: Sobre os dados**
+- Fontes (INPE, MMA, IBAMA), data da última atualização, critérios da apuração e da priorização.
+- Para mostrar a data dos dados: medida `Atualizado até = MAX ( fato_deter[data] )`.
+
+---
+
+## 9. Atualizar e publicar
+
+### Atualizar os dados
+
+1. Rode `sql/rodar_tudo.sh` (ou só os scripts que mudaram).
+2. No Power BI Desktop: **Página Inicial → Atualizar**.
+
+### Publicar
+
+**Página Inicial → Publicar** envia o relatório para um workspace do serviço (app.powerbi.com),
+com a conta corporativa ou de instituição de ensino da seção 1.
+
+Para o relatório publicado se atualizar sozinho a partir do seu PostgreSQL local, é preciso
+instalar o **gateway de dados local** (*on-premises data gateway*) num computador que fique
+ligado e enxergue o banco, e configurar a atualização agendada no serviço. Para um projeto
+pessoal, o mais simples é atualizar no Desktop e publicar de novo.
+
+### Colocar no seu site
+
+- **Publicar na Web** (*Arquivo → Inserir relatório → Publicar na Web*) gera um link e um código
+  `<iframe>` **públicos**. Qualquer pessoa com o link vê tudo, e o administrador da conta pode ter
+  desativado essa opção. Confira as condições atuais na documentação da Microsoft antes de contar com ela.
+- Sem acesso a isso: publique capturas de tela, um vídeo curto navegando no painel e o arquivo
+  `.pbix` para download.
+
+### Antes de publicar, confira
+
+- [ ] Nenhuma coluna com nome ou CPF/CNPJ (as views do projeto já não têm)
+- [ ] Página "Sobre os dados" com fontes, data e limitações (só embargos do IBAMA; critérios são escolhas do autor)
+- [ ] Textos e rótulos em português, números com separador brasileiro (*Arquivo → Opções → Configurações regionais*)
+
+---
+
+## Exercícios
+
+1. Crie a medida `% apurado PRODES` e um gráfico de linha por ano.
+2. Crie uma página com o ranking das UCs por `Desmatamento / área da UC`.
+3. Adicione uma segmentação por `dim_ucs[grupo]` (Proteção Integral × Uso Sustentável) e compare as duas categorias.
+
+<details><summary>Resposta do 1</summary>
+
+```{.dax}
+% apurado PRODES =
+DIVIDE (
+    CALCULATE ( COUNTROWS ( fato_prodes ), fato_prodes[apuracao] = "Sim" ),
+    COUNTROWS ( fato_prodes )
+)
+```
+</details>

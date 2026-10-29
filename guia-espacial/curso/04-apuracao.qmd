@@ -1,0 +1,237 @@
+---
+title: 'Módulo 4: Apuração, alertas × embargos'
+description: Verificar quais alertas de desmatamento já têm embargo cobrindo a área.
+ordem: 4
+tempo: 45 min
+subtitle: Curso de SQL, PostGIS e Power BI · Módulo 4
+body-classes: capitulo
+---
+
+::: {.callout-tip appearance="simple"}
+## Neste módulo
+- Montar uma regra espacial e temporal de cruzamento
+- Agrupar embargos vizinhos antes de comparar
+- Ler e calibrar o resultado
+
+**Tempo estimado:** 45 min · **Módulo anterior:** [Módulo 3: PostGIS, funções espaciais](03-postgis.qmd)
+:::
+
+Script: [`sql/02_apuracao.sql`](../sql/02_apuracao.sql)
+
+A pergunta:
+
+::: {.callout-note}
+Para cada alerta de desmatamento, **já existe um embargo cobrindo aquela área?**
+Se existe, o alerta foi "apurado" pela fiscalização. Se não existe, é um alerta pendente.
+:::
+
+Vale para os alertas DETER (quase diários) e para o desmatamento anual do PRODES.
+
+---
+
+## 1. Visão geral
+
+```{mermaid}
+%%| eval: true
+%%| fig-cap: "Etapas da apuração"
+flowchart LR
+    A["Alertas DETER nas UCs<br/>desmatamento.deter_ucs"] --> B["ST_Dump<br/>uma linha por parte"]
+    E["Embargos IBAMA<br/>fiscalizacao.embargos"] --> F["Só origem_geom = 'Polígono'"]
+    F --> G["ST_ClusterDBSCAN<br/>grupos a até ~66 m"]
+    G --> H["ST_UnaryUnion por grupo<br/>embargos_grupos"]
+    B --> I{"Toca o grupo?<br/>Data compatível?<br/>Cobre mais de 40%?"}
+    H --> I
+    I -- sim --> J["Apurado = Sim<br/>legalidade = Ilegal"]
+    I -- não --> K["Apurado = Não"]
+    J --> L[("desmatamento.apuracao_deter")]
+    K --> L
+```
+
+---
+
+## 2. Etapa 1: agrupar embargos vizinhos
+
+```sql
+CREATE TABLE fiscalizacao.embargos_grupos AS
+SELECT cluster_id                                         AS id_grupo,
+       string_agg(num_embargo, ', ' ORDER BY num_embargo) AS num_embargo,
+       max(data)                                          AS data,
+       ST_Multi(ST_CollectionExtract(ST_UnaryUnion(ST_Collect(geom)), 3)) AS geom
+FROM (
+    SELECT num_embargo, data, geom,
+           ST_ClusterDBSCAN(geom, eps => 0.0006, minpoints => 1) OVER () AS cluster_id
+    FROM fiscalizacao.embargos
+    WHERE origem_geom = 'Polígono'
+) c
+GROUP BY cluster_id;
+```
+
+**Por quê?** Uma área desmatada costuma ser embargada em vários pedaços vizinhos (um por
+proprietário, por exemplo). Nenhum pedaço sozinho cobre 40% do alerta, mas juntos cobrem.
+
+- `ST_ClusterDBSCAN` dá o mesmo número para embargos a até ~66 m um do outro (Módulo 3, seção 8).
+- `ST_UnaryUnion(ST_Collect(geom))` dissolve o grupo numa área só.
+- `max(data)` guarda a data do embargo **mais recente** do grupo.
+- Embargos `'Ponto'` ficam de fora porque marcam só uma coordenada (um círculo de ~1 m de raio), não a área embargada (Módulo 3, seção 9).
+
+---
+
+## 3. Etapa 2: decidir quem foi apurado
+
+```sql
+WITH
+partes AS (
+    SELECT id_alerta, data, (ST_Dump(geom)).geom AS geom
+    FROM desmatamento.deter_ucs
+),
+casamentos AS (
+    SELECT DISTINCT p.id_alerta
+    FROM partes p
+    JOIN fiscalizacao.embargos_grupos g
+      ON ST_Intersects(p.geom, g.geom)                                          -- 1. toca
+     AND g.data - p.data > -580                                                 -- 2. data compatível
+     AND ST_Area(ST_Intersection(p.geom, g.geom)) / NULLIF(ST_Area(p.geom), 0) > 0.4   -- 3. cobre > 40%
+)
+...
+```
+
+As três condições:
+
+| # | Condição | Por quê |
+|---|---|---|
+| 1 | O alerta toca o grupo de embargos | filtro rápido com índice espacial |
+| 2 | O embargo é de no máximo 580 dias **antes** do alerta (ou depois dele) | um embargo antigo, de outro desmatamento no mesmo lugar, não deve "apurar" um desmatamento novo |
+| 3 | O grupo cobre mais de 40% da parte do alerta | tocar só a borda não basta |
+
+**Por que `ST_Dump`?** O alerta é dividido em partes, e a regra de 40% vale **por parte**.
+Um alerta com duas manchas, uma totalmente embargada e outra não, conta como apurado.
+Isso é uma decisão de método. Se quiser exigir 40% do alerta inteiro, use `desmatamento.deter_ucs`
+direto, sem a CTE `partes`.
+
+**Por que `DISTINCT`?** Um alerta pode casar com vários grupos ou ter várias partes casando.
+Só interessa saber **se** casou.
+
+Para o **PRODES**, que é anual, a regra de data compara anos:
+
+```sql
+AND extract(year FROM g.data) >= p.ano - 1      -- embargo do ano do PRODES ou do anterior
+```
+
+Os valores 580 dias, 40% e 66 m são **parâmetros**. Mude e compare os resultados (exercício 2).
+
+---
+
+## 4. Etapa 3: listar os embargos que tocam o alerta
+
+```sql
+lista AS (
+    SELECT d.id_alerta, string_agg(DISTINCT e.num_embargo, ', ') AS embargos
+    FROM desmatamento.deter_ucs d
+    JOIN fiscalizacao.embargos e ON ST_Intersects(d.geom, e.geom)
+    GROUP BY d.id_alerta
+)
+```
+
+Aqui entram **todos** os embargos que tocam, de qualquer tipo, data ou tamanho. Serve para
+informar os números de embargo a quem for revisar.
+
+---
+
+## 5. Etapa 4: montar o resultado
+
+```sql
+SELECT ...,
+       CASE WHEN d.apuracao IS TRUE OR c.id_alerta IS NOT NULL THEN 'Sim' ELSE 'Não' END AS apuracao,
+       coalesce(d.legalidade, CASE WHEN c.id_alerta IS NOT NULL THEN 'Ilegal' END)       AS legalidade,
+       coalesce(d.embargo,    CASE WHEN c.id_alerta IS NOT NULL THEN l.embargos END)     AS embargo,
+       l.embargos AS embargos_que_tocam,
+       d.geom
+FROM desmatamento.deter_ucs d
+LEFT JOIN casamentos c USING (id_alerta)
+LEFT JOIN lista l      USING (id_alerta);
+```
+
+| Coluna | Regra |
+|---|---|
+| `apuracao` | `'Sim'` se alguém marcou manualmente **ou** se casou com um grupo de embargos |
+| `legalidade` | o valor manual; senão `'Ilegal'` se casou; senão vazio |
+| `embargo` | o valor manual; senão, se casou, os embargos que tocam o alerta |
+| `embargos_que_tocam` | sempre a lista completa, para conferência |
+
+- `LEFT JOIN` mantém **todos** os alertas, apurados ou não.
+- `USING (id_alerta)` é um atalho para `ON c.id_alerta = d.id_alerta` quando a coluna tem o mesmo nome nas duas tabelas.
+- `COALESCE(manual, calculado)`: a revisão humana sempre vence o cálculo automático.
+
+---
+
+## 6. Rodar e conferir
+
+```bash
+psql -d monitoramento_ambiental -f sql/02_apuracao.sql
+```
+
+```sql
+-- Percentual apurado por ano
+SELECT ano,
+       count(*)                                                       AS alertas,
+       count(*) FILTER (WHERE apuracao = 'Sim')                       AS apurados,
+       round(100.0 * count(*) FILTER (WHERE apuracao = 'Sim') / count(*), 1) AS pct
+FROM desmatamento.apuracao_deter
+GROUP BY ano ORDER BY ano;
+
+-- Alertas pendentes: grandes, no interior, sem embargo
+SELECT id_alerta, nome_uc, data, classname, area_ha
+FROM desmatamento.apuracao_deter
+WHERE apuracao = 'Não' AND local = 'Interior' AND classname = 'DESMATAMENTO_CR'
+ORDER BY area_ha DESC
+LIMIT 20;
+
+-- Alertas que tocam embargo, mas não passaram nos critérios
+SELECT id_alerta, area_ha, embargos_que_tocam
+FROM desmatamento.apuracao_deter
+WHERE apuracao = 'Não' AND embargos_que_tocam IS NOT NULL
+LIMIT 20;
+```
+
+Abra `desmatamento.apuracao_deter` no QGIS junto com `fiscalizacao.embargos` e confira alguns
+casos no mapa. É a melhor forma de calibrar os parâmetros.
+
+![Resultado da apuração no recorte de exemplo.](../../imagens/guia-espacial/apuracao.png){fig-alt="Mapa da região de exemplo com áreas embargadas em cinza, alertas sem embargo em laranja e alertas apurados em azul. A maioria dos alertas, sobretudo dentro das UCs, está em laranja: não tem embargo cobrindo a área."}
+
+![Percentual de alertas apurados por ano.](../../imagens/guia-espacial/apuracao_anual.png){fig-alt="Gráfico de linhas. No PRODES, o percentual de alertas com embargo sobe de 7% em 2019 para 26% em 2022 e cai para 6% em 2025. No DETER, fica entre 3% e 11% de 2023 a 2026."}
+
+::: {.callout-warning}
+**Limitação:** os dados públicos incluem só embargos do **IBAMA**. Embargos estaduais e do
+ICMBio não estão nessa base, então o percentual real de alertas fiscalizados é maior do que o
+calculado aqui. Ao publicar os resultados, deixe isso claro.
+:::
+
+---
+
+## Exercícios
+
+1. Quantos alertas de mineração (`MINERACAO`) foram apurados em cada UC?
+2. Mude o limite de 40% para 70% (em `02_apuracao.sql`), rode de novo e compare o total de apurados.
+3. Incluir os embargos `'Ponto'` na decisão muda muito o resultado? Teste tirando o `WHERE origem_geom = 'Polígono'`.
+4. Crie a tabela `desmatamento.revisoes (id_alerta, apuracao, legalidade, info)`, insira uma revisão
+   manual e altere o `01_preparar_tabelas.sql` para usá-la no lugar dos `NULL`.
+
+<details><summary>Respostas</summary>
+
+```sql
+-- 1
+SELECT nome_uc, count(*) FILTER (WHERE apuracao = 'Sim') AS apurados, count(*) AS total
+FROM desmatamento.apuracao_deter
+WHERE classname = 'MINERACAO'
+GROUP BY nome_uc;
+
+-- 4 (trecho a trocar no passo 5 do 01_preparar_tabelas.sql)
+--   NULL::boolean AS apuracao, NULL::text AS legalidade, ...
+-- vira
+--   r.apuracao, r.legalidade, r.info, NULL::text AS embargo
+-- com, no FROM:
+--   LEFT JOIN desmatamento.revisoes r USING (id_alerta)
+```
+
+Os exercícios 2 e 3 dependem dos dados baixados: compare a consulta "percentual apurado por ano" antes e depois.
+</details>

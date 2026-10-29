@@ -1,0 +1,31 @@
+{
+  "chave": "artigos/09-densidade-kernel.qmd",
+  "metadata": {
+    "title": "Densidade Kernel do desmatamento: onde a pressão está concentrada",
+    "upload_type": "publication",
+    "publication_type": "technicalnote",
+    "description": "Um mapa de calor do desmatamento PRODES 2025 que combina área e quantidade de polígonos num índice de 0 a 1, com raio e célula em metros. Mostra também como fazer Kernel no PostGIS sem raster e por que normalizar torna os programas comparáveis.",
+    "creators": [
+      {
+        "name": "Alves, Hendesson"
+      }
+    ],
+    "keywords": [
+      "PRODES",
+      "Raster",
+      "geoprocessamento",
+      "monitoramento ambiental"
+    ],
+    "language": "por",
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "publication_date": "2026-10-29",
+    "related_identifiers": [
+      {
+        "identifier": "https://hendesson.github.io/artigos/09-densidade-kernel.html",
+        "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      }
+    ]
+  }
+}

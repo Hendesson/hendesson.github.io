@@ -1,0 +1,31 @@
+{
+  "chave": "artigos/05-campos-de-data.qmd",
+  "metadata": {
+    "title": "Ano, mês e ano PRODES: campos de data em cada programa",
+    "upload_type": "publication",
+    "publication_type": "technicalnote",
+    "description": "Ano, mês, nome do mês, ano PRODES (agosto a julho) e mês PRODES em uma linha por programa, sem depender do idioma do computador. Inclui Power Query e DAX para quem publica no Power BI.",
+    "creators": [
+      {
+        "name": "Alves, Hendesson"
+      }
+    ],
+    "keywords": [
+      "Datas",
+      "Power BI",
+      "geoprocessamento",
+      "monitoramento ambiental"
+    ],
+    "language": "por",
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "publication_date": "2026-10-29",
+    "related_identifiers": [
+      {
+        "identifier": "https://hendesson.github.io/artigos/05-campos-de-data.html",
+        "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      }
+    ]
+  }
+}

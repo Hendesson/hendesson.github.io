@@ -18,6 +18,8 @@ website:
         text: Pacotes
       - href: tutoriais.qmd
         text: Tutoriais
+      - href: artigos/index.qmd
+        text: Artigos
       - href: cv.qmd
         text: Currículo
       - href: perguntas.qmd
@@ -29,6 +31,32 @@ website:
       - icon: github
         href: https://github.com/Hendesson
         aria-label: GitHub
+  # Barra lateral só das páginas do Guia de dados espaciais
+  sidebar:
+    - id: guia-espacial
+      title: "Guia de dados espaciais"
+      style: docked
+      collapse-level: 2
+      contents:
+        - href: guia-espacial/index.qmd
+          text: "Início"
+        - section: "Guia"
+          contents:
+            - guia-espacial/guia/01-conceitos.qmd
+            - guia-espacial/guia/02-formatos-e-servicos.qmd
+            - guia-espacial/guia/03-fontes-de-dados.qmd
+            - guia-espacial/guia/04-ferramentas.qmd
+            - guia-espacial/guia/05-glossario.qmd
+        - section: "Curso"
+          contents:
+            - guia-espacial/curso/00-ambiente-e-dados.qmd
+            - guia-espacial/curso/01-sql-basico.qmd
+            - guia-espacial/curso/02-joins-e-agregacoes.qmd
+            - guia-espacial/curso/03-postgis.qmd
+            - guia-espacial/curso/04-apuracao.qmd
+            - guia-espacial/curso/05-priorizacao.qmd
+            - guia-espacial/curso/06-python.qmd
+            - guia-espacial/curso/07-power-bi.qmd
   page-footer:
     left: "© 2026 Hendesson Alves · Feito com [Quarto](https://quarto.org)"
     right:

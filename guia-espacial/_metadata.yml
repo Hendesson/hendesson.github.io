@@ -1,0 +1,22 @@
+# Vale para todas as páginas dentro de guia-espacial/
+format:
+  html:
+    css: [guia.css, ../estilos/livro.css]
+author: Hendesson Alves
+date: 2026-10-29
+date-modified: 2026-10-29
+date-format: "D [de] MMMM [de] YYYY"
+license: "CC BY"
+citation:
+  type: book
+  container-title: "Guia de dados espaciais para monitoramento ambiental"
+  publisher: "Hendesson Alves"
+  language: pt-BR
+appendix-cite-as: [display, bibtex]
+language:
+  title-block-published: "Publicado em"
+  title-block-modified: "Atualizado em"
+  title-block-author-single: "Autor"
+  section-title-citation: "Como citar"
+  section-title-reuse: "Licença"
+doi: 10.5281/zenodo.23780272

@@ -1,0 +1,108 @@
+---
+title: Fontes de dados
+description: Onde baixar dados públicos de desmatamento, fogo, áreas protegidas, fiscalização e cadastro
+  fundiário no Brasil.
+ordem: 3
+subtitle: Guia · Capítulo 3 de 5
+body-classes: capitulo
+---
+
+Catálogo das principais fontes públicas para monitoramento ambiental. Links conferidos em outubro de 2026.
+
+::: {.callout-note}
+Portais mudam de endereço com frequência. Se um link quebrar, procure pelo nome do dado no
+site do órgão. Anote sempre **a data do download e a versão** do dado que você usou.
+:::
+
+![DETER, PRODES, UCs e embargos na região de Novo Progresso (PA), baixados com os scripts do curso.](../../imagens/guia-espacial/fontes_mosaico.png){fig-alt="Quatro mapas da mesma região: Unidades de Conservação por grupo, alertas DETER por classe, desmatamento PRODES por ano e áreas embargadas pelo IBAMA."}
+
+## Desmatamento e uso da terra
+
+| Dado | Quem produz | O que é | Onde |
+|---|---|---|---|
+| **PRODES** | INPE | Mapeamento anual oficial do desmatamento por corte raso. Série desde 1988 na Amazônia Legal, depois ampliada a outros biomas | [TerraBrasilis – downloads](https://terrabrasilis.dpi.inpe.br/downloads/) · WFS `https://terrabrasilis.dpi.inpe.br/geoserver/prodes-legal-amz/ows` |
+| **DETER** | INPE | Alertas quase diários de desmatamento, degradação, mineração e cicatriz de queimada (Amazônia e Cerrado), para apoiar a fiscalização | [TerraBrasilis – downloads](https://terrabrasilis.dpi.inpe.br/downloads/) · WFS `https://terrabrasilis.dpi.inpe.br/geoserver/deter-amz/ows` |
+| **MapBiomas Alerta** | MapBiomas | Alertas de desmatamento de todos os biomas, validados com imagens de alta resolução e cruzados com CAR e áreas protegidas | [alerta.mapbiomas.org](https://alerta.mapbiomas.org) (download e API com cadastro gratuito) |
+| **MapBiomas – Uso e cobertura** | MapBiomas | Mapas anuais de uso e cobertura da terra (raster, 30 m) desde 1985 | [brasil.mapbiomas.org](https://brasil.mapbiomas.org) · [plataforma](https://plataforma.brasil.mapbiomas.org) |
+| **Global Forest Watch** | WRI e parceiros | Perda de cobertura arbórea e alertas globais (GLAD, RADD) | [globalforestwatch.org](https://www.globalforestwatch.org) |
+
+**PRODES ou DETER?** O PRODES é a **taxa oficial**, anual e mais precisa. O DETER é um **alerta
+rápido**, feito para chegar a tempo de a fiscalização agir. Não some os dois: eles medem
+coisas diferentes, em escalas diferentes.
+
+![Desmatamento PRODES por ano no interior e no entorno de 3 km das UCs do recorte.](../../imagens/guia-espacial/prodes_anual.png){fig-alt="Gráfico de barras por ano, de 2019 a 2025. No interior das UCs, o desmatamento sobe de cerca de 15 mil hectares em 2019 para quase 29 mil em 2021 e cai para cerca de 3 mil em 2025. No entorno, os valores são menores e seguem a mesma tendência." width="85%"}
+
+## Fogo
+
+| Dado | Quem produz | O que é | Onde |
+|---|---|---|---|
+| **Focos de calor** | INPE (Programa Queimadas) | Pontos detectados por satélites, quase em tempo real | [terrabrasilis.dpi.inpe.br/queimadas](https://terrabrasilis.dpi.inpe.br/queimadas/) |
+| **Área queimada (MapBiomas Fogo)** | MapBiomas | Cicatrizes de fogo mensais e anuais (raster, 30 m) | [brasil.mapbiomas.org](https://brasil.mapbiomas.org) |
+| **Cicatriz de queimada (DETER)** | INPE | Classe `CICATRIZ_DE_QUEIMADA` dos alertas DETER | mesmo WFS do DETER |
+
+::: {.callout-warning}
+**Foco de calor não é área queimada.** Um foco é um pixel quente num instante. Um incêndio grande
+gera muitos focos, e um pequeno pode não gerar nenhum. Para área, use cicatrizes.
+:::
+
+Nos alertas DETER do recorte, as cicatrizes de queimada dominam a área detectada, com um pico em 2024:
+
+![Área de alertas DETER por mês e classe no interior das UCs do recorte.](../../imagens/guia-espacial/serie_mensal_deter.png){fig-alt="Gráfico de barras empilhadas por mês, de 2023 a 2026, com picos de cicatriz de queimada entre agosto e outubro de 2024 que chegam perto de 100 mil hectares. As outras classes são bem menores."}
+
+## Áreas protegidas e territórios
+
+| Dado | Quem produz | Onde |
+|---|---|---|
+| **Unidades de Conservação (CNUC)**: federais, estaduais e municipais, com código CNUC | MMA | [dados.mma.gov.br – Unidades de Conservação](https://dados.mma.gov.br/dataset/unidadesdeconservacao) |
+| **Terras Indígenas** | FUNAI | [gov.br/funai – Geoprocessamento e mapas](https://www.gov.br/funai/pt-br/atuacao/terras-indigenas/geoprocessamento-e-mapas) |
+| **UCs, TIs, municípios e estados da Amazônia Legal** (já recortados) | INPE | WFS `https://terrabrasilis.dpi.inpe.br/geoserver/prodes-legal-amz/ows` |
+
+## Fiscalização
+
+| Dado | Quem produz | O que tem | Onde |
+|---|---|---|---|
+| **Áreas embargadas (polígonos)** | IBAMA | Área, data, auto de infração e origem da geometria (polígono ou ponto) | WFS `https://pamgia.ibama.gov.br/server/services/01_Publicacoes_Bases/adm_embargos_ibama_a/MapServer/WFSServer` |
+| **Termos de embargo, autos de infração (tabelas)** | IBAMA | Planilhas CSV, JSON e XML, atualizadas com frequência | [dadosabertos.ibama.gov.br](https://dadosabertos.ibama.gov.br/dataset/fiscalizacao-termo-de-embargo) |
+
+::: {.callout-warning}
+**Dados pessoais.** As bases de fiscalização trazem nome e CPF/CNPJ dos autuados. Mesmo sendo
+públicas, não republique essas colunas em painéis, mapas ou sites. A LGPD exige finalidade e
+cuidado com dados pessoais.
+:::
+
+Na base de embargos, o campo `origem_geom` diz se a área foi desenhada (`Polígono`) ou se só a
+coordenada foi registrada (`Ponto`). Embargos de ponto não mostram o tamanho da área embargada
+(veja o [Módulo 3](../curso/03-postgis.qmd)).
+
+## Cadastro fundiário
+
+| Dado | Quem produz | Onde |
+|---|---|---|
+| **CAR (Cadastro Ambiental Rural)**: imóveis rurais autodeclarados, APP, reserva legal | SFB / SICAR | [car.gov.br](https://www.car.gov.br) → Consulta Pública → Downloads (por estado) |
+| **SIGEF**: imóveis certificados pelo INCRA | INCRA | [sigef.incra.gov.br](https://sigef.incra.gov.br) |
+
+O CAR é **autodeclaratório**: os limites são desenhados pelo próprio proprietário e podem se
+sobrepor a outros imóveis, UCs e Terras Indígenas.
+
+## Bases cartográficas
+
+| Dado | Onde |
+|---|---|
+| Malhas municipais, estaduais e setores censitários | IBGE: [geoftp.ibge.gov.br](https://geoftp.ibge.gov.br) e [API de malhas](https://servicodados.ibge.gov.br/api/docs/malhas) |
+| Biomas, Amazônia Legal | IBGE (mesmos endereços) |
+
+## Boas práticas ao usar dados públicos
+
+1. **Cite a fonte e a data**, por exemplo: "DETER/INPE, dados baixados em 29/10/2026".
+2. **Guarde o dado bruto** sem alterar e trabalhe em cópias. No curso, o schema `bruto` faz esse papel.
+3. **Leia a nota técnica** de cada produto: área mínima, classes, mudanças de método entre anos.
+4. **Confira o SRC** de cada camada antes de cruzar.
+5. **Registre as limitações** junto com os resultados. Exemplo: "inclui só embargos do IBAMA".
+6. **Olhe os dados no mapa.** Formas estranhas, círculos perfeitos e geometrias repetidas indicam
+   problemas na origem, como neste caso, encontrado nos embargos do recorte:
+
+![Sete embargos de 2008 com o mesmo polígono, de cerca de 20,9 mil ha.](../../imagens/guia-espacial/qualidade_geometria_repetida.png){fig-alt="Mapa com um grande polígono em forma de seta, destacado em laranja, cercado por embargos menores em cinza. Uma anotação diz que sete embargos de setembro de 2008 usam esse mesmo polígono." width="80%"}
+
+## Próximo passo
+
+[Ferramentas](04-ferramentas.qmd): o que instalar para trabalhar com esses dados.

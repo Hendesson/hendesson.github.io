@@ -1,0 +1,260 @@
+---
+title: 'Módulo 6: Python + PostgreSQL/PostGIS'
+description: Ler e gravar no banco com psycopg2 e geopandas, sem senha no código.
+ordem: 6
+tempo: 45 min
+subtitle: Curso de SQL, PostGIS e Power BI · Módulo 6
+body-classes: capitulo
+---
+
+::: {.callout-tip appearance="simple"}
+## Neste módulo
+- Ler camadas do PostGIS como GeoDataFrame
+- Guardar credenciais fora do código (pgpass, pg_service)
+- Automatizar os scripts do curso
+
+**Tempo estimado:** 45 min · **Módulo anterior:** [Módulo 5: Priorização, clusters e índice](05-priorizacao.qmd)
+:::
+
+Como ler e gravar dados do banco `monitoramento_ambiental` com Python: útil para automatizar,
+gerar gráficos ou fazer análises que ficam difíceis em SQL.
+
+```bash
+pip install psycopg2-binary geopandas sqlalchemy geoalchemy2
+```
+
+---
+
+## 1. Conectar e ler uma camada
+
+```python
+import psycopg2
+import geopandas as gpd
+
+con = psycopg2.connect(host="localhost", port=5432,
+                       dbname="monitoramento_ambiental", user="postgres")
+
+sql = "SELECT id_alerta, nome_uc, data, area_ha, geom FROM desmatamento.deter_ucs"
+alertas = gpd.read_postgis(sql, con, geom_col="geom")
+con.close()
+
+print(alertas.head())
+print(alertas.crs)          # EPSG:4674
+```
+
+`gpd.read_postgis` roda o SQL e devolve um **GeoDataFrame**: uma tabela do pandas com a
+geometria já convertida. A partir daí:
+
+```python
+alertas.to_file("alertas.gpkg", driver="GPKG")            # salva em GeoPackage
+alertas.plot(column="area_ha", legend=True)                # mapa rápido (precisa do matplotlib)
+alertas.groupby("nome_uc")["area_ha"].sum()                # resumo com pandas
+```
+
+Para tabelas sem geometria, use o pandas: `pd.read_sql(sql, con)`.
+
+---
+
+## 2. Nunca escreva a senha no código
+
+Se o script for para o GitHub ou para um site, a senha vai junto. Use uma destas opções.
+
+### Opção A: arquivo de senhas do PostgreSQL (`pgpass`)
+
+O psycopg2, o `psql`, o QGIS e o pgAdmin procuram a senha nele automaticamente.
+
+- Windows: `%APPDATA%\postgresql\pgpass.conf`
+- Linux/macOS: `~/.pgpass` (depois rode `chmod 600 ~/.pgpass`)
+
+Uma linha por banco: `servidor:porta:banco:usuario:senha`
+
+```
+localhost:5432:monitoramento_ambiental:postgres:minha_senha
+```
+
+E o código fica sem `password`:
+
+```python
+con = psycopg2.connect(host="localhost", dbname="monitoramento_ambiental", user="postgres")
+```
+
+### Opção B: arquivo de serviço (`pg_service.conf`)
+
+Tira do código até o servidor e o usuário. Crie o arquivo `%APPDATA%\postgresql\.pg_service.conf`
+(Windows) ou `~/.pg_service.conf` (Linux/macOS):
+
+```ini
+[monitoramento]
+host=localhost
+port=5432
+dbname=monitoramento_ambiental
+user=postgres
+```
+
+A senha continua no `pgpass`. No código:
+
+```python
+con = psycopg2.connect(service="monitoramento")
+```
+
+`psql service=monitoramento` e o QGIS também aceitam.
+
+### Opção C: variáveis de ambiente
+
+O psycopg2 lê `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER` e `PGPASSWORD` sozinho:
+
+```python
+con = psycopg2.connect("")      # usa as variáveis de ambiente
+```
+
+---
+
+## 3. Um módulo de conexão reutilizável
+
+Crie um `conexao.py`:
+
+```python
+# conexao.py
+import psycopg2
+import geopandas as gpd
+import pandas as pd
+from sqlalchemy import create_engine
+
+SERVICO = "monitoramento"
+
+def conectar():
+    return psycopg2.connect(service=SERVICO)
+
+def engine():
+    """Para o pandas/geopandas (evita o aviso de 'only supports SQLAlchemy')."""
+    return create_engine("postgresql+psycopg2://", connect_args={"service": SERVICO})
+
+def ler_camada(sql, params=None, geom_col="geom"):
+    return gpd.read_postgis(sql, engine(), geom_col=geom_col, params=params)
+
+def ler_tabela(sql, params=None):
+    return pd.read_sql(sql, engine(), params=params)
+```
+
+Uso:
+
+```python
+from conexao import ler_camada, ler_tabela
+
+ucs = ler_camada("SELECT * FROM limites.ucs")
+resumo = ler_tabela("SELECT prioridade, count(*) FROM desmatamento.vw_deter_prioridade GROUP BY 1")
+```
+
+---
+
+## 4. Parâmetros: nunca monte SQL juntando texto
+
+Errado (quebra com aspas no texto e abre brecha para *SQL injection*):
+
+```python
+sql = "SELECT * FROM desmatamento.deter_ucs WHERE nome_uc = '" + uc + "'"
+```
+
+Certo: deixe a biblioteca inserir o valor:
+
+```python
+sql = """
+SELECT id_alerta, data, area_ha, geom
+FROM desmatamento.deter_ucs
+WHERE nome_uc = %(uc)s AND area_ha > %(minimo)s
+"""
+gdf = ler_camada(sql, params={"uc": "FLORESTA NACIONAL DO JAMANXIM", "minimo": 5})
+```
+
+Para nomes de **tabela ou coluna** variáveis, parâmetro não funciona. Use `psycopg2.sql`:
+
+```python
+from psycopg2 import sql as pgsql
+from conexao import conectar
+
+tabela = pgsql.Identifier("desmatamento", "apuracao_deter")
+consulta = pgsql.SQL("SELECT count(*) FROM {}").format(tabela)
+with conectar() as con, con.cursor() as cur:
+    cur.execute(consulta)
+    print(cur.fetchone())
+```
+
+---
+
+## 5. Rodar os scripts SQL do projeto pelo Python
+
+```python
+from pathlib import Path
+from conexao import conectar
+
+for arquivo in ["01_preparar_tabelas.sql", "02_apuracao.sql",
+                "03_priorizacao.sql", "04_views_powerbi.sql"]:
+    sql = Path("sql", arquivo).read_text(encoding="utf-8")
+    with conectar() as con, con.cursor() as cur:
+        cur.execute(sql)            # o arquivo inteiro numa transação
+    print("ok:", arquivo)
+# ao sair do "with" sem erro o psycopg2 faz commit; com erro, desfaz tudo (rollback)
+```
+
+---
+
+## 6. Gravar no banco
+
+```python
+import geopandas as gpd
+from conexao import engine
+
+pontos = gpd.read_file("meus_pontos_de_campo.gpkg").to_crs(4674)
+pontos.to_postgis("pontos_campo", engine(), schema="treino",
+                  if_exists="replace",     # 'fail' (padrão), 'replace' ou 'append'
+                  index=False)
+```
+
+`to_postgis` exige `sqlalchemy` e `geoalchemy2`.
+
+---
+
+## 7. Exemplo completo: gráfico mensal por UC
+
+```python
+import matplotlib.pyplot as plt
+from conexao import ler_tabela
+
+df = ler_tabela("""
+    SELECT date_trunc('month', data)::date AS mes, nome_uc, sum(area_ha) AS area_ha
+    FROM desmatamento.deter_ucs
+    WHERE local = 'Interior' AND classname LIKE 'DESMAT%%'
+    GROUP BY 1, 2
+""")
+# o %% é necessário porque % tem significado especial nos parâmetros do psycopg2
+
+tabela = df.pivot(index="mes", columns="nome_uc", values="area_ha").fillna(0)
+tabela.plot(figsize=(10, 5), title="Desmatamento DETER por UC (ha/mês)")
+plt.tight_layout()
+plt.savefig("desmatamento_mensal.png", dpi=150)
+```
+
+---
+
+## Exercícios
+
+1. Configure o `pgpass` e o `pg_service.conf` e teste `psycopg2.connect(service="monitoramento")`.
+2. Salve em GeoPackage só os alertas com prioridade `'Alta'` ou `'Muito Alta'`.
+3. Faça um gráfico de barras com a área PRODES por ano, separando interior e entorno.
+
+<details><summary>Respostas</summary>
+
+```python
+# 2
+from conexao import ler_camada
+gdf = ler_camada(
+    "SELECT * FROM desmatamento.vw_deter_prioridade WHERE prioridade = ANY(%(c)s)",
+    params={"c": ["Muito Alta", "Alta"]})
+gdf.to_file("prioridade_alta.gpkg", driver="GPKG", layer="deter")
+
+# 3
+from conexao import ler_tabela
+df = ler_tabela("SELECT ano, local, sum(area_ha) AS area_ha FROM desmatamento.prodes_ucs GROUP BY 1, 2")
+df.pivot(index="ano", columns="local", values="area_ha").plot.bar(title="PRODES nas UCs (ha)")
+```
+</details>

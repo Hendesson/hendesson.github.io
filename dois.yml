@@ -1,0 +1,25 @@
+# DOIs do Zenodo do Guia de dados espaciais e dos Artigos.
+#
+# 1. Crie um registro no Zenodo para cada linha (veja _zenodo/LEIAME.md) e copie o DOI
+#    reservado, no formato 10.5281/zenodo.1234567.
+# 2. Cole o DOI entre as aspas.
+# 3. Rode:  python scripts/aplicar_doi.py
+#    O DOI aparece no topo da página e no bloco "Como citar". Linhas vazias não mostram DOI.
+
+# Um DOI para o guia e o curso inteiro (vale para todas as páginas de guia-espacial/)
+guia-espacial: "10.5281/zenodo.23780272"
+
+# Um DOI para cada artigo
+artigos/01-equivalencias.qmd: "10.5281/zenodo.23780245"
+artigos/02-interior-entorno.qmd: "10.5281/zenodo.23780248"
+artigos/03-prodes-ucs.qmd: "10.5281/zenodo.23780250"
+artigos/04-focos-calor.qmd: "10.5281/zenodo.23780252"
+artigos/05-campos-de-data.qmd: "10.5281/zenodo.23780254"
+artigos/06-tabela-mensal-acumulada.qmd: "10.5281/zenodo.23780256"
+artigos/07-juntar-atributos.qmd: "10.5281/zenodo.23780258"
+artigos/08-car-ucs.qmd: "10.5281/zenodo.23780260"
+artigos/09-densidade-kernel.qmd: "10.5281/zenodo.23780262"
+artigos/10-mapas-automaticos.qmd: "10.5281/zenodo.23780264"
+artigos/11-relatorio-pdf.qmd: "10.5281/zenodo.23780266"
+artigos/12-priorizacao-arcgis-qgis.qmd: "10.5281/zenodo.23780268"
+artigos/13-atualizar-camadas.qmd: "10.5281/zenodo.23780270"

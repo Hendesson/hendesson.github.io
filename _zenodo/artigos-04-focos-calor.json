@@ -1,0 +1,31 @@
+{
+  "chave": "artigos/04-focos-calor.qmd",
+  "metadata": {
+    "title": "Focos de calor das últimas 24 e 48 horas nas UCs",
+    "upload_type": "publication",
+    "publication_type": "technicalnote",
+    "description": "Os focos de calor do INPE direto do servidor público, sem login: baixar os arquivos do dia, transformar em pontos, filtrar as últimas 24 e 48 horas em UTC e contar por UC. E por que somar focos de vários satélites engana.",
+    "creators": [
+      {
+        "name": "Alves, Hendesson"
+      }
+    ],
+    "keywords": [
+      "Fogo",
+      "UCs",
+      "geoprocessamento",
+      "monitoramento ambiental"
+    ],
+    "language": "por",
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "publication_date": "2026-10-29",
+    "related_identifiers": [
+      {
+        "identifier": "https://hendesson.github.io/artigos/04-focos-calor.html",
+        "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      }
+    ]
+  }
+}

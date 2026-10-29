@@ -1,0 +1,74 @@
+/* Estilo de livro: Guia de dados espaciais (curso) e Artigos.
+   Ligado pelos _metadata.yml de guia-espacial/ e artigos/. */
+@import url("https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap");
+
+/* Texto corrido com fonte serifada, coluna confortável e entrelinha generosa */
+.capitulo main.content p,
+.capitulo main.content li,
+.capitulo main.content dd,
+.capitulo #title-block-header .abstract p {
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+.capitulo main.content h2, .capitulo main.content h3 {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-weight: 700;
+}
+.capitulo main.content h2 { margin-top: 2.4rem; }
+.capitulo .quarto-title .title { font-family: "Source Serif 4", Georgia, serif; font-weight: 700; }
+
+/* Rótulo de capítulo acima do título (vem do campo subtitle) */
+.capitulo .quarto-title { display: flex; flex-direction: column; }
+.capitulo .quarto-title .subtitle {
+  order: -1; margin: 0 0 .35rem; font-family: inherit;
+  font-size: .8rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; opacity: .9;
+}
+
+/* Letra capitular no primeiro parágrafo dos artigos */
+.capitulo.artigo .ficha + p::first-letter {
+  float: left; font-family: "Source Serif 4", Georgia, serif; font-size: 3.6em;
+  line-height: .85; padding: .08em .1em 0 0; font-weight: 700; color: #0072B2;
+}
+
+/* Ornamento entre o texto e os créditos */
+.capitulo #quarto-appendix { border-top: none; }
+.capitulo #quarto-appendix::before {
+  content: "❦"; display: block; text-align: center; font-size: 1.4rem; color: #888; margin: 1rem 0;
+}
+
+/* Navegação de livro (anterior / próximo) */
+.navegacao-livro { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2.5rem 0 1rem; }
+.navegacao-livro a {
+  display: block; border: 1px solid #ccc; border-radius: 6px; padding: .8rem 1rem;
+  text-decoration: none; color: inherit; font-family: "Source Serif 4", Georgia, serif;
+}
+.navegacao-livro a:hover, .navegacao-livro a:focus-visible { border-color: #0072B2; }
+.navegacao-livro .direcao {
+  display: block; font-family: system-ui, sans-serif; font-size: .72rem; letter-spacing: .08em;
+  text-transform: uppercase; color: #555; margin-bottom: .2rem;
+}
+.navegacao-livro .proximo { text-align: right; grid-column: 2; }
+@media (max-width: 575px) {
+  .navegacao-livro { grid-template-columns: 1fr; }
+  .navegacao-livro .proximo { grid-column: 1; }
+}
+
+/* Bloco de citação e DOI */
+.capitulo .quarto-appendix-citeas, .capitulo .quarto-appendix-bibtex { font-size: .9rem; }
+
+/* Elementos de interface ficam na fonte sem serifa */
+.capitulo main.content .ficha p,
+.capitulo main.content .quarto-title-meta p,
+.capitulo main.content .quarto-title-breadcrumbs,
+.capitulo main.content .quarto-title-breadcrumbs *,
+.capitulo main.content .callout-title-container,
+.capitulo main.content .navegacao-livro .direcao,
+.capitulo main.content .panel-tabset .nav-link,
+.capitulo main.content table p, .capitulo main.content table li {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.capitulo main.content .ficha p { font-size: .92rem; line-height: 1.5; }
+.capitulo main.content .quarto-title-meta p { font-size: .95rem; line-height: 1.4; }
+.capitulo main.content table p, .capitulo main.content table li { font-size: .92rem; line-height: 1.45; }
+.navegacao-livro p { display: contents; }

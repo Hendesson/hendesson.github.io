@@ -1,0 +1,105 @@
+---
+title: "Sobre os artigos e os dados"
+description: "Como os artigos foram feitos, que versão existe em cada um, de onde vêm os dados e de quais scripts antigos cada artigo nasceu."
+toc: true
+resources:
+  - scripts/*
+---
+
+Os artigos nasceram de uma pasta de scripts antigos de trabalho: ferramentas do **ArcMap**, scripts
+`arcpy` do **ArcGIS Pro**, consultas **PostGIS** e rotinas em **Python**. Cada script foi refeito com
+**dados públicos** e virou um artigo com **uma versão para cada programa**.
+
+[← Voltar para todos os artigos](index.qmd)
+
+## Que versão existe em cada artigo
+
+| Artigo | ArcGIS Pro | QGIS | PostGIS | Python | Extra |
+|---|:-:|:-:|:-:|:-:|---|
+| [1. Equivalências](01-equivalencias.qmd) | ● | ● | ● | ● | ArcMap → Pro |
+| [2. Interior e entorno](02-interior-entorno.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [3. PRODES nas UCs](03-prodes-ucs.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [4. Focos de calor](04-focos-calor.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [5. Campos de data](05-campos-de-data.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | Power BI |
+| [6. Tabela mensal acumulada](06-tabela-mensal-acumulada.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | Power BI |
+| [7. Juntar atributos](07-juntar-atributos.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [8. CAR nas UCs](08-car-ucs.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [9. Densidade Kernel](09-densidade-kernel.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [10. Mapas automáticos](10-mapas-automaticos.qmd) | ● | ● ✔ | ● | ● ✔ | ArcMap |
+| [11. Relatório em PDF](11-relatorio-pdf.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | Quarto ✔ |
+| [12. Priorização](12-priorizacao-arcgis-qgis.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [13. Atualizar sem duplicar](13-atualizar-camadas.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+
+: ● = versão no artigo; ✔ = código rodado e conferido com os dados reais. {.striped}
+
+::: {.callout-note}
+## Sobre as versões do ArcGIS
+As versões do **ArcGIS Pro** e do **ArcMap** seguem a documentação e os scripts originais, mas **não
+foram rodadas aqui**, porque precisam de licença. As versões do QGIS (4.2), do PostGIS (3.5) e do Python
+(geopandas 1.x) foram rodadas com os dados de outubro de 2026, e os números de cada artigo saíram delas.
+Se encontrar um erro na versão do ArcGIS, [me avise](mailto:hendesson124@gmail.com).
+:::
+
+## Dados dos artigos {#dados}
+
+Todos os artigos usam o mesmo arquivo, `dados/artigos.gpkg`, um **GeoPackage** que abre no QGIS, no
+ArcGIS Pro e no Python. Um script baixa tudo das fontes oficiais em cerca de um minuto:
+
+[Baixar o script (baixar_dados_artigos.sh)](scripts/baixar_dados_artigos.sh){.btn .btn-primary role="button"}
+
+```bash
+bash baixar_dados_artigos.sh        # precisa do GDAL (ogr2ogr) e do curl
+```
+
+| Camada | Fonte | Recorte |
+|---|---|---|
+| `ucs` | MMA, Cadastro Nacional de UCs (agosto de 2025), sem as RPPNs | Amazônia e Cerrado |
+| `ucs_entorno` | calculada: faixa de 3 km em volta das UCs, menos todas as UCs | Amazônia e Cerrado |
+| `deter` | INPE, DETER Amazônia (WFS), desde janeiro de 2024 | Amazônia |
+| `prodes_amz` | INPE, PRODES Amazônia Legal (WFS), desde 2019 | Amazônia |
+| `prodes_cerrado` | INPE, PRODES Cerrado (WFS), desde 2019 | Cerrado |
+| `embargos` | IBAMA, áreas embargadas (WFS), sem nome nem CPF/CNPJ | Amazônia |
+| `car` | SICAR, imóveis do CAR no Pará (WFS) | Amazônia |
+| `amazonia_legal` | INPE, contorno da Amazônia Legal | — |
+
+Os recortes são a região de **Novo Progresso (PA)**, a mesma do curso, e a da **Chapada dos Veadeiros
+(GO)**, só para o PRODES Cerrado. Para outra região, troque as coordenadas `AMZ` e `CER` no começo do
+script.
+
+### Para usar no PostGIS
+
+Carregue o GeoPackage num schema `artigos` do banco do curso:
+
+```bash
+psql -d monitoramento_ambiental -c "CREATE SCHEMA IF NOT EXISTS artigos;"
+ogr2ogr -f PostgreSQL PG:dbname=monitoramento_ambiental dados/artigos.gpkg \
+  -lco SCHEMA=artigos -lco GEOMETRY_NAME=geom -lco FID=fid
+```
+
+### Caminhos nos códigos
+
+Os códigos do **ArcGIS Pro** e do **QGIS** usam a pasta `C:\dados` (ou `C:/dados`), e os do **Python**,
+a pasta `dados` ao lado do script. Troque pelo caminho onde você salvou o GeoPackage.
+
+## De onde vieram
+
+| Script antigo (tipo) | Programa original | Artigo |
+|---|---|---|
+| Recorte do DETER semanal, diário e mensal por UC | ArcMap e ArcGIS Pro (`arcpy`) | [2](02-interior-entorno.qmd), [6](06-tabela-mensal-acumulada.qmd) |
+| PRODES Amazônia e PRODES Cerrado em UCs | ArcGIS Pro (ferramenta de script) | [3](03-prodes-ucs.qmd) |
+| Focos de calor 24 h e 48 h em UCs | ArcGIS Pro + ArcGIS Online | [4](04-focos-calor.qmd) |
+| Área queimada (interior e fora das UCs) | ArcGIS Pro + banco PostgreSQL | [2](02-interior-entorno.qmd), [5](05-campos-de-data.qmd) |
+| Painel mensal do DETER (acumulado com meses zerados) | ArcGIS Pro + pandas | [6](06-tabela-mensal-acumulada.qmd) |
+| Classes do DETER em colunas, nulos para zero | ArcMap | [6](06-tabela-mensal-acumulada.qmd) |
+| Embargos e autos de infração com dados das UCs | ArcGIS Pro (cursores) | [7](07-juntar-atributos.qmd) |
+| Alertas MapBiomas: e-mails concatenados por alerta | ArcGIS Pro | [7](07-juntar-atributos.qmd) |
+| CAR e SIGEF em UCs | ArcGIS Pro | [8](08-car-ucs.qmd) |
+| Densidade Kernel normalizada | ArcGIS Pro (Spatial Analyst) | [9](09-densidade-kernel.qmd) |
+| Mapas diários, semanais e mensais por UC | ArcMap (`arcpy.mapping`) | [10](10-mapas-automaticos.qmd) |
+| Nota informativa em PDF | ArcGIS Pro + fpdf | [11](11-relatorio-pdf.qmd) |
+| Priorização de alertas em clusters | ArcGIS Pro (`AggregatePolygons`) | [12](12-priorizacao-arcgis-qgis.qmd) |
+| Atualização de camadas (apagar e anexar) | todos | [13](13-atualizar-camadas.qmd) |
+
+Nenhum dado interno, caminho de rede, senha ou dado pessoal dos scripts originais foi usado. Onde o
+original dependia de uma base restrita (alertas do Programa Brasil MAIS, registros de brigada), o
+artigo usa uma base pública equivalente.

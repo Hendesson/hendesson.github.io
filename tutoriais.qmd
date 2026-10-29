@@ -11,6 +11,21 @@ listing:
   sort: "date desc"
 ---
 
+## Guia de dados espaciais para monitoramento ambiental
+
+[Guia e curso completo](guia-espacial/index.qmd): de onde baixar dados públicos de desmatamento, fogo, áreas protegidas e fiscalização, e como analisá-los com SQL, PostGIS e Power BI. São cinco páginas de guia e oito módulos práticos, usando dados abertos do INPE, do MMA e do IBAMA.
+
+| Parte | O que você vai aprender |
+|---|---|
+| [Guia](guia-espacial/index.qmd#guia) | Conceitos de dados espaciais, formatos, serviços WFS, catálogo de fontes e ferramentas. |
+| [Curso](guia-espacial/index.qmd#curso) | Montar um banco PostGIS, SQL do básico ao espacial, cruzar alertas com embargos, priorizar a fiscalização e publicar um painel no Power BI. |
+
+## Artigos de geoprocessamento
+
+[Treze artigos](artigos/index.qmd) com problemas do dia a dia do monitoramento ambiental, cada um com
+a versão para **ArcGIS Pro, QGIS, PostGIS e Python**: interior e entorno das UCs, PRODES, focos de
+calor, CAR, densidade Kernel, mapas e relatórios automáticos, priorização e carga incremental.
+
 ## localdatasus
 
 Os tutoriais do pacote ficam na [documentação do localdatasus](https://hendesson.github.io/localdatasus/), junto com a referência de cada função. Começam do zero, e cada passo tem o código pronto para copiar.

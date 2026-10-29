@@ -1,0 +1,32 @@
+{
+  "chave": "artigos/06-tabela-mensal-acumulada.qmd",
+  "metadata": {
+    "title": "Tabela mensal acumulada do DETER, com os meses zerados",
+    "upload_type": "publication",
+    "publication_type": "technicalnote",
+    "description": "A tabela por trás do gráfico de curva acumulada de um painel de desmatamento: uma linha para cada UC, ano e mês, com zero nos meses sem alerta, acumulado no ano PRODES e marca dos meses que ainda não aconteceram. Também em DAX, com DATESYTD.",
+    "creators": [
+      {
+        "name": "Alves, Hendesson"
+      }
+    ],
+    "keywords": [
+      "DETER",
+      "Painéis",
+      "Power BI",
+      "geoprocessamento",
+      "monitoramento ambiental"
+    ],
+    "language": "por",
+    "license": "cc-by-4.0",
+    "access_right": "open",
+    "publication_date": "2026-10-29",
+    "related_identifiers": [
+      {
+        "identifier": "https://hendesson.github.io/artigos/06-tabela-mensal-acumulada.html",
+        "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      }
+    ]
+  }
+}
