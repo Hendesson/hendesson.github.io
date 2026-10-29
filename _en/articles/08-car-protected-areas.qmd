@@ -1,0 +1,288 @@
+---
+title: 'Rural properties (CAR) inside protected areas: selecting and measuring the overlap'
+description: Downloading Brazil's Rural Environmental Registry from the public SICAR service, finding the
+  properties that extend into protected areas and measuring how much of each protected area is declared
+  as private rural land. In ArcGIS Pro, QGIS, PostGIS and Python.
+author: Hendesson Alves
+date: '2026-10-29'
+date-modified: '2026-10-29'
+abstract: Rural properties from the Rural Environmental Registry (CAR), downloaded from the public SICAR
+  service and overlaid with protected areas, which ones only touch the boundary, which ones are inside,
+  and how much of each protected area is declared as a rural property. Removing cancelled records
+  changes the conclusion.
+categories:
+- CAR
+- Protected areas
+image: ../imagens/artigos/car_ucs.png
+image-alt: Map with protected areas in green and CAR rural properties colored by registration status,
+  many of them inside the protected areas.
+title-block-banner: ../imagens/artigos/car_ucs.png
+ordem: 8
+subtitle: Article 8 of 13
+body-classes: capitulo artigo
+doi: 10.5281/zenodo.23780260
+---
+
+::: {.ficha}
+[Level]{.rotulo} Intermediate
+[Reading]{.rotulo} 8 min
+[Data]{.rotulo} October 2026
+[Programs]{.rotulo} [ArcGIS]{.selo-texto} ![](../imagens/ferramentas/qgis.svg){fig-alt="QGIS"} ![](../imagens/ferramentas/postgis.svg){fig-alt="PostGIS"} ![](../imagens/ferramentas/python.svg){fig-alt="Python"}
+:::
+
+Brazil's **Rural Environmental Registry (CAR)** is self-declared: the landholder draws the property.
+That is why there are properties **inside** protected areas, including strict-protection ones, where
+private property should not exist. Knowing where this happens helps prioritize land regularization and
+enforcement.
+
+The script I used only **selected** the properties that touched the protected areas. Here you will also
+measure **how much** of each property and of each protected area overlaps, which separates the
+property that only touches the boundary from the one lying entirely inside.
+
+![CAR properties overlapping the protected areas of the study area, colored by registration status.](../imagens/artigos/car_ucs.png){fig-alt="Map of the Novo Progresso region. Protected areas have a green outline and CAR properties are colored polygons: active in blue, pending in orange, suspended in purple and cancelled in grey. Many properties lie inside Jamanxim National Forest and the Tapajós Environmental Protection Area."}
+
+## Where the CAR comes from
+
+SICAR publishes the properties of each state in an open **WFS** service:
+
+- Address: `https://geoserver.car.gov.br/geoserver/sicar/wfs`
+- Layers: `sicar:sicar_imoveis_pa`, `sicar:sicar_imoveis_mt` etc. (one per state)
+
+The most useful fields are `cod_imovel` (property code), `status_imovel` (`AT` active, `PE` pending,
+`SU` suspended, `CA` cancelled), `tipo_imovel` (`IRU` rural property, `AST` settlement, `PCT`
+traditional peoples and communities), `condicao` (review status) and `area` (declared area, in
+hectares). The articles' script downloads the properties of the study area into the `car` layer
+([how to download](about.qmd#data)).
+
+::: {.callout-note}
+**SIGEF** (properties certified by INCRA, the land reform agency) works the same way: replace the `car`
+layer with the SIGEF one and the code below works unchanged. The files are in INCRA's Land Archive
+(`https://acervofundiario.incra.gov.br`).
+:::
+
+## What you will do
+
+1. **Select** the properties that touch the protected areas (what the old script did).
+2. **Cut** each property by the protected areas and measure the overlapping area.
+3. Compute the **percentage** of the property inside the protected area and drop those that only touch.
+4. Summarize by protected area: number of properties by status and **area of the protected area
+   covered by CAR**, without double counting properties that overlap each other.
+
+## The code
+
+Names in Portuguese: `toca` = touches, `dentro` = inside, `sobreposicao_ha` = overlap in hectares,
+`area_imovel_ha` = property area, `pct_imovel` = percentage of the property, `coberta` = covered.
+
+::: {.panel-tabset group="programa"}
+
+## ArcGIS Pro
+
+```python
+import arcpy
+
+arcpy.env.overwriteOutput = True
+gpkg = r"C:\dados\artigos.gpkg"
+gdb = r"C:\dados\resultados.gdb"
+ucs = arcpy.analysis.Select(gpkg + r"\main.ucs", r"memory\ucs", "regiao = 'Amazonia'")
+
+# 1. Select by location (what the old script did)
+car = arcpy.management.MakeFeatureLayer(gpkg + r"\main.car", "car")
+arcpy.management.SelectLayerByLocation(car, "INTERSECT", ucs)
+arcpy.management.CopyFeatures(car, gdb + r"\car_toca_ucs")
+
+# 2 and 3. Intersection, overlapping area and percentage of the property
+arcpy.management.CalculateGeometryAttributes(
+    gdb + r"\car_toca_ucs", [["area_imovel_ha", "AREA_GEODESIC"]], area_unit="HECTARES")
+car_ucs = arcpy.analysis.PairwiseIntersect([gdb + r"\car_toca_ucs", ucs], gdb + r"\car_ucs")
+arcpy.management.CalculateGeometryAttributes(
+    car_ucs, [["sobreposicao_ha", "AREA_GEODESIC"]], area_unit="HECTARES")
+arcpy.management.CalculateField(car_ucs, "pct_imovel",
+                                "100 * !sobreposicao_ha! / !area_imovel_ha!", "PYTHON3",
+                                field_type="DOUBLE")
+
+# 4. Summary by protected area and status (only properties with at least 1% inside)
+dentro = arcpy.analysis.Select(car_ucs, r"memory\dentro", "pct_imovel >= 1")
+arcpy.analysis.Statistics(dentro, gdb + r"\car_por_uc",
+                          [["cod_imovel", "COUNT"], ["sobreposicao_ha", "SUM"]],
+                          ["nome_uc", "status_imovel"])
+
+# Area of the protected area covered by CAR, without counting overlaps between properties
+coberta = arcpy.analysis.PairwiseDissolve(dentro, r"memory\coberta", ["nome_uc"])
+arcpy.management.CalculateGeometryAttributes(
+    coberta, [["coberta_ha", "AREA_GEODESIC"]], area_unit="HECTARES")
+```
+
+## QGIS
+
+```python
+import processing
+G = "C:/dados/artigos.gpkg"
+AREA = "area(transform($geometry, 'EPSG:4674', 'ESRI:102033')) / 10000"
+
+def rodar(alg, **p):
+    p.setdefault("OUTPUT", "memory:")
+    return processing.run(alg, p)["OUTPUT"]
+
+ucs = rodar("native:extractbyexpression", INPUT=f"{G}|layername=ucs",
+            EXPRESSION="regiao = 'Amazonia'")
+
+# 1. Select by location (predicate 0 = intersects)
+car = rodar("native:extractbylocation", INPUT=f"{G}|layername=car", INTERSECT=ucs,
+            PREDICATE=[0])
+print("properties touching protected areas:", car.featureCount())
+
+# 2 and 3. Property area, intersection, overlapping area and percentage
+car = rodar("native:fieldcalculator", INPUT=car, FIELD_NAME="area_imovel_ha",
+            FIELD_TYPE=0, FIELD_PRECISION=4, FORMULA=AREA)
+car_ucs = rodar("native:intersection", INPUT=car, OVERLAY=ucs,
+                OVERLAY_FIELDS=["cnuc", "nome_uc", "grupo"])
+car_ucs = rodar("native:fieldcalculator", INPUT=car_ucs, FIELD_NAME="sobreposicao_ha",
+                FIELD_TYPE=0, FIELD_PRECISION=4, FORMULA=AREA)
+car_ucs = rodar("native:fieldcalculator", INPUT=car_ucs, FIELD_NAME="pct_imovel",
+                FIELD_TYPE=0, FIELD_PRECISION=2,
+                FORMULA='100 * "sobreposicao_ha" / "area_imovel_ha"')
+
+# 4. Summary by protected area and status (at least 1% inside)
+dentro = rodar("native:extractbyexpression", INPUT=car_ucs, EXPRESSION='"pct_imovel" >= 1')
+resumo = rodar("qgis:statisticsbycategories", INPUT=dentro, VALUES_FIELD_NAME="sobreposicao_ha",
+               CATEGORIES_FIELD_NAME=["nome_uc", "status_imovel"])
+for f in resumo.getFeatures():
+    print(f["nome_uc"], f["status_imovel"], f["count"], round(f["sum"]))
+
+# Area of the protected area covered by CAR, without counting overlaps between properties
+coberta = rodar("native:dissolve", INPUT=dentro, FIELD=["nome_uc"])
+coberta = rodar("native:fieldcalculator", INPUT=coberta, FIELD_NAME="coberta_ha",
+                FIELD_TYPE=0, FIELD_PRECISION=1, FORMULA=AREA)
+for f in coberta.getFeatures():
+    print(f["nome_uc"], "covered by CAR:", round(f["coberta_ha"]), "ha")
+```
+
+## PostGIS
+
+```sql
+-- 1 to 3. Properties touching protected areas, overlapping area and percentage of the property
+DROP TABLE IF EXISTS artigos.car_ucs;
+CREATE TABLE artigos.car_ucs AS
+SELECT c.cod_imovel, c.status_imovel, c.tipo_imovel, u.cnuc, u.nome_uc, u.grupo,
+       ST_Area(c.geom::geography) / 10000                         AS area_imovel_ha,
+       ST_Area(ST_Intersection(c.geom, u.geom)::geography) / 10000 AS sobreposicao_ha,
+       ST_Intersection(c.geom, u.geom)                            AS geom
+FROM artigos.car c
+JOIN artigos.ucs u ON u.regiao = 'Amazonia' AND ST_Intersects(c.geom, u.geom);
+
+ALTER TABLE artigos.car_ucs ADD COLUMN pct_imovel numeric;
+UPDATE artigos.car_ucs SET pct_imovel = 100 * sobreposicao_ha / area_imovel_ha;
+
+-- 4. Summary by protected area (only properties with at least 1% inside)
+SELECT nome_uc, grupo,
+       count(*)                                         AS imoveis,
+       count(*) FILTER (WHERE status_imovel = 'AT')     AS ativos,
+       count(*) FILTER (WHERE status_imovel = 'PE')     AS pendentes,
+       count(*) FILTER (WHERE status_imovel = 'SU')     AS suspensos,
+       count(*) FILTER (WHERE status_imovel = 'CA')     AS cancelados,
+       round(sum(sobreposicao_ha))                      AS soma_sobreposicao_ha,
+       round((ST_Area(ST_Union(geom)::geography) / 10000)::numeric) AS coberta_ha
+FROM artigos.car_ucs
+WHERE pct_imovel >= 1
+GROUP BY nome_uc, grupo
+ORDER BY coberta_ha DESC;
+```
+
+## Python
+
+```python
+import geopandas as gpd
+
+G = "dados/artigos.gpkg"
+ucs = gpd.read_file(G, layer="ucs").query("regiao == 'Amazonia'")
+car = gpd.read_file(G, layer="car")
+ALBERS = "ESRI:102033"                       # equal-area projection
+
+# 1. Select by location
+toca = car[car.intersects(ucs.union_all())].copy()
+print("properties touching protected areas:", len(toca))
+
+# 2 and 3. Intersection, overlapping area and percentage of the property
+toca["area_imovel_ha"] = toca.to_crs(ALBERS).area / 10_000
+car_ucs = gpd.overlay(toca, ucs[["cnuc", "nome_uc", "grupo", "geometry"]],
+                      how="intersection", keep_geom_type=True)
+car_ucs["sobreposicao_ha"] = car_ucs.to_crs(ALBERS).area / 10_000
+car_ucs["pct_imovel"] = 100 * car_ucs["sobreposicao_ha"] / car_ucs["area_imovel_ha"]
+
+# 4. Summary by protected area (at least 1% inside)
+dentro = car_ucs[car_ucs["pct_imovel"] >= 1]
+resumo = dentro.pivot_table(index="nome_uc", columns="status_imovel", values="cod_imovel",
+                            aggfunc="count", fill_value=0)
+resumo["soma_sobreposicao_ha"] = dentro.groupby("nome_uc")["sobreposicao_ha"].sum().round()
+resumo["coberta_ha"] = (dentro.dissolve("nome_uc").to_crs(ALBERS).area / 10_000).round()
+print(resumo.sort_values("coberta_ha", ascending=False))
+```
+
+:::
+
+## Checking the result
+
+The QGIS, PostGIS and Python versions gave the same property counts and the same areas (PostGIS differs
+by less than 0.01%). Since the CAR was only downloaded inside the study area, the percentages refer to
+the part of each protected area within the study area:
+
+| Protected area | Group | Properties (≥ 1% inside) | Cancelled | Area covered by CAR (ha) | % of the area in the study area | % without cancelled |
+|---|---|---:|---:|---:|---:|---:|
+| Jamanxim National Forest | Sustainable use | 415 | 119 | 631,419 | 49% | 37% |
+| Tapajós Environmental Protection Area | Sustainable use | 517 | 171 | 511,783 | 72% | 48% |
+| Iriri State Forest | Sustainable use | 70 | 63 | 146,701 | 80% | 4% |
+| Jamanxim National Park | Strict protection | 89 | 80 | 124,953 | 19% | 2% |
+| Rio Novo National Park | Strict protection | 20 | 17 | 51,462 | 17% | 2% |
+| Altamira National Forest | Sustainable use | 40 | 29 | 29,644 | 5% | 1% |
+
+: CAR properties overlapping the protected areas of the study area (SICAR, queried in October 2026). {.striped}
+
+The "without cancelled" column changes the story: in Iriri State Forest, 63 of the 70 records have
+already been cancelled, and coverage drops from 80% to 4%. In the two National Parks (strict
+protection), **12 active, pending or suspended records** remain.
+
+## Pitfalls
+
+::: {.callout-warning}
+## "Intersects" includes properties that only touch
+Selection by location with **intersects** also picks the property drawn along the protected area
+boundary, with 0.01% of its area inside. In the study area, 1,196 properties touch the protected areas,
+but only 1,135 have at least 1% of their area inside. Measure the overlap before concluding that "there
+are N properties in the protected area".
+:::
+
+::: {.callout-warning}
+## Properties overlapping each other
+Because the CAR is self-declared, several properties cover the same piece of land. Adding up the overlap
+of each one gives more area than exists: compare the sum column with the covered (dissolved) area in the
+table above.
+:::
+
+::: {.callout-warning}
+## Cancelled records
+Properties with `status_imovel = 'CA'` (cancelled) remain in the service. Decide whether they enter the
+analysis and say so in the report. In this article, they appear in a separate column.
+:::
+
+::: {.callout-note}
+## Personal data
+SICAR's public service has neither the name nor the tax ID of the landholder, only the property code.
+Even so, avoid publishing lists of property codes with accusations: a CAR record overlapping a protected
+area is a lead for analysis, not a proven violation.
+:::
+
+## See also
+
+- [Inside and around protected areas](02-inside-and-around.qmd)
+- [Data sources](https://hendesson.github.io/guia-espacial/guia/03-fontes-de-dados.html) (in Portuguese), with the CAR, SIGEF and Indigenous Lands
+
+::: {.navegacao-livro}
+[[← Previous]{.direcao} Bringing in data from another table: joins and lists of values](07-joining-attributes.qmd){.anterior}
+[[Next →]{.direcao} Kernel density of deforestation: where the pressure is concentrated](09-kernel-density.qmd){.proximo}
+:::
+
+## Updates {.unnumbered}
+
+- **2026-10-29:** first published, with data from INPE, MMA, IBAMA and SICAR from October 2026.
+
+[Versão em português](https://hendesson.github.io/artigos/08-car-ucs.html)

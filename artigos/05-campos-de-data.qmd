@@ -241,3 +241,5 @@ do relatório) e "qual o último dia do mês?" (para saber se o mês já fechou)
 ## Atualizações {.unnumbered}
 
 - **29/10/2026:** publicação, com dados do INPE, do MMA, do IBAMA e do SICAR de outubro de 2026.
+
+[English version](https://hendesson.github.io/en/articles/05-date-fields.html)

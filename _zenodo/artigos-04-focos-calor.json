@@ -1,29 +1,39 @@
 {
   "chave": "artigos/04-focos-calor.qmd",
   "metadata": {
-    "title": "Focos de calor das últimas 24 e 48 horas nas UCs",
+    "title": "Fire hotspots in protected areas over the last 24 and 48 hours",
     "upload_type": "publication",
     "publication_type": "technicalnote",
-    "description": "Os focos de calor do INPE direto do servidor público, sem login: baixar os arquivos do dia, transformar em pontos, filtrar as últimas 24 e 48 horas em UTC e contar por UC. E por que somar focos de vários satélites engana.",
+    "description": "INPE fire hotspots straight from the public server, no login needed: download the daily files, turn them into points, filter the last 24 and 48 hours in UTC and count by protected area. And why adding up hotspots from several satellites is misleading.",
     "creators": [
       {
         "name": "Alves, Hendesson"
       }
     ],
     "keywords": [
-      "Fogo",
-      "UCs",
-      "geoprocessamento",
-      "monitoramento ambiental"
+      "Fire",
+      "Protected areas",
+      "geoprocessing",
+      "environmental monitoring",
+      "Brazil",
+      "ArcGIS",
+      "QGIS",
+      "PostGIS",
+      "Python"
     ],
-    "language": "por",
+    "language": "eng",
     "license": "cc-by-4.0",
     "access_right": "open",
     "publication_date": "2026-10-29",
     "related_identifiers": [
       {
-        "identifier": "https://hendesson.github.io/artigos/04-focos-calor.html",
+        "identifier": "https://hendesson.github.io/en/articles/04-fire-hotspots.html",
         "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      },
+      {
+        "identifier": "https://hendesson.github.io/artigos/04-focos-calor.html",
+        "relation": "isVariantFormOf",
         "resource_type": "publication"
       }
     ]

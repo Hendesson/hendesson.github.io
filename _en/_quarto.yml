@@ -21,6 +21,8 @@ website:
         text: Packages
       - href: tutorials.qmd
         text: Tutorials
+      - href: articles/index.qmd
+        text: Articles
       - href: cv.qmd
         text: CV
       - href: questions.qmd

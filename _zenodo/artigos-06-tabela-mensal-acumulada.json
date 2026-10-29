@@ -1,10 +1,10 @@
 {
   "chave": "artigos/06-tabela-mensal-acumulada.qmd",
   "metadata": {
-    "title": "Tabela mensal acumulada do DETER, com os meses zerados",
+    "title": "DETER monthly cumulative table, with zero-filled months",
     "upload_type": "publication",
     "publication_type": "technicalnote",
-    "description": "A tabela por trás do gráfico de curva acumulada de um painel de desmatamento: uma linha para cada UC, ano e mês, com zero nos meses sem alerta, acumulado no ano PRODES e marca dos meses que ainda não aconteceram. Também em DAX, com DATESYTD.",
+    "description": "The table behind the cumulative-curve chart of a deforestation dashboard: one row per protected area, year and month, with zero in months without alerts, cumulative over the PRODES year and a flag for months that have not happened yet. Also in DAX, with DATESYTD.",
     "creators": [
       {
         "name": "Alves, Hendesson"
@@ -12,19 +12,29 @@
     ],
     "keywords": [
       "DETER",
-      "Painéis",
+      "Dashboards",
       "Power BI",
-      "geoprocessamento",
-      "monitoramento ambiental"
+      "geoprocessing",
+      "environmental monitoring",
+      "Brazil",
+      "ArcGIS",
+      "QGIS",
+      "PostGIS",
+      "Python"
     ],
-    "language": "por",
+    "language": "eng",
     "license": "cc-by-4.0",
     "access_right": "open",
     "publication_date": "2026-10-29",
     "related_identifiers": [
       {
-        "identifier": "https://hendesson.github.io/artigos/06-tabela-mensal-acumulada.html",
+        "identifier": "https://hendesson.github.io/en/articles/06-monthly-cumulative-table.html",
         "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      },
+      {
+        "identifier": "https://hendesson.github.io/artigos/06-tabela-mensal-acumulada.html",
+        "relation": "isVariantFormOf",
         "resource_type": "publication"
       }
     ]

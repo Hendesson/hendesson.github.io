@@ -6,3 +6,8 @@
 *_files/
 
 **/*.quarto_ipynb
+
+# Cópias geradas por scripts/montar_site.sh para a versão em inglês
+/_en/imagens/
+/_en/estilos/
+/_en/articles/articles.css

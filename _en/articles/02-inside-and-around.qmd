@@ -1,0 +1,338 @@
+---
+title: 'Inside and around protected areas: the overlay every report uses'
+description: Separating what fell inside a protected area from what fell in the 3 km band around it,
+  and measuring it in hectares. In ArcGIS Pro, QGIS, PostGIS and Python.
+author: Hendesson Alves
+date: '2026-10-29'
+date-modified: '2026-10-29'
+abstract: How to separate deforestation inside a protected area from deforestation in the 3 km band
+  around it, without double counting neighboring areas. Using DETER alerts from 2024 to 2026, the article
+  walks through the steps in four programs and four pitfalls that showed up with the real data.
+categories:
+- Protected areas
+- DETER
+image: ../imagens/artigos/interior_entorno_zonas.png
+image-alt: Map with protected areas in green, the 3 km surrounding band in yellow and DETER alerts
+  colored by whether they fall inside or around.
+title-block-banner: ../imagens/artigos/interior_entorno_zonas.png
+ordem: 2
+subtitle: Article 2 of 13
+body-classes: capitulo artigo
+doi: 10.5281/zenodo.23780248
+---
+
+::: {.ficha}
+[Level]{.rotulo} Beginner
+[Reading]{.rotulo} 9 min
+[Data]{.rotulo} October 2026
+[Programs]{.rotulo} [ArcGIS]{.selo-texto} ![](../imagens/ferramentas/qgis.svg){fig-alt="QGIS"} ![](../imagens/ferramentas/postgis.svg){fig-alt="PostGIS"} ![](../imagens/ferramentas/python.svg){fig-alt="Python"}
+:::
+
+Almost every monitoring report answers the same question: **how much of the deforestation (or fire)
+happened inside the protected area, and how much right next to it?** The surroundings matter because
+that is where the pressure comes from.
+
+In Brazil, protected areas are called *Unidades de Conservação* (UCs). In the scripts I used, this was
+done with a protected-area layer that already included the surrounding band, a `0/1` field and an
+ArcGIS `Intersect`. Here you will build that layer from scratch and run the overlay in four programs.
+
+![Inside (green) and 3 km surrounding band (yellow) of the protected areas in the study area, with DETER alerts since 2024.](../imagens/artigos/interior_entorno_zonas.png){fig-alt="Map of the Novo Progresso region with protected areas in green, a yellow 3 km band around them and DETER alerts in blue inside and in orange in the surroundings. Where two protected areas touch, there is no yellow band."}
+
+## What you will do
+
+```{mermaid}
+%%| eval: true
+%%| fig-cap: "Steps of the overlay"
+flowchart LR
+    A["Protected<br/>areas"] --> B["3 km buffer<br/>(in meters)"]
+    B --> C["Erase all<br/>protected areas"]
+    C --> D["Surroundings"]
+    A --> E["Inside"]
+    D --> F["Merge<br/>'local' field"]
+    E --> F
+    F --> G["Intersect<br/>with alerts"]
+    G --> H["Area in ha<br/>and summary"]
+```
+
+0. **Repair the geometries.** 830 of the 7,823 alerts in the study area (11%) have invalid geometry, and
+   some programs stop in the middle of the overlay because of it.
+1. **Surroundings:** a 3 km buffer around each protected area, minus the area of **all** protected
+   areas. That way, an alert inside a neighboring area counts as inside that one, not as the
+   surroundings of the other.
+2. **Zones:** merge inside and surroundings into a single layer with a `local` field
+   (`interior` or `entorno`).
+3. **Intersect:** cut each alert by the zones. An alert crossing the boundary becomes two pieces.
+4. **Area and summary:** area in hectares of each piece, summed by protected area and zone.
+
+## Data
+
+Use the articles' GeoPackage (layers `ucs` and `deter`). See how to download it in
+[Articles data](about.qmd#data).
+
+## The code
+
+Variable and field names are in Portuguese, as in the data: `ucs` = protected areas, `entorno` =
+surroundings, `faixa` = band, `zonas` = zones, `cruzado` = overlaid, `resumo` = summary.
+
+::: {.panel-tabset group="programa"}
+
+## ArcGIS Pro
+
+```python
+import arcpy
+
+arcpy.env.overwriteOutput = True
+gpkg = r"C:\dados\artigos.gpkg"
+gdb = r"C:\dados\resultados.gdb"          # create it first with CreateFileGDB
+
+# 0. Copy to memory and repair the geometries
+ucs = arcpy.analysis.Select(gpkg + r"\main.ucs", r"memory\ucs", "regiao = 'Amazonia'")
+deter = arcpy.management.CopyFeatures(gpkg + r"\main.deter", r"memory\deter")
+arcpy.management.RepairGeometry(ucs)
+arcpy.management.RepairGeometry(deter)
+
+# 1. Surroundings: 3 km geodesic buffer minus all protected areas
+faixa = arcpy.analysis.PairwiseBuffer(ucs, r"memory\faixa", "3000 Meters", method="GEODESIC")
+entorno = arcpy.analysis.PairwiseErase(faixa, ucs, r"memory\entorno")
+
+# 2. "local" field and merge of the two layers
+arcpy.management.CalculateField(ucs, "local", "'interior'", "PYTHON3", field_type="TEXT")
+arcpy.management.CalculateField(entorno, "local", "'entorno'", "PYTHON3", field_type="TEXT")
+zonas = arcpy.management.Merge([ucs, entorno], r"memory\zonas")
+
+# 3. Intersect the alerts with the zones
+cruzado = arcpy.analysis.PairwiseIntersect([deter, zonas], gdb + r"\deter_interior_entorno")
+
+# 4. Geodesic area in hectares and summary table
+arcpy.management.CalculateGeometryAttributes(
+    cruzado, [["area_ha", "AREA_GEODESIC"]], area_unit="HECTARES")
+arcpy.analysis.Statistics(cruzado, gdb + r"\resumo_interior_entorno",
+                          [["area_ha", "SUM"], ["gid", "COUNT"]], ["nome_uc", "local"])
+```
+
+::: {.callout-note}
+In **ArcMap**, the `Erase` tool is only available with an Advanced license. With a Basic license, run a
+`Union` of the band with the protected areas and delete the parts that have a protected area. In ArcGIS
+Pro, use `PairwiseErase`.
+:::
+
+## QGIS
+
+**From the menus** (Processing Toolbox, `Ctrl+Alt+T`):
+
+1. **Fix geometries** on the `ucs` and `deter` layers.
+2. **Reproject layer** `ucs` to EPSG:5880 (in meters).
+3. **Buffer** of 3000 m, without dissolving.
+4. **Difference**: input = buffer, overlay = protected areas. The result is the surroundings.
+5. **Field calculator** on both layers: new field `local` with `'interior'` or `'entorno'`.
+6. **Merge vector layers** and **Fix geometries** again.
+7. **Intersection**: input = alerts, overlay = zones.
+8. **Field calculator**: `area_ha` = `area(transform($geometry, 'EPSG:4674', 'ESRI:102033')) / 10000`.
+9. **Statistics by categories**: field `area_ha`, categories `nome_uc` and `local`.
+
+**In the Python console** (`Ctrl+Alt+P`), the same steps:
+
+```python
+import processing
+G = "C:/dados/artigos.gpkg"
+
+def rodar(alg, **p):
+    p.setdefault("OUTPUT", "memory:")
+    return processing.run(alg, p)["OUTPUT"]
+
+# 0 and 1. Amazon protected areas in meters, 3 km buffer and difference
+ucs = rodar("native:extractbyexpression", INPUT=f"{G}|layername=ucs",
+            EXPRESSION="regiao = 'Amazonia'")
+ucs = rodar("native:fixgeometries", INPUT=ucs)
+ucs_m = rodar("native:reprojectlayer", INPUT=ucs, TARGET_CRS="EPSG:5880")
+faixa = rodar("native:buffer", INPUT=ucs_m, DISTANCE=3000, SEGMENTS=16, DISSOLVE=False)
+entorno = rodar("native:difference", INPUT=faixa, OVERLAY=ucs_m)
+
+# 2. "local" field and merge
+interior = rodar("native:fieldcalculator", INPUT=ucs_m, FIELD_NAME="local",
+                 FIELD_TYPE=2, FIELD_LENGTH=10, FORMULA="'interior'")
+entorno = rodar("native:fieldcalculator", INPUT=entorno, FIELD_NAME="local",
+                FIELD_TYPE=2, FIELD_LENGTH=10, FORMULA="'entorno'")
+zonas = rodar("native:mergevectorlayers", LAYERS=[interior, entorno], CRS="EPSG:4674")
+zonas = rodar("native:fixgeometries", INPUT=zonas)
+
+# 3. Repaired alerts × zones
+deter = rodar("native:fixgeometries", INPUT=f"{G}|layername=deter")
+cruzado = rodar("native:intersection", INPUT=deter, OVERLAY=zonas,
+                OVERLAY_FIELDS=["cnuc", "nome_uc", "local"])
+cruzado = rodar("native:deletecolumn", INPUT=cruzado, COLUMN=["fid"])  # see pitfall 3
+
+# 4. Area in hectares and summary
+cruzado = rodar("native:fieldcalculator", INPUT=cruzado, FIELD_NAME="area_ha",
+                FIELD_TYPE=0, FIELD_PRECISION=4,
+                FORMULA="area(transform($geometry, 'EPSG:4674', 'ESRI:102033')) / 10000",
+                OUTPUT="C:/dados/deter_interior_entorno.gpkg")
+resumo = rodar("qgis:statisticsbycategories", INPUT=cruzado, VALUES_FIELD_NAME="area_ha",
+               CATEGORIES_FIELD_NAME=["nome_uc", "local"])
+QgsProject.instance().addMapLayers([zonas, resumo])
+```
+
+## PostGIS
+
+```sql
+-- 1 and 2. Zones: inside (the protected area itself) and surroundings (3 km minus all areas)
+CREATE TABLE artigos.zonas_ucs AS
+WITH ucs AS (
+    SELECT cnuc, nome_uc, ST_MakeValid(geom) AS geom
+    FROM artigos.ucs
+    WHERE regiao = 'Amazonia'
+),
+todas AS (
+    SELECT ST_Union(geom) AS geom FROM ucs
+)
+SELECT cnuc, nome_uc, 'interior' AS local, geom
+FROM ucs
+UNION ALL
+SELECT u.cnuc, u.nome_uc, 'entorno',
+       ST_Multi(ST_Difference(ST_Buffer(u.geom::geography, 3000)::geometry, t.geom))
+FROM ucs u, todas t;
+
+CREATE INDEX ON artigos.zonas_ucs USING gist (geom);
+
+-- 0 and 3. Repaired alerts × zones
+CREATE TABLE artigos.deter_interior_entorno AS
+WITH deter AS (
+    SELECT gid, classname, view_date, municipality,
+           ST_CollectionExtract(ST_MakeValid(geom), 3) AS geom   -- 3 = polygons only
+    FROM artigos.deter
+)
+SELECT d.gid, d.classname, d.view_date, d.municipality, z.cnuc, z.nome_uc, z.local,
+       ST_Intersection(d.geom, z.geom) AS geom
+FROM deter d
+JOIN artigos.zonas_ucs z ON ST_Intersects(d.geom, z.geom)
+WHERE NOT ST_IsEmpty(d.geom);
+
+-- 4. Area in hectares and summary
+ALTER TABLE artigos.deter_interior_entorno ADD COLUMN area_ha numeric;
+UPDATE artigos.deter_interior_entorno SET area_ha = ST_Area(geom::geography) / 10000;
+
+SELECT nome_uc, local, count(*) AS alertas, round(sum(area_ha), 1) AS area_ha
+FROM artigos.deter_interior_entorno
+GROUP BY nome_uc, local
+ORDER BY nome_uc, local;
+```
+
+## Python
+
+```python
+import geopandas as gpd
+import pandas as pd
+
+G = "dados/artigos.gpkg"
+ucs = gpd.read_file(G, layer="ucs").query("regiao == 'Amazonia'")
+deter = gpd.read_file(G, layer="deter")
+
+# 0. Repair geometries, dropping pieces that collapse into lines or points
+def corrigir(gdf):
+    gdf["geometry"] = gdf.make_valid(method="structure", keep_collapsed=False)
+    return gdf[~gdf.is_empty]
+
+ucs, deter = corrigir(ucs), corrigir(deter)
+
+# 1. Surroundings: 3 km band (in meters, EPSG:5880) minus all protected areas
+ucs_m = ucs.to_crs(5880)
+entorno = gpd.GeoDataFrame(ucs_m[["cnuc", "nome_uc"]],
+                           geometry=ucs_m.buffer(3000).difference(ucs_m.union_all()),
+                           crs=5880)
+
+# 2. Zones with the "local" field
+zonas = pd.concat([ucs_m[["cnuc", "nome_uc", "geometry"]].assign(local="interior"),
+                   entorno.assign(local="entorno")])
+zonas = gpd.GeoDataFrame(zonas, crs=5880).to_crs(deter.crs)
+
+# 3. Intersection and area in hectares (equal-area projection)
+cruzado = gpd.overlay(deter, zonas, how="intersection", keep_geom_type=True)
+cruzado["area_ha"] = cruzado.to_crs("ESRI:102033").area / 10_000
+cruzado.to_file("dados/deter_interior_entorno.gpkg")
+
+# 4. Summary table
+resumo = (cruzado.groupby(["nome_uc", "local"])
+          .agg(alertas=("gid", "count"), area_ha=("area_ha", "sum"))
+          .round(1).reset_index())
+print(resumo)
+```
+
+:::
+
+## Checking the result
+
+I ran the QGIS, PostGIS and Python versions on the same data (DETER alerts from January 2024 to October
+2026). QGIS and Python gave **identical** numbers. PostGIS came within 0.2%, because it computes the
+buffer and the area on the ellipsoid, not on a projection.
+
+| Protected area | Inside (ha) | Surroundings (ha) |
+|---|---:|---:|
+| Jamanxim National Forest | 154,419 | 13,165 |
+| Altamira National Forest | 61,256 | 5,055 |
+| Jamanxim National Park | 28,058 | 5,228 |
+| Tapajós Environmental Protection Area | 16,750 | 6,106 |
+| Rio Novo National Park | 10,924 | 0.1 (see pitfall 2) |
+| Iriri State Forest | 467 | — |
+
+: Area of DETER alerts (all classes, including burn scars and degradation) by protected area and zone. {.striped}
+
+![Area of alerts inside and around each protected area.](../imagens/artigos/interior_entorno_barras.png){fig-alt="Horizontal bar chart with the area of alerts inside (green) and around (orange) each protected area. Jamanxim National Forest has by far the largest area, with more than 150,000 hectares inside."}
+
+## Pitfalls
+
+::: {.callout-warning}
+## 1. Buffer in degrees
+SIRGAS 2000 (EPSG:4674) is in **degrees**. A buffer of `3000` in this coordinate system creates a band
+3,000 degrees wide, covering the whole planet. Reproject to meters (EPSG:5880), use `::geography` in
+PostGIS or `method="GEODESIC"` in ArcGIS Pro.
+:::
+
+::: {.callout-warning}
+## 2. Protected area at the edge of the study area (and slivers)
+Rio Novo National Park shows only **0.1 ha of alerts in its surroundings**. Checking, 58% of its
+surrounding band lies **outside the area we downloaded**: the park is at the edge of the study area,
+and the alerts there were not downloaded. When downloading data, extend the area by at least the width
+of the surrounding band.
+
+The 21 remaining pieces are **slivers**: edges of alerts that lie almost entirely inside a neighboring
+protected area (the largest is 0.03 ha). For a report, drop pieces smaller than 0.01 ha.
+:::
+
+::: {.callout-warning}
+## 3. Duplicate `fid` in QGIS
+When saving the intersection to a GeoPackage, QGIS raises `UNIQUE constraint failed: fid`. An alert cut
+into two pieces carries the same `fid` to both. Delete the `fid` field before saving
+(`native:deletecolumn`).
+:::
+
+::: {.callout-warning}
+## 4. Overlapping protected areas
+Some protected areas overlap (an Environmental Protection Area may contain a National Forest). In that
+case the same alert counts as inside both, and the sum over all areas is larger than the deforested
+area. For an overall total, dissolve the protected areas first, or sum the alert area without the
+overlay.
+:::
+
+## Variations
+
+- **Outside any protected area, with no distance limit:** instead of the buffer, use
+  **Erase/Difference** between the alerts and the protected areas. That is how I separated burned area
+  "inside" and "outside" protected areas.
+- **Other distances:** 10 km is common for buffer zones of protected areas without a management plan in
+  Brazil (Conama Resolution 428/2010).
+
+## See also
+
+- [Annual PRODES deforestation in protected areas of the Amazon and the Cerrado](03-prodes-protected-areas.qmd)
+- [Course module 3: PostGIS](https://hendesson.github.io/guia-espacial/curso/03-postgis.html) (in Portuguese), with inside and surroundings in SQL, step by step.
+
+::: {.navegacao-livro}
+[[← Previous]{.direcao} From ArcMap to QGIS: the same tool in every program](01-equivalences.qmd){.anterior}
+[[Next →]{.direcao} Annual PRODES deforestation in protected areas of the Amazon and the Cerrado](03-prodes-protected-areas.qmd){.proximo}
+:::
+
+## Updates {.unnumbered}
+
+- **2026-10-29:** first published, with data from INPE, MMA, IBAMA and SICAR from October 2026.
+
+[Versão em português](https://hendesson.github.io/artigos/02-interior-entorno.html)

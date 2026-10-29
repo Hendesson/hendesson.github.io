@@ -1,0 +1,115 @@
+---
+title: "About the articles and the data"
+description: "How the articles were made, which version exists in each one, where the data come from and which old scripts each article grew out of."
+toc: true
+---
+
+The articles grew out of a folder of old work scripts: **ArcMap** tools, **ArcGIS Pro** `arcpy` scripts,
+**PostGIS** queries and **Python** routines, from my time working on deforestation and fire monitoring
+in Brazil's protected areas. Each script was rebuilt with **public data** and became an article with
+**one version for each program**.
+
+[← Back to all articles](index.qmd)
+
+::: {.callout-note}
+## Language of the code
+The articles are translated into English, but the data, field names and variable names are in
+Portuguese, as in the original scripts and in the Brazilian datasets (`ucs` = protected areas,
+`entorno` = surroundings, `ano` = year, `area_ha` = area in hectares). Each article lists the names it
+uses. Code comments and printed messages are in English. The figures were made for the Portuguese
+version and keep their Portuguese labels.
+:::
+
+## Which version exists in each article
+
+| Article | ArcGIS Pro | QGIS | PostGIS | Python | Extra |
+|---|:-:|:-:|:-:|:-:|---|
+| [1. Equivalences](01-equivalences.qmd) | ● | ● | ● | ● | ArcMap → Pro |
+| [2. Inside and around](02-inside-and-around.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [3. PRODES in protected areas](03-prodes-protected-areas.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [4. Fire hotspots](04-fire-hotspots.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [5. Date fields](05-date-fields.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | Power BI |
+| [6. Monthly cumulative table](06-monthly-cumulative-table.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | Power BI |
+| [7. Joining attributes](07-joining-attributes.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [8. CAR in protected areas](08-car-protected-areas.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [9. Kernel density](09-kernel-density.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [10. Automated maps](10-automated-maps.qmd) | ● | ● ✔ | ● | ● ✔ | ArcMap |
+| [11. PDF report](11-pdf-report.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | Quarto ✔ |
+| [12. Prioritization](12-prioritization-arcgis-qgis.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+| [13. Updating without duplicates](13-updating-layers.qmd) | ● | ● ✔ | ● ✔ | ● ✔ | |
+
+: ● = version in the article; ✔ = code run and checked against the real data. {.striped}
+
+::: {.callout-note}
+## About the ArcGIS versions
+The **ArcGIS Pro** and **ArcMap** versions follow the documentation and the original scripts, but **were
+not run here**, because they need a license. The QGIS (4.2), PostGIS (3.5) and Python (geopandas 1.x)
+versions were run with data from October 2026, and each article's numbers come from them. If you find
+an error in an ArcGIS version, [let me know](mailto:hendesson124@gmail.com).
+:::
+
+## Articles data {#data}
+
+All articles use the same file, `dados/artigos.gpkg`, a **GeoPackage** that opens in QGIS, ArcGIS Pro
+and Python. A script downloads everything from the official sources in about a minute:
+
+[Download the script (baixar_dados_artigos.sh)](https://hendesson.github.io/artigos/scripts/baixar_dados_artigos.sh){.btn .btn-primary role="button"}
+
+```bash
+bash baixar_dados_artigos.sh        # needs GDAL (ogr2ogr) and curl
+```
+
+| Layer | Source | Area |
+|---|---|---|
+| `ucs` | MMA, National Register of Protected Areas (CNUC, August 2025), without private reserves (RPPNs) | Amazon and Cerrado |
+| `ucs_entorno` | computed: 3 km band around the protected areas, minus all protected areas | Amazon and Cerrado |
+| `deter` | INPE, DETER Amazon (WFS), since January 2024 | Amazon |
+| `prodes_amz` | INPE, PRODES Legal Amazon (WFS), since 2019 | Amazon |
+| `prodes_cerrado` | INPE, PRODES Cerrado (WFS), since 2019 | Cerrado |
+| `embargos` | IBAMA, embargoed areas (WFS), without names or tax IDs | Amazon |
+| `car` | SICAR, Rural Environmental Registry properties in Pará (WFS) | Amazon |
+| `amazonia_legal` | INPE, Legal Amazon boundary | — |
+
+The study areas are the **Novo Progresso (Pará)** region, the same as in the course, and the
+**Chapada dos Veadeiros (Goiás)** region, used only for PRODES Cerrado. For another region, change the
+`AMZ` and `CER` coordinates at the top of the script.
+
+### Using it in PostGIS
+
+Load the GeoPackage into an `artigos` schema of the course database:
+
+```bash
+psql -d monitoramento_ambiental -c "CREATE SCHEMA IF NOT EXISTS artigos;"
+ogr2ogr -f PostgreSQL PG:dbname=monitoramento_ambiental dados/artigos.gpkg \
+  -lco SCHEMA=artigos -lco GEOMETRY_NAME=geom -lco FID=fid
+```
+
+### Paths in the code
+
+The **ArcGIS Pro** and **QGIS** code uses the folder `C:\dados` (or `C:/dados`), and the **Python** code
+uses a `dados` folder next to the script. Replace them with the path where you saved the GeoPackage.
+
+## Where they came from
+
+| Old script (type) | Original program | Article |
+|---|---|---|
+| Weekly, daily and monthly DETER clipping by protected area | ArcMap and ArcGIS Pro (`arcpy`) | [2](02-inside-and-around.qmd), [6](06-monthly-cumulative-table.qmd) |
+| PRODES Amazon and PRODES Cerrado in protected areas | ArcGIS Pro (script tool) | [3](03-prodes-protected-areas.qmd) |
+| Fire hotspots in the last 24 h and 48 h in protected areas | ArcGIS Pro + ArcGIS Online | [4](04-fire-hotspots.qmd) |
+| Burned area (inside and outside protected areas) | ArcGIS Pro + PostgreSQL database | [2](02-inside-and-around.qmd), [5](05-date-fields.qmd) |
+| Monthly DETER dashboard (cumulative with zero-filled months) | ArcGIS Pro + pandas | [6](06-monthly-cumulative-table.qmd) |
+| DETER classes as columns, nulls to zero | ArcMap | [6](06-monthly-cumulative-table.qmd) |
+| Embargoes and infraction notices with protected area data | ArcGIS Pro (cursors) | [7](07-joining-attributes.qmd) |
+| MapBiomas alerts: e-mails concatenated per alert | ArcGIS Pro | [7](07-joining-attributes.qmd) |
+| CAR and SIGEF in protected areas | ArcGIS Pro | [8](08-car-protected-areas.qmd) |
+| Normalized kernel density | ArcGIS Pro (Spatial Analyst) | [9](09-kernel-density.qmd) |
+| Daily, weekly and monthly maps per protected area | ArcMap (`arcpy.mapping`) | [10](10-automated-maps.qmd) |
+| Information note in PDF | ArcGIS Pro + fpdf | [11](11-pdf-report.qmd) |
+| Alert prioritization in clusters | ArcGIS Pro (`AggregatePolygons`) | [12](12-prioritization-arcgis-qgis.qmd) |
+| Layer updates (delete and append) | all | [13](13-updating-layers.qmd) |
+
+No internal data, network paths, passwords or personal data from the original scripts were used. Where
+the original depended on a restricted dataset (Brasil MAIS program alerts, fire brigade records), the
+article uses an equivalent public dataset.
+
+[Versão em português](https://hendesson.github.io/artigos/sobre.html)

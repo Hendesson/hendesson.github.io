@@ -337,3 +337,5 @@ de cortar.
 ## Atualizações {.unnumbered}
 
 - **29/10/2026:** publicação, com dados do INPE, do MMA, do IBAMA e do SICAR de outubro de 2026.
+
+[English version](https://hendesson.github.io/en/articles/03-prodes-protected-areas.html)

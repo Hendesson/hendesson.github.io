@@ -1,0 +1,15 @@
+# Applies to every page in articles/
+format:
+  html:
+    css: [articles.css, ../estilos/livro.css]
+title-block-banner-color: white
+abstract-title: "Abstract"
+date-format: "MMMM D, YYYY"
+toc-title: "In this article"
+license: "CC BY"
+citation:
+  type: article
+  container-title: "Geoprocessing articles for environmental monitoring"
+  publisher: "Hendesson Alves"
+  language: en
+appendix-cite-as: [display, bibtex]

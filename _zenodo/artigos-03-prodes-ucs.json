@@ -1,29 +1,39 @@
 {
   "chave": "artigos/03-prodes-ucs.qmd",
   "metadata": {
-    "title": "Desmatamento anual do PRODES nas UCs da Amazônia e do Cerrado",
+    "title": "Annual PRODES deforestation in protected areas of the Amazon and the Cerrado",
     "upload_type": "publication",
     "publication_type": "technicalnote",
-    "description": "Um código só para cruzar o PRODES da Amazônia e do Cerrado com as Unidades de Conservação, montar a tabela por UC e a série histórica, e atualizar o ano novo sem duplicar. Nos dois biomas, quase todo o desmatamento em UCs está nas de Uso Sustentável.",
+    "description": "One script to overlay PRODES for the Amazon and the Cerrado with protected areas, build the table by protected area and the time series, and add a new year without duplicating it. In both biomes, almost all deforestation inside protected areas happens in sustainable-use areas.",
     "creators": [
       {
         "name": "Alves, Hendesson"
       }
     ],
     "keywords": [
-      "UCs",
+      "Protected areas",
       "PRODES",
-      "geoprocessamento",
-      "monitoramento ambiental"
+      "geoprocessing",
+      "environmental monitoring",
+      "Brazil",
+      "ArcGIS",
+      "QGIS",
+      "PostGIS",
+      "Python"
     ],
-    "language": "por",
+    "language": "eng",
     "license": "cc-by-4.0",
     "access_right": "open",
     "publication_date": "2026-10-29",
     "related_identifiers": [
       {
-        "identifier": "https://hendesson.github.io/artigos/03-prodes-ucs.html",
+        "identifier": "https://hendesson.github.io/en/articles/03-prodes-protected-areas.html",
         "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      },
+      {
+        "identifier": "https://hendesson.github.io/artigos/03-prodes-ucs.html",
+        "relation": "isVariantFormOf",
         "resource_type": "publication"
       }
     ]

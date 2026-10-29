@@ -10,4 +10,6 @@ quarto render                          # português -> _site/
 # A versão em inglês usa as mesmas imagens e o mesmo estilo.
 rm -rf _en/imagens && cp -r imagens _en/imagens
 cp styles.scss _en/styles.scss
+rm -rf _en/estilos && cp -r estilos _en/estilos
+cp artigos/artigos.css _en/articles/articles.css
 quarto render _en                      # inglês -> _site/en/

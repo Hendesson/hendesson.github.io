@@ -301,3 +301,5 @@ assim as últimas 48 horas ficam completas a qualquer hora.
 ## Atualizações {.unnumbered}
 
 - **29/10/2026:** publicação, com dados do INPE, do MMA, do IBAMA e do SICAR de outubro de 2026.
+
+[English version](https://hendesson.github.io/en/articles/04-fire-hotspots.html)

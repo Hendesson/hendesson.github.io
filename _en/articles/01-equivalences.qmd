@@ -1,0 +1,219 @@
+---
+title: 'From ArcMap to QGIS: the same tool in every program'
+description: A table of equivalent tools in ArcMap, ArcGIS Pro, QGIS, PostGIS and Python (geopandas), and
+  what changes when you update old arcpy scripts.
+author: Hendesson Alves
+date: '2026-10-29'
+date-modified: '2026-10-29'
+abstract: Still running ArcMap scripts, or want to stop depending on a license? This article gives the
+  equivalence table between ArcMap, ArcGIS Pro, QGIS, PostGIS and geopandas for the most common
+  geoprocessing tools, plus the changes almost every old script needs to run today.
+categories:
+- Fundamentals
+- ArcMap
+image: ../imagens/artigos/equivalencias.png
+image-alt: Diagram with the same geoprocessing operations side by side in ArcGIS Pro, QGIS, PostGIS and
+  Python.
+title-block-banner: ../imagens/artigos/equivalencias.png
+ordem: 1
+subtitle: Article 1 of 13
+body-classes: capitulo artigo
+doi: 10.5281/zenodo.23780245
+---
+
+::: {.ficha}
+[Level]{.rotulo} Beginner
+[Reading]{.rotulo} 6 min
+[Data]{.rotulo} October 2026
+[Programs]{.rotulo} [ArcGIS]{.selo-texto} ![](../imagens/ferramentas/qgis.svg){fig-alt="QGIS"} ![](../imagens/ferramentas/postgis.svg){fig-alt="PostGIS"} ![](../imagens/ferramentas/python.svg){fig-alt="Python"}
+:::
+
+Many monitoring scripts were written for **ArcMap** (Python 2 and `arcpy.mapping`) and later migrated in
+a hurry to **ArcGIS Pro**. Anyone who leaves a government agency, or wants to run the same analysis
+without a license, needs to know **which tool does the same thing** in another program.
+
+This article is the reference for the others: an equivalence table and the most common changes when you
+update an old script.
+
+::: {.faixa-icones}
+[ArcGIS]{.selo-texto}
+![](../imagens/ferramentas/qgis.svg){fig-alt="QGIS"}
+![](../imagens/ferramentas/postgis.svg){fig-alt="PostGIS"}
+![](../imagens/ferramentas/python.svg){fig-alt="Python"}
+![](../imagens/ferramentas/pandas.svg){fig-alt="pandas"}
+:::
+
+## The tools side by side
+
+The columns show the tool name (ArcGIS), the algorithm ID in QGIS (the same one used in
+`processing.run`), the PostGIS function and the geopandas method.
+
+| Operation | ArcMap 10.x | ArcGIS Pro (`arcpy`) | QGIS (Processing) | PostGIS | Python (geopandas) |
+|---|---|---|---|---|---|
+| Select by attribute | `Select_analysis` | `analysis.Select` | `native:extractbyexpression` | `WHERE` | `gdf[gdf.year == 2025]` |
+| Select by location | `SelectLayerByLocation_management` | `management.SelectLayerByLocation` | `native:extractbylocation` | `WHERE EXISTS (… ST_Intersects …)` | `gpd.sjoin(…, predicate="intersects")` |
+| Clip | `Clip_analysis` | `analysis.PairwiseClip` | `native:clip` | `ST_Intersection` | `gpd.clip` |
+| Intersect (keeping attributes of both layers) | `Intersect_analysis` | `analysis.PairwiseIntersect` | `native:intersection` | `ST_Intersection` + `JOIN` | `gpd.overlay(how="intersection")` |
+| Erase (keep what is outside) | `Erase_analysis` (Advanced license only) | `analysis.PairwiseErase` | `native:difference` | `ST_Difference` | `gpd.overlay(how="difference")` |
+| Buffer | `Buffer_analysis` | `analysis.PairwiseBuffer` | `native:buffer` | `ST_Buffer(geom::geography, m)` | `gdf.to_crs(5880).buffer(m)` |
+| Dissolve | `Dissolve_management` | `analysis.PairwiseDissolve` | `native:dissolve` | `ST_Union` + `GROUP BY` | `gdf.dissolve(by=…)` |
+| Group nearby polygons | `AggregatePolygons_cartography` | `cartography.AggregatePolygons` | `native:buffer` + `native:dissolve` | `ST_ClusterDBSCAN`, `ST_ClusterWithin` | buffer + `unary_union` |
+| Join a table by field | `JoinField_management` | `management.JoinField` | `native:joinattributestable` | `JOIN … USING (cnuc)` | `df.merge(…)` |
+| Spatial join | `SpatialJoin_analysis` | `analysis.SpatialJoin` | `native:joinattributesbylocation` | `JOIN … ON ST_Intersects(…)` | `gpd.sjoin` |
+| Summary table | `Frequency_analysis` | `analysis.Statistics` | `qgis:statisticsbycategories` | `GROUP BY` | `groupby().agg()` |
+| Area in hectares | `!shape.geodesicArea@hectares!` | `CalculateGeometryAttributes` (`AREA_GEODESIC`) | `$area / 10000` (ellipsoidal) | `ST_Area(geom::geography) / 10000` | `to_crs("ESRI:102033").area / 10000` |
+| Polygon → point | `FeatureToPoint_management` | `management.FeatureToPoint` (`INSIDE`) | `native:pointonsurface` | `ST_PointOnSurface` | `representative_point()` |
+| Repair geometry | `RepairGeometry_management` | `management.RepairGeometry` | `native:fixgeometries` | `ST_MakeValid` | `make_valid()` |
+| Kernel density | `sa.KernelDensity` | `sa.KernelDensity` | `native:heatmapkerneldensityestimation` | grid + weighted sum | `numpy` |
+| Zonal statistics | `sa.ZonalStatisticsAsTable` | `sa.ZonalStatisticsAsTable` | `native:zonalstatisticsfb` | `ST_SummaryStats` (`postgis_raster`) | `rasterstats.zonal_stats` |
+| Delete and append records | `DeleteFeatures` + `Append` | `DeleteFeatures` + `Append` | save over the layer | `DELETE` + `INSERT`, `ON CONFLICT` | `to_postgis(if_exists=…)` |
+| Map series | `arcpy.mapping` (`.mxd`) | `arcpy.mp` (`.aprx`), map series | Atlas | not applicable | loop with `matplotlib` |
+
+::: {.callout-tip}
+## Why "Pairwise"?
+In ArcGIS Pro, the `Pairwise…` tools (Clip, Intersect, Erase, Dissolve, Buffer) use parallel processing
+and are usually much faster than the classic ones. For the overlays in these articles, the result is the
+same.
+:::
+
+## Each program in one sentence
+
+[ArcGIS Pro]{.selo-texto}
+: Paid. `arcpy` comes with it and runs in ArcGIS's own Python. Good when the institution already has a
+  license and publishes to ArcGIS Online.
+
+QGIS
+: Free. Everything you do in the menus is a **Processing** algorithm that can be called from the Python
+  console (`processing.run`), from graphical models or from the terminal (`qgis_process`).
+
+PostGIS
+: Free. Best when the data is large, lives in a database and the analysis is repeated every week. The
+  result is ready for Power BI.
+
+Python (geopandas)
+: Free. Good for automating without opening any program and for making charts and maps. For very large
+  data, leave the heavy overlays to PostGIS.
+
+## Updating an old ArcMap script
+
+ArcMap scripts use **Python 2.7**. ArcGIS Pro uses **Python 3**. The changes that show up most often:
+
+| In the old script | In ArcGIS Pro | Why |
+|---|---|---|
+| `print "text"` | `print("text")` | Python 3 |
+| `arcpy.SearchCursor(fc)` and `row.getValue("field")` | `arcpy.da.SearchCursor(fc, ["field"])` | `da` cursors are much faster |
+| `arcpy.mapping.MapDocument("x.mxd")` | `arcpy.mp.ArcGISProject("x.aprx")` | `.mxd` does not exist in Pro (import it with **Insert → Import Map**) |
+| `arcpy.mapping.ExportToJPEG(mxd, …)` | `layout.exportToJPEG(…)` | exporting is now done by the layout |
+| `"PYTHON_9.3"` in `CalculateField` | `"PYTHON3"` | the expression type changed |
+| `"in_memory\\x"` | `"memory\\x"` | Pro's in-memory workspace |
+| `.tbx` toolbox | `.atbx` | Pro still opens `.tbx` but saves `.atbx` |
+| files with accents in ISO-8859-1 | save as UTF-8 | Python 3 reads UTF-8 by default |
+
+::: {.callout-warning}
+## Three pitfalls I found in old scripts
+1. **Functions named `max` and `min`** that override Python's own and sort the whole list on every row
+   read. With 100,000 rows, the script grinds to a halt. Use Python's built-in `max()` over the cursor,
+   or the **Statistics** tool.
+2. **Comma as decimal separator** in text parameters (`"0,0015"`) mixed with a period (`"0.0015"`) in
+   the same script. The result changes with the Windows language. Pass numbers as numbers, not text.
+3. **Network paths and passwords written in the code.** Read paths from tool parameters
+   (`GetParameterAsText`) and passwords from environment variables or a file outside the script.
+   [Module 6](https://hendesson.github.io/guia-espacial/curso/06-python.html) (in Portuguese) shows how.
+:::
+
+## From an ArcGIS script tool to a QGIS script
+
+In ArcGIS, a script becomes a tool by reading parameters with `arcpy.GetParameterAsText(0)`. In QGIS,
+the equivalent is a **Processing script**, which shows up in the Toolbox with its own form. Variable
+names in the code are in Portuguese, as in the original scripts (`entrada` = input, `saida` = output,
+`ucs` = protected areas).
+
+::: {.panel-tabset group="programa"}
+
+## ArcGIS Pro
+
+```python
+import arcpy
+
+entrada = arcpy.GetParameterAsText(0)   # alerts layer
+ucs = arcpy.GetParameterAsText(1)       # protected area boundaries
+saida = arcpy.GetParameterAsText(2)     # output layer
+
+arcpy.analysis.PairwiseIntersect([entrada, ucs], saida)
+arcpy.AddMessage("Done.")
+```
+
+In the toolbox: right-click → **New → Script Tool**, and declare the three parameters.
+
+## QGIS
+
+Save it in **Toolbox → Scripts → Create New Script**:
+
+```python
+from qgis.processing import alg
+import processing
+
+@alg(name="alertas_em_ucs", label="Alerts in protected areas", group="monitoramento",
+     group_label="Monitoring")
+@alg.input(type=alg.SOURCE, name="ENTRADA", label="Alerts layer")
+@alg.input(type=alg.SOURCE, name="UCS", label="Protected area boundaries")
+@alg.input(type=alg.SINK, name="SAIDA", label="Alerts in protected areas")
+def alertas_em_ucs(instance, parameters, context, feedback, inputs):
+    """Intersects the alerts with the protected areas, keeping the attributes of both layers."""
+    resultado = processing.run("native:intersection", {
+        "INPUT": parameters["ENTRADA"], "OVERLAY": parameters["UCS"],
+        "OUTPUT": parameters["SAIDA"]}, context=context, feedback=feedback)
+    return {"SAIDA": resultado["OUTPUT"]}
+```
+
+## PostGIS
+
+In the database, the "tool" is a query saved as a **view** (or a SQL function):
+
+```sql
+CREATE OR REPLACE VIEW alertas_em_ucs AS
+SELECT a.*, u.cnuc, u.nome_uc,
+       ST_Intersection(a.geom, u.geom) AS geom_uc
+FROM artigos.deter a
+JOIN artigos.ucs u ON ST_Intersects(a.geom, u.geom);
+```
+
+## Python
+
+A script with command-line arguments:
+
+```python
+import sys
+import geopandas as gpd
+
+entrada, ucs, saida = sys.argv[1:4]
+alertas = gpd.read_file(entrada)
+limites = gpd.read_file(ucs).to_crs(alertas.crs)
+gpd.overlay(alertas, limites, how="intersection").to_file(saida)
+```
+
+```bash
+python alertas_em_ucs.py deter.gpkg ucs.gpkg alertas_ucs.gpkg
+```
+
+:::
+
+::: {.callout-note}
+The tabs above are **synchronized** across all articles: pick your program once and the other articles
+open on it.
+:::
+
+## Next articles
+
+The following articles put this table into practice, always with the four versions. Start with
+[Inside and around protected areas](02-inside-and-around.qmd).
+
+::: {.navegacao-livro}
+[[Next →]{.direcao} Inside and around protected areas: the overlay every report uses](02-inside-and-around.qmd){.proximo}
+:::
+
+## Updates {.unnumbered}
+
+- **2026-10-29:** first published, with data from INPE, MMA, IBAMA and SICAR from October 2026.
+
+[Versão em português](https://hendesson.github.io/artigos/01-equivalencias.html)

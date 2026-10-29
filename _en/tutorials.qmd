@@ -15,6 +15,13 @@ listing:
 toc: false
 ---
 
+::: {.callout-tip}
+## New: geoprocessing articles
+[Thirteen articles](articles/index.qmd) on environmental monitoring in Brazil, each with versions for
+**ArcGIS Pro, QGIS, PostGIS and Python**: protected areas, PRODES and DETER deforestation, fire hotspots,
+rural properties (CAR), kernel density, automated maps and reports, prioritization and incremental loads.
+:::
+
 Detailed tutorials, from scratch, for **localdatasus**. You will learn how to download Brazilian health data by neighborhood, make maps and understand where the numbers come from.
 
 You don't need much programming experience: every step has ready-to-copy code.

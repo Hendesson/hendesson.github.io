@@ -1,0 +1,35 @@
+---
+title: "Articles"
+subtitle: "Geoprocessing for environmental monitoring, with the same analysis in ArcGIS Pro, QGIS, PostGIS and Python"
+description: "Hands-on articles with public data from INPE, MMA, IBAMA and SICAR (Brazil). Each article has a version for each program, with tested code."
+image: ../imagens/artigos/capa_artigos.png
+image-alt: "Mosaic of four results from the articles: inside and around protected areas, fire hotspots, CAR properties and a deforestation heat map."
+title-block-banner: ../imagens/artigos/capa_artigos.png
+page-layout: full
+toc: false
+listing:
+  id: lista-artigos
+  contents: "[0-9]*.qmd"
+  type: grid
+  grid-columns: 3
+  image-height: 210px
+  sort: ["date desc", "ordem"]
+  fields: [image, date, title, description, categories]
+  categories: true
+  sort-ui: [date, title]
+  filter-ui: true
+  feed: true
+  date-format: "MMMM D, YYYY"
+---
+
+::: {.intro-artigos}
+Everyday problems for anyone monitoring deforestation, fire and protected areas in Brazil, each one
+solved in **ArcGIS Pro, QGIS, PostGIS and Python**, with open data and code you can copy. Pick your
+program in the tabs of one article, and the others open on it.
+
+[How the articles were made and where to download the data →](about.qmd){.btn .btn-outline-dark}
+[Versão em português](https://hendesson.github.io/artigos/){.btn .btn-outline-dark}
+:::
+
+::: {#lista-artigos}
+:::

@@ -45,13 +45,19 @@ registros["guia-espacial"] = metadados(
     ["monitoramento ambiental", "PostGIS", "SQL", "Power BI", "dados espaciais", "Amazônia"],
     "book", str(guia.get("date", "2026-10-29")))
 
+# Artigos: publicados no Zenodo em inglês, com a versão em português como tradução
 for arq in sorted((RAIZ / "artigos").glob("[0-9]*.qmd")):
-    c = cabecalho(arq)
-    registros[f"artigos/{arq.name}"] = metadados(
-        c["title"], c.get("abstract", c["description"]),
-        f"{SITE}/artigos/{arq.stem}.html",
-        c.get("categories", []) + ["geoprocessamento", "monitoramento ambiental"],
-        "technicalnote", str(c["date"]))
+    ingles = next((RAIZ / "_en/articles").glob(f"{arq.name[:2]}-*.qmd"))
+    c = cabecalho(ingles)
+    m = metadados(c["title"], c.get("abstract", c["description"]),
+                  f"{SITE}/en/articles/{ingles.stem}.html",
+                  c.get("categories", []) + ["geoprocessing", "environmental monitoring", "Brazil",
+                                             "ArcGIS", "QGIS", "PostGIS", "Python"],
+                  "technicalnote", str(c["date"]))
+    m["language"] = "eng"
+    m["related_identifiers"].append({"identifier": f"{SITE}/artigos/{arq.stem}.html",
+                                     "relation": "isVariantFormOf", "resource_type": "publication"})
+    registros[f"artigos/{arq.name}"] = m
 
 for chave, meta in registros.items():
     nome = re.sub(r"[^a-z0-9-]+", "-", chave.lower().replace(".qmd", "")).strip("-")

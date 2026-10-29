@@ -1,29 +1,39 @@
 {
   "chave": "artigos/01-equivalencias.qmd",
   "metadata": {
-    "title": "Do ArcMap ao QGIS: a mesma ferramenta em cada programa",
+    "title": "From ArcMap to QGIS: the same tool in every program",
     "upload_type": "publication",
     "publication_type": "technicalnote",
-    "description": "Ainda usa scripts do ArcMap ou quer sair da licença? Este artigo traz a tabela de equivalências entre ArcMap, ArcGIS Pro, QGIS, PostGIS e geopandas para as ferramentas de geoprocessamento mais comuns, e as mudanças que quase todo script antigo precisa para rodar hoje.",
+    "description": "Still running ArcMap scripts, or want to stop depending on a license? This article gives the equivalence table between ArcMap, ArcGIS Pro, QGIS, PostGIS and geopandas for the most common geoprocessing tools, plus the changes almost every old script needs to run today.",
     "creators": [
       {
         "name": "Alves, Hendesson"
       }
     ],
     "keywords": [
-      "Fundamentos",
+      "Fundamentals",
       "ArcMap",
-      "geoprocessamento",
-      "monitoramento ambiental"
+      "geoprocessing",
+      "environmental monitoring",
+      "Brazil",
+      "ArcGIS",
+      "QGIS",
+      "PostGIS",
+      "Python"
     ],
-    "language": "por",
+    "language": "eng",
     "license": "cc-by-4.0",
     "access_right": "open",
     "publication_date": "2026-10-29",
     "related_identifiers": [
       {
-        "identifier": "https://hendesson.github.io/artigos/01-equivalencias.html",
+        "identifier": "https://hendesson.github.io/en/articles/01-equivalences.html",
         "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      },
+      {
+        "identifier": "https://hendesson.github.io/artigos/01-equivalencias.html",
+        "relation": "isVariantFormOf",
         "resource_type": "publication"
       }
     ]

@@ -2,7 +2,7 @@
 
 Uso (na pasta do site):  python scripts/aplicar_doi.py
 - guia-espacial: vai para guia-espacial/_metadata.yml (vale para o guia e o curso inteiro);
-- artigos/...qmd: vai para o cabeçalho de cada artigo.
+- artigos/...qmd: vai para o cabeçalho de cada artigo e da versão em inglês (_en/articles).
 Um DOI vazio remove o campo. Rode de novo sempre que mudar o dois.yml.
 """
 import re
@@ -39,4 +39,8 @@ for chave, doi in dois.items():
         colocar_doi(RAIZ / "guia-espacial/_metadata.yml", doi, dentro_de_cabecalho=False)
     else:
         colocar_doi(RAIZ / chave, doi, dentro_de_cabecalho=True)
+        # a versão em inglês do artigo (mesmo número no começo do nome) recebe o mesmo DOI
+        numero = Path(chave).name[:2]
+        for ingles in (RAIZ / "_en/articles").glob(f"{numero}-*.qmd"):
+            colocar_doi(ingles, doi, dentro_de_cabecalho=True)
     print(f"{'DOI ' + doi if doi else 'sem DOI':32} {chave}")

@@ -1,28 +1,38 @@
 {
   "chave": "artigos/07-juntar-atributos.qmd",
   "metadata": {
-    "title": "Trazer informações de outra tabela: junções e listas de valores",
+    "title": "Bringing in data from another table: joins and lists of values",
     "upload_type": "publication",
     "publication_type": "technicalnote",
-    "description": "Levar a categoria e o grupo da UC para cada alerta pelo código CNUC e juntar vários valores numa lista, como os municípios de cada UC. Os scripts antigos usavam dezenas de linhas de cursores; aqui são poucas linhas em cada programa.",
+    "description": "Bringing the protected area category and group to each alert through the CNUC code, and collapsing several values into a list, such as the municipalities of each protected area. The old scripts used dozens of lines of cursors; here it takes a few lines in each program.",
     "creators": [
       {
         "name": "Alves, Hendesson"
       }
     ],
     "keywords": [
-      "Tabelas",
-      "geoprocessamento",
-      "monitoramento ambiental"
+      "Tables",
+      "geoprocessing",
+      "environmental monitoring",
+      "Brazil",
+      "ArcGIS",
+      "QGIS",
+      "PostGIS",
+      "Python"
     ],
-    "language": "por",
+    "language": "eng",
     "license": "cc-by-4.0",
     "access_right": "open",
     "publication_date": "2026-10-29",
     "related_identifiers": [
       {
-        "identifier": "https://hendesson.github.io/artigos/07-juntar-atributos.html",
+        "identifier": "https://hendesson.github.io/en/articles/07-joining-attributes.html",
         "relation": "isIdenticalTo",
+        "resource_type": "publication"
+      },
+      {
+        "identifier": "https://hendesson.github.io/artigos/07-juntar-atributos.html",
+        "relation": "isVariantFormOf",
         "resource_type": "publication"
       }
     ]
